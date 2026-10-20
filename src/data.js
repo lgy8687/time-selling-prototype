@@ -1,4 +1,4 @@
-export const APP_VERSION = "v0.2.1";
+export const APP_VERSION = "v0.3.0";
 export const STORAGE_KEY = "time-sale-prototype-v2";
 const LEGACY_KEY = "time-sale-prototype-v1";
 
@@ -138,6 +138,7 @@ export const isOpenAvailable = (events, event) =>
 function demoState() {
   const monday = weekStart();
   return {
+    profile: { name: "演示账户", avatar: null },
     events: [
       {
         id: uid(),
@@ -182,13 +183,19 @@ export function loadState() {
     const current = JSON.parse(localStorage.getItem(STORAGE_KEY));
     if (current && Array.isArray(current.events))
       return {
+        profile: { name: "演示账户", avatar: null, ...current.profile },
         events: current.events,
         requests: current.requests || [],
         drafts: current.drafts || [],
       };
     const old = JSON.parse(localStorage.getItem(LEGACY_KEY));
     if (old && Array.isArray(old.events))
-      return { events: old.events, requests: old.requests || [], drafts: [] };
+      return {
+        profile: { name: "演示账户", avatar: null },
+        events: old.events,
+        requests: old.requests || [],
+        drafts: [],
+      };
   } catch {
     /* Ignore damaged prototype data and show sample content. */
   }

@@ -145,6 +145,9 @@ p {
   color: #fff;
   box-shadow: inset 3px 0 0 var(--accent);
 }
+.publish-side-link > svg {
+  color: #e8d466;
+}
 .side-link > span:nth-of-type(1) {
   min-width: 0;
   flex: 1;
@@ -1377,6 +1380,340 @@ p {
 .my-content {
   min-width: 0;
 }
+.my-layout.overview-layout {
+  display: block;
+}
+.my-profile-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 93px;
+  padding: 8px 3px;
+}
+.my-profile-avatar-button {
+  position: relative;
+  flex: none;
+  border: 0;
+  padding: 0;
+  background: transparent;
+}
+.my-profile-avatar,
+.settings-avatar {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  width: 58px;
+  height: 58px;
+  border-radius: 18px;
+  background: #dbeed9;
+  color: var(--brand);
+  font-size: 23px;
+  font-weight: 900;
+}
+.my-profile-avatar img,
+.settings-avatar img,
+.mini-avatar img,
+.top-avatar-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.avatar-edit-mark {
+  position: absolute;
+  right: -3px;
+  bottom: -3px;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--page);
+  border-radius: 8px;
+  background: var(--brand);
+  color: white;
+}
+.sr-only-file {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.my-profile-copy {
+  min-width: 0;
+  flex: 1;
+}
+.my-profile-copy h1 {
+  margin: 4px 0;
+  font-size: var(--text-section);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.my-profile-copy p {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--text-help);
+}
+.my-profile-actions {
+  display: flex;
+  gap: 13px;
+  align-self: start;
+}
+.my-profile-actions button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  min-width: 54px;
+  padding: 9px 2px;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font-size: var(--text-help);
+}
+.my-profile-actions button:hover {
+  color: var(--brand);
+}
+.my-promo-panel,
+.my-home-card {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+.my-promo-panel {
+  margin-bottom: 14px;
+}
+.my-promo {
+  position: relative;
+  min-height: 152px;
+  padding: 27px 29px;
+  background: linear-gradient(110deg, #dcefc8 0%, #e4f0c8 52%, #f0e9b7 100%);
+}
+.my-promo::after {
+  content: "时";
+  position: absolute;
+  right: 27px;
+  top: 11px;
+  font-size: 104px;
+  font-weight: 900;
+  line-height: 1;
+  color: #2c714315;
+  pointer-events: none;
+}
+.my-promo span {
+  position: relative;
+  z-index: 1;
+  color: #578064;
+  font-size: var(--text-help);
+  font-weight: 800;
+}
+.my-promo h2 {
+  position: relative;
+  z-index: 1;
+  margin: 11px 0 7px;
+  font-size: var(--text-section);
+}
+.my-promo p {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  color: #65836a;
+  font-size: var(--text-help);
+}
+.my-metric-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 15px 8px;
+}
+.my-metric-row button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+  border: 0;
+  border-right: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+}
+.my-metric-row button:last-child {
+  border-right: 0;
+}
+.my-metric-row button:hover {
+  color: var(--brand);
+}
+.my-metric-row strong {
+  font-size: 25px;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+.my-metric-row span {
+  font-size: var(--text-help);
+  white-space: nowrap;
+}
+.my-home-card {
+  padding: 23px 23px 18px;
+  margin-bottom: 14px;
+}
+.my-card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+.my-card-head h2 {
+  margin: 0;
+  font-size: var(--text-section);
+}
+.my-card-head span {
+  color: var(--muted);
+  font-size: var(--text-help);
+}
+.my-icon-grid {
+  display: grid;
+  gap: 5px;
+  margin-top: 20px;
+}
+.trade-entry-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.tool-entry-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+.my-icon-grid button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 9px 3px;
+  border: 0;
+  border-radius: var(--radius-control);
+  background: transparent;
+  color: var(--ink);
+  font-size: var(--text-help);
+  font-weight: 750;
+  white-space: nowrap;
+}
+.my-icon-grid button:hover {
+  background: var(--brand-soft);
+  color: var(--brand);
+}
+.my-icon-grid button svg {
+  flex: none;
+}
+.tool-entry-grid button svg {
+  color: var(--brand);
+}
+.my-icon-grid b {
+  display: inline-grid;
+  place-items: center;
+  min-width: 15px;
+  height: 15px;
+  margin-left: 2px;
+  border-radius: 8px;
+  background: var(--brand);
+  color: white;
+  font-size: 10px;
+}
+.top-avatar-image {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+}
+.account-dialog {
+  width: min(100%, 480px);
+  max-height: min(90vh, 760px);
+  overflow: auto;
+  padding: 25px;
+  border-radius: var(--radius-card);
+  background: white;
+  box-shadow: 0 18px 55px #10281a2b;
+}
+.account-dialog-head {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.account-dialog-head h2 {
+  margin: 6px 0 18px;
+  font-size: var(--text-section);
+}
+.account-dialog-head .modal-close {
+  position: static;
+  flex: none;
+}
+.settings-avatar-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 14px 0 23px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 19px;
+}
+.settings-avatar {
+  width: 66px;
+  height: 66px;
+  flex: none;
+}
+.settings-avatar-row strong {
+  font-size: var(--text-body);
+}
+.settings-avatar-row p {
+  margin: 4px 0 8px;
+  color: var(--muted);
+  font-size: var(--text-help);
+}
+.settings-error {
+  color: #b04431;
+  font-size: var(--text-help);
+}
+.settings-local-note {
+  margin-top: 18px;
+  padding: 15px;
+  border-radius: var(--radius-control);
+  background: var(--brand-soft);
+}
+.settings-local-note strong {
+  font-size: var(--text-body);
+}
+.settings-local-note p,
+.settings-local-note small {
+  display: block;
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: var(--text-help);
+  line-height: 1.5;
+}
+.account-dialog-actions {
+  display: flex;
+  justify-content: end;
+  gap: 9px;
+  margin-top: 20px;
+}
+.help-item {
+  padding: 15px 0;
+  border-top: 1px solid var(--line);
+}
+.help-item strong {
+  font-size: var(--text-body);
+}
+.help-item p {
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: var(--text-help);
+  line-height: 1.6;
+}
 .trade-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2562,7 +2899,7 @@ p {
     padding: 5px 7px;
   }
   .content {
-    padding: 20px 14px 95px;
+    padding: 20px 14px 110px;
   }
   .page-stack {
     gap: 24px;
@@ -2649,17 +2986,44 @@ p {
   .conversation-body {
     min-height: 230px;
   }
-  .my-banner {
-    padding: 22px;
-    min-height: 130px;
+  .my-profile-bar {
+    gap: 10px;
+    min-height: 83px;
   }
-  .my-banner h1 {
+  .my-profile-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+  }
+  .my-profile-copy h1 {
+    font-size: 18px;
+  }
+  .my-profile-copy p {
+    font-size: 10px;
+  }
+  .my-profile-actions {
+    gap: 2px;
+  }
+  .my-profile-actions button {
+    min-width: 45px;
+    font-size: 10px;
+  }
+  .my-promo {
+    min-height: 130px;
+    padding: 22px;
+  }
+  .my-promo h2 {
     font-size: 19px;
   }
-  .my-banner-avatar {
-    width: 48px;
-    height: 48px;
-    font-size: 18px;
+  .my-home-card {
+    padding: 19px 14px 14px;
+  }
+  .my-icon-grid {
+    margin-top: 15px;
+  }
+  .my-icon-grid button {
+    font-size: 10px;
+    gap: 8px;
   }
   .my-menu {
     display: flex;
@@ -2679,16 +3043,10 @@ p {
   .my-menu button > svg:last-child {
     display: none;
   }
-  .trade-grid {
-    grid-template-columns: 1fr;
-  }
-  .trade-card {
-    min-height: 225px;
-  }
   .mobile-nav {
     position: fixed;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     left: 0;
     right: 0;
     bottom: 0;
@@ -2712,6 +3070,24 @@ p {
   .mobile-nav button.active {
     color: #25714d;
     font-weight: 850;
+  }
+  .mobile-nav .publish-mobile-link {
+    position: relative;
+    margin-top: -18px;
+    color: #36502e;
+    font-weight: 850;
+  }
+  .mobile-nav .publish-mobile-link svg {
+    width: 51px;
+    height: 51px;
+    padding: 11px;
+    border-radius: 17px;
+    background: #f4d83b;
+    color: #263d2a;
+    box-shadow: 0 5px 15px #6e631b32;
+  }
+  .mobile-nav .publish-mobile-link.active svg {
+    background: #ecca2a;
   }
   .toast {
     bottom: 73px;
@@ -2753,6 +3129,24 @@ p {
   }
 }
 @media (max-width: 450px) {
+  .my-promo h2 {
+    max-width: 250px;
+  }
+  .my-metric-row strong {
+    font-size: 21px;
+  }
+  .my-metric-row span {
+    font-size: 10px;
+  }
+  .my-card-head h2 {
+    font-size: 19px;
+  }
+  .my-card-head span {
+    font-size: 10px;
+  }
+  .my-icon-grid button {
+    font-size: 9px;
+  }
   .offer-grid {
     grid-template-columns: 1fr 1fr;
   }

@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useMemo, useState } from "react";
+import React, { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowRight,
   Bell,
@@ -9,6 +9,7 @@ import {
   Compass,
   FileText,
   HelpCircle,
+  ImagePlus,
   Inbox,
   Layers3,
   MapPin,
@@ -16,6 +17,7 @@ import {
   Plus,
   Search,
   Settings2,
+  Share2,
   ShieldCheck,
   ShoppingBag,
   Sparkles,
@@ -39,11 +41,96 @@ import { UI_REGISTRY } from "./uiRegistry.js";
 const Schedule = React.lazy(() => import("./Schedule.jsx"));
 
 const mainNav = [
-  { id: "hall", label: "大厅", icon: Compass, note: "发现值得交流的人" },
-  { id: "publish", label: "发布", icon: Plus, note: "整理你愿意分享的经验" },
-  { id: "messages", label: "消息", icon: MessageCircle, note: "预约与沟通" },
-  { id: "me", label: "我的", icon: UserRound, note: "买到的、卖出的与时间" },
+  {
+    id: "hall",
+    label: "大厅",
+    icon: Compass,
+    note: "发现值得交流的人",
+    desktopCode: "Z00-2",
+    mobileCode: "Z00-10",
+  },
+  {
+    id: "schedule",
+    label: "时间表",
+    icon: CalendarDays,
+    note: "统一管理时间安排",
+    desktopCode: "Z00-14",
+    mobileCode: "Z00-15",
+  },
+  {
+    id: "publish",
+    label: "发布",
+    icon: Plus,
+    note: "整理你愿意分享的经验",
+    desktopCode: "Z00-3",
+    mobileCode: "Z00-11",
+  },
+  {
+    id: "messages",
+    label: "消息",
+    icon: MessageCircle,
+    note: "预约与沟通",
+    desktopCode: "Z00-4",
+    mobileCode: "Z00-12",
+  },
+  {
+    id: "me",
+    label: "我的",
+    icon: UserRound,
+    note: "买到的、卖出的与时间",
+    desktopCode: "Z00-5",
+    mobileCode: "Z00-13",
+  },
 ];
+
+function Avatar({ profile, className }) {
+  return (
+    <span className={className}>
+      {profile.avatar ? (
+        <img src={profile.avatar} alt="" />
+      ) : (
+        profile.name.slice(0, 1)
+      )}
+    </span>
+  );
+}
+
+async function prepareAvatar(file) {
+  if (!file.type.startsWith("image/")) throw new Error("请选择图片文件。");
+  if (file.size > 5 * 1024 * 1024)
+    throw new Error("图片不能超过 5 MB，请换一张试试。");
+  const url = URL.createObjectURL(file);
+  try {
+    const image = await new Promise((resolve, reject) => {
+      const item = new Image();
+      item.onload = () => resolve(item);
+      item.onerror = () => reject(new Error("图片无法读取，请换一张试试。"));
+      item.src = url;
+    });
+    const canvas = document.createElement("canvas");
+    canvas.width = 256;
+    canvas.height = 256;
+    const context = canvas.getContext("2d");
+    if (!context) throw new Error("无法处理图片，请换一张试试。");
+    const crop = Math.min(image.width, image.height);
+    context.fillStyle = "#ffffff";
+    context.fillRect(0, 0, 256, 256);
+    context.drawImage(
+      image,
+      (image.width - crop) / 2,
+      (image.height - crop) / 2,
+      crop,
+      crop,
+      0,
+      0,
+      256,
+      256,
+    );
+    return canvas.toDataURL("image/jpeg", 0.82);
+  } finally {
+    URL.revokeObjectURL(url);
+  }
+}
 
 const myNav = [
   {
@@ -116,6 +203,7 @@ function App() {
 
   const pageNames = {
     hall: "时间售卖大厅",
+    schedule: "我的时间表",
     publish: "发布我的时间",
     messages: "消息中心",
     me: myNav.find((item) => item.id === myTab)?.label || "我的",
@@ -138,13 +226,13 @@ function App() {
         </button>
         <div className="side-caption">探索</div>
         <nav className="side-nav" aria-label="主要导航">
-          {mainNav.map((item, index) => (
+          {mainNav.map((item) => (
             <button
               key={item.id}
               type="button"
-              className={`side-link ${page === item.id ? "active" : ""}`}
+              className={`side-link ${page === item.id ? "active" : ""} ${item.id === "publish" ? "publish-side-link" : ""}`}
               onClick={() => navigate(item.id)}
-              data-z={`Z00-${index + 2}`}
+              data-z={item.desktopCode}
             >
               <item.icon size={19} />
               <span>
@@ -166,9 +254,9 @@ function App() {
             onClick={() => navigate("me", "overview")}
             data-z="Z00-6"
           >
-            <span className="mini-avatar">我</span>
+            <Avatar profile={data.profile} className="mini-avatar" />
             <span>
-              <strong>演示账户</strong>
+              <strong>{data.profile.name}</strong>
               <small>可买，也可分享</small>
             </span>
             <ChevronDown size={15} />
@@ -212,7 +300,7 @@ function App() {
               onClick={() => navigate("me", "overview")}
               data-z="Z00-9"
             >
-              我
+              <Avatar profile={data.profile} className="top-avatar-image" />
             </button>
           </div>
         </header>
@@ -229,6 +317,15 @@ function App() {
             />
           )}
           {page === "messages" && <MessagesPage onNavigate={navigate} />}
+          {page === "schedule" && (
+            <div data-b="B08">
+              <Suspense
+                fallback={<div className="loading-panel">正在打开时间表…</div>}
+              >
+                <Schedule data={data} setData={setData} onToast={setToast} />
+              </Suspense>
+            </div>
+          )}
           {page === "me" && (
             <MyPage
               data={data}
@@ -247,13 +344,13 @@ function App() {
       </div>
 
       <nav className="mobile-nav" aria-label="移动端主导航">
-        {mainNav.map((item, index) => (
+        {mainNav.map((item) => (
           <button
             key={item.id}
             type="button"
-            className={page === item.id ? "active" : ""}
+            className={`${page === item.id ? "active" : ""} ${item.id === "publish" ? "publish-mobile-link" : ""}`}
             onClick={() => navigate(item.id)}
-            data-z={`Z00-${index + 10}`}
+            data-z={item.mobileCode}
           >
             <item.icon size={21} />
             <span>{item.label}</span>
@@ -881,9 +978,11 @@ function MyPage({
   onEditDraft,
   onToast,
 }) {
-  const confirmed = data.events.filter(
-    (item) => item.type === "reserved",
-  ).length;
+  const avatarInput = useRef(null);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [helpOpen, setHelpOpen] = useState(false);
+  const [nameDraft, setNameDraft] = useState(data.profile.name);
+  const [settingsError, setSettingsError] = useState("");
   const open = data.events.filter((item) => item.type === "open").length;
   const pending = data.requests.filter(
     (item) => item.status === "pending",
@@ -891,135 +990,248 @@ function MyPage({
   const recentRequests = [...data.requests]
     .sort((a, b) => (b.created || 0) - (a.created || 0))
     .slice(0, 3);
+
+  async function uploadAvatar(event) {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+    try {
+      const avatar = await prepareAvatar(file);
+      setData((current) => ({
+        ...current,
+        profile: { ...current.profile, avatar },
+      }));
+      onToast("头像已保存在当前浏览器");
+      setSettingsError("");
+    } catch (error) {
+      setSettingsError(error.message);
+      onToast(error.message);
+    }
+  }
+
+  function saveProfile() {
+    const name = nameDraft.trim();
+    if (!name) {
+      setSettingsError("请填写昵称。");
+      return;
+    }
+    setData((current) => ({
+      ...current,
+      profile: { ...current.profile, name },
+    }));
+    setSettingsOpen(false);
+    setSettingsError("");
+    onToast("昵称已保存");
+  }
+
   return (
     <div className="page-stack my-page" data-b="B07">
-      <div className="my-banner">
-        <div className="my-banner-avatar">我</div>
-        <div>
+      <div className="my-profile-bar">
+        <button
+          type="button"
+          className="my-profile-avatar-button"
+          onClick={() => avatarInput.current?.click()}
+          aria-label="更换头像"
+          data-z="Z07-9"
+        >
+          <Avatar profile={data.profile} className="my-profile-avatar" />
+          <span className="avatar-edit-mark">
+            <ImagePlus size={13} />
+          </span>
+        </button>
+        <div className="my-profile-copy">
           <span className="my-kicker">个人中心 · 演示账户</span>
-          <h1>你可以寻找服务，也可以分享自己的时间。</h1>
-          <p>同一个账户，管理买到的、卖出的、发布内容和时间安排。</p>
+          <h1>{data.profile.name}</h1>
+          <p>一个账户，可以购买，也可以分享</p>
         </div>
-        <span className="my-banner-shape" aria-hidden="true">
-          ◌
-        </span>
+        <div className="my-profile-actions">
+          <button
+            type="button"
+            onClick={() => setHelpOpen(true)}
+            data-z="Z07-10"
+          >
+            <HelpCircle size={20} />
+            <span>客服帮助</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setNameDraft(data.profile.name);
+              setSettingsError("");
+              setSettingsOpen(true);
+            }}
+            data-z="Z07-11"
+          >
+            <Settings2 size={20} />
+            <span>设置</span>
+          </button>
+        </div>
+        <input
+          ref={avatarInput}
+          type="file"
+          accept="image/*"
+          onChange={uploadAvatar}
+          className="sr-only-file"
+          aria-label="上传头像"
+          data-z="Z07-12"
+        />
       </div>
       <div
-        className={`my-layout ${tab === "schedule" ? "schedule-focus" : ""}`}
+        className={`my-layout ${tab === "schedule" ? "schedule-focus" : ""} ${tab === "overview" ? "overview-layout" : ""}`}
       >
-        <nav className="my-menu" aria-label="我的功能">
-          {myNav.map((item, index) => (
-            <React.Fragment key={item.id}>
-              {(index === 0 || myNav[index - 1].group !== item.group) && (
-                <span className="my-menu-group">{item.group}</span>
-              )}
-              <button
-                type="button"
-                className={tab === item.id ? "active" : ""}
-                onClick={() => setTab(item.id)}
-                data-z={item.code}
-              >
-                <item.icon size={18} />
-                <span>{item.label}</span>
-                <ArrowRight size={15} />
-              </button>
-            </React.Fragment>
-          ))}
-        </nav>
+        {tab !== "overview" && (
+          <nav className="my-menu" aria-label="我的功能">
+            {myNav.map((item, index) => (
+              <React.Fragment key={item.id}>
+                {(index === 0 || myNav[index - 1].group !== item.group) && (
+                  <span className="my-menu-group">{item.group}</span>
+                )}
+                <button
+                  type="button"
+                  className={tab === item.id ? "active" : ""}
+                  onClick={() => setTab(item.id)}
+                  data-z={item.code}
+                >
+                  <item.icon size={18} />
+                  <span>{item.label}</span>
+                  <ArrowRight size={15} />
+                </button>
+              </React.Fragment>
+            ))}
+          </nav>
+        )}
         <div className="my-content">
           {tab === "overview" && (
             <div data-b="B23">
-              <div className="section-head compact">
-                <div>
-                  <span className="section-kicker">MY ACCOUNT</span>
-                  <h2>我的交易</h2>
-                  <p>每个人都可以同时是买家和卖家，按交易方向查看记录。</p>
+              <section className="my-promo-panel">
+                <div className="my-promo">
+                  <span>时间售卖 · 探索更多可能</span>
+                  <h2>让你的时间，遇见需要它的人。</h2>
+                  <p>发现值得交流的人，也分享自己走过的路。</p>
                 </div>
-              </div>
-              <div className="trade-grid">
-                <section className="trade-card trade-buy">
-                  <span className="trade-icon">
-                    <ShoppingBag size={22} />
-                  </span>
-                  <span className="trade-kicker">作为买家</span>
-                  <h3>我买到的</h3>
-                  <p>查看购买记录、预约进度和对方交付的资料。</p>
-                  <div className="trade-facts">
-                    <span>
-                      <strong>0</strong> 笔购买订单
-                    </span>
-                    <span>交易尚未开放</span>
-                  </div>
+                <div className="my-metric-row">
                   <button
                     type="button"
                     onClick={() => setTab("bought")}
-                    data-z="Z23-1"
+                    data-z="Z23-3"
                   >
-                    查看买入记录 <ArrowRight size={16} />
+                    <strong>0</strong>
+                    <span>我买到的</span>
                   </button>
-                </section>
-                <section className="trade-card trade-sell">
-                  <span className="trade-icon">
-                    <Tag size={22} />
-                  </span>
-                  <span className="trade-kicker">作为卖家</span>
-                  <h3>我卖出的</h3>
-                  <p>处理预约意向，查看卖出订单和服务状态。</p>
-                  <div className="trade-facts">
-                    <span>
-                      <strong>{pending}</strong> 条待处理意向
-                    </span>
-                    <span>{data.drafts.length} 份发布草稿</span>
-                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setTab("published")}
+                    data-z="Z23-4"
+                  >
+                    <strong>{data.drafts.length}</strong>
+                    <span>我的发布</span>
+                  </button>
                   <button
                     type="button"
                     onClick={() => setTab("sold")}
-                    data-z="Z23-2"
+                    data-z="Z23-5"
                   >
-                    查看卖出记录 <ArrowRight size={16} />
+                    <strong>{pending}</strong>
+                    <span>待处理</span>
                   </button>
-                </section>
-              </div>
-              <div className="section-head compact my-tools-head">
-                <div>
-                  <h2>我的工具</h2>
-                  <p>时间表属于个人账户，买卖两侧都可以从这里查看安排。</p>
+                  <button
+                    type="button"
+                    onClick={() => onNavigate("schedule")}
+                    data-z="Z23-6"
+                  >
+                    <strong>{open}</strong>
+                    <span>开放时间</span>
+                  </button>
                 </div>
-              </div>
-              <div className="shortcut-grid">
-                <button
-                  type="button"
-                  onClick={() => setTab("schedule")}
-                  data-z="Z07-6"
-                >
-                  <span className="shortcut-icon green">
+              </section>
+              <section className="my-home-card">
+                <div className="my-card-head">
+                  <h2>我的交易</h2>
+                  <span>买与卖，都在这里</span>
+                </div>
+                <div className="my-icon-grid trade-entry-grid">
+                  <button
+                    type="button"
+                    onClick={() => setTab("published")}
+                    data-z="Z23-7"
+                  >
+                    <Tag size={23} />
+                    <span>我发布的</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setTab("sold")}
+                    data-z="Z23-8"
+                  >
+                    <Wallet size={23} />
+                    <span>我卖出的</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setTab("bought")}
+                    data-z="Z23-9"
+                  >
+                    <ShoppingBag size={23} />
+                    <span>我买到的</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setTab("sold")}
+                    data-z="Z23-10"
+                  >
+                    <Inbox size={23} />
+                    <span>待我处理{pending ? <b>{pending}</b> : null}</span>
+                  </button>
+                </div>
+              </section>
+              <section className="my-home-card">
+                <div className="my-card-head">
+                  <h2>常用工具</h2>
+                  <span>管理时间与交流</span>
+                </div>
+                <div className="my-icon-grid tool-entry-grid">
+                  <button
+                    type="button"
+                    onClick={() => onNavigate("schedule")}
+                    data-z="Z23-11"
+                  >
                     <CalendarDays size={22} />
-                  </span>
-                  <strong>管理时间表</strong>
-                  <small>
-                    {confirmed} 段已安排 · {open} 段主动开放
-                  </small>
-                  <ArrowRight size={19} />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => onNavigate("publish")}
-                  data-z="Z07-7"
-                >
-                  <span className="shortcut-icon amber">
-                    <Plus size={22} />
-                  </span>
-                  <strong>管理我的发布</strong>
-                  <small>整理服务内容，保存草稿</small>
-                  <ArrowRight size={19} />
-                </button>
-              </div>
-              <div className="overview-note">
-                <ShieldCheck size={19} />
-                <p>
-                  买入和卖出共用一个账户；你开放的时间与已有安排共用同一份时间表。当前交易记录只展示真实可用的原型数据，支付和跨设备预约仍待接入。
-                </p>
-              </div>
+                    <span>时间表</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => onNavigate("schedule")}
+                    data-z="Z23-12"
+                  >
+                    <Share2 size={22} />
+                    <span>开放时间</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setTab("materials")}
+                    data-z="Z23-13"
+                  >
+                    <FolderOpen size={22} />
+                    <span>交流资料</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => onNavigate("messages")}
+                    data-z="Z23-14"
+                  >
+                    <MessageCircle size={22} />
+                    <span>消息</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setHelpOpen(true)}
+                    data-z="Z23-15"
+                  >
+                    <HelpCircle size={22} />
+                    <span>帮助中心</span>
+                  </button>
+                </div>
+              </section>
             </div>
           )}
           {tab === "schedule" && (
@@ -1216,6 +1428,138 @@ function MyPage({
           )}
         </div>
       </div>
+      {settingsOpen && (
+        <div
+          className="overlay"
+          data-b="B26"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) setSettingsOpen(false);
+          }}
+        >
+          <div
+            className="account-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="account-settings-title"
+          >
+            <div className="account-dialog-head">
+              <div>
+                <span className="section-kicker">ACCOUNT SETTINGS</span>
+                <h2 id="account-settings-title">个人设置</h2>
+              </div>
+              <button
+                type="button"
+                className="modal-close"
+                aria-label="关闭设置"
+                onClick={() => setSettingsOpen(false)}
+                data-z="Z26-1"
+              >
+                <X size={18} />
+              </button>
+            </div>
+            <div className="settings-avatar-row">
+              <Avatar profile={data.profile} className="settings-avatar" />
+              <div>
+                <strong>个人头像</strong>
+                <p>用于我的页面显示。图片会裁成正方形。</p>
+                <button
+                  type="button"
+                  className="button button-quiet"
+                  onClick={() => avatarInput.current?.click()}
+                  data-z="Z26-2"
+                >
+                  更换头像
+                </button>
+              </div>
+            </div>
+            <label className="form-field">
+              <span>昵称</span>
+              <input
+                value={nameDraft}
+                onChange={(event) => {
+                  setNameDraft(event.target.value);
+                  setSettingsError("");
+                }}
+                maxLength={20}
+                placeholder="填写昵称"
+                data-z="Z26-3"
+              />
+            </label>
+            {settingsError && (
+              <p className="settings-error" role="alert">
+                {settingsError}
+              </p>
+            )}
+            <div className="settings-local-note">
+              <strong>本机演示资料</strong>
+              <p>头像和昵称只保存在当前浏览器，不会同步到其他设备。</p>
+              <small>当前版本 {APP_VERSION}</small>
+            </div>
+            <div className="account-dialog-actions">
+              <button
+                type="button"
+                className="button button-quiet"
+                onClick={() => setSettingsOpen(false)}
+                data-z="Z26-4"
+              >
+                取消
+              </button>
+              <button
+                type="button"
+                className="button button-primary"
+                onClick={saveProfile}
+                data-z="Z26-5"
+              >
+                保存昵称
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {helpOpen && (
+        <div
+          className="overlay"
+          data-b="B27"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) setHelpOpen(false);
+          }}
+        >
+          <div
+            className="account-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="help-title"
+          >
+            <div className="account-dialog-head">
+              <div>
+                <span className="section-kicker">HELP</span>
+                <h2 id="help-title">客服与帮助</h2>
+              </div>
+              <button
+                type="button"
+                className="modal-close"
+                aria-label="关闭帮助"
+                onClick={() => setHelpOpen(false)}
+                data-z="Z27-1"
+              >
+                <X size={18} />
+              </button>
+            </div>
+            <div className="help-item">
+              <strong>预约怎样确认？</strong>
+              <p>客户提交的是预约意向，时间提供者确认后才会占用时间表。</p>
+            </div>
+            <div className="help-item">
+              <strong>已经能付款了吗？</strong>
+              <p>当前是产品原型，尚未开放真实下单、支付和在线客服。</p>
+            </div>
+            <div className="help-item">
+              <strong>我的资料保存在哪里？</strong>
+              <p>目前只保存在当前浏览器。清除浏览器数据后可能无法找回。</p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
