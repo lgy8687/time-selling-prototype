@@ -1,0 +1,21 @@
+page { background: #f7f8f5; color: #172c26; font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif; font-size: 28rpx; }
+.page { padding: 28rpx 28rpx 150rpx; box-sizing: border-box; }
+.title { font-size: 44rpx; font-weight: 700; line-height: 1.3; }
+.subtitle { color: #6e8178; font-size: 25rpx; line-height: 1.55; }
+.section-title { font-size: 32rpx; font-weight: 700; }
+.card { background: #fff; border: 1rpx solid #e7ede7; border-radius: 30rpx; padding: 28rpx; margin-top: 22rpx; box-shadow: 0 8rpx 26rpx rgba(25, 58, 43, .035); }
+.row { display: flex; align-items: center; justify-content: space-between; gap: 16rpx; }
+.stack { display: flex; flex-direction: column; gap: 10rpx; }
+.muted { color: #6e8178; }
+.small { font-size: 23rpx; }
+.pill { display: inline-flex; align-items: center; border-radius: 999rpx; padding: 10rpx 20rpx; background: #e8f3ea; color: #236e53; font-size: 23rpx; }
+.btn { border-radius: 20rpx; background: #236e53; color: #fff; text-align: center; font-weight: 600; font-size: 27rpx; padding: 22rpx 28rpx; line-height: 1.4; }
+.btn::after { border: none; }
+.btn.secondary { background: #e8f3ea; color: #236e53; }
+.btn.ghost { background: #f3f6f2; color: #172c26; }
+.btn.warn { background: #fff0e5; color: #a34a2a; }
+.input { background: #f7f8f5; border: 1rpx solid #dde8df; border-radius: 18rpx; padding: 20rpx; min-height: 42rpx; }
+.field-label { display: block; font-size: 24rpx; color: #6e8178; margin: 20rpx 0 10rpx; }
+.picker { background: #f7f8f5; border: 1rpx solid #dde8df; border-radius: 18rpx; padding: 20rpx; }
+.notice { padding: 22rpx; background: #fff9e9; border-radius: 18rpx; color: #715a27; font-size: 23rpx; line-height: 1.5; }
+.divider { height: 1rpx; background: #ebefea; margin: 24rpx 0; }

@@ -1,0 +1,365 @@
+{
+  "version": "v0.1.0-mini",
+  "templates": {},
+  "states": {
+    "B100": {
+      "name": "五入口底部导航",
+      "template": null
+    },
+    "B201": {
+      "name": "时间表主视图",
+      "template": null
+    },
+    "B202": {
+      "name": "周日期选择",
+      "template": null
+    },
+    "B203": {
+      "name": "月日期选择",
+      "template": null
+    },
+    "B204": {
+      "name": "日时间网格",
+      "template": null
+    },
+    "B205": {
+      "name": "常用标签栏",
+      "template": null
+    },
+    "B206": {
+      "name": "添加或编辑时间面板",
+      "template": null
+    },
+    "B207": {
+      "name": "时间表设置面板",
+      "template": null
+    },
+    "B208": {
+      "name": "常用标签编辑面板",
+      "template": null
+    },
+    "B209": {
+      "name": "可分享时间预览面板",
+      "template": null
+    },
+    "B210": {
+      "name": "已安排时间的删除操作",
+      "template": null
+    },
+    "B211": {
+      "name": "时间编辑错误提示",
+      "template": null
+    },
+    "B301": {
+      "name": "大厅列表",
+      "template": null
+    },
+    "B302": {
+      "name": "服务详情面板",
+      "template": null
+    },
+    "B401": {
+      "name": "发布草稿",
+      "template": null
+    },
+    "B402": {
+      "name": "发布表单错误提示",
+      "template": null
+    },
+    "B501": {
+      "name": "消息入口",
+      "template": null
+    },
+    "B601": {
+      "name": "我的首页",
+      "template": null
+    },
+    "B602": {
+      "name": "修改昵称面板",
+      "template": null
+    },
+    "B603": {
+      "name": "我的功能详情容器",
+      "template": null
+    },
+    "B604": {
+      "name": "设置详情",
+      "template": null
+    },
+    "B605": {
+      "name": "我发布的详情",
+      "template": null
+    },
+    "B606": {
+      "name": "我可卖的详情",
+      "template": null
+    },
+    "B607": {
+      "name": "其他工具详情",
+      "template": null
+    }
+  },
+  "controls": {
+    "Z100-1": {
+      "file": "custom-tab-bar/index.wxml",
+      "parent": "B100"
+    },
+    "Z201-1": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B201"
+    },
+    "Z201-2": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B201"
+    },
+    "Z201-3": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B201"
+    },
+    "Z201-4": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B201"
+    },
+    "Z201-5": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B201"
+    },
+    "Z201-6": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B201"
+    },
+    "Z201-7": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B201"
+    },
+    "Z202-1": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B202"
+    },
+    "Z203-1": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B203"
+    },
+    "Z204-1": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B204"
+    },
+    "Z204-2": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B204"
+    },
+    "Z205-1": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B205"
+    },
+    "Z205-2": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B205"
+    },
+    "Z201-8": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B201"
+    },
+    "Z206-1": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B206"
+    },
+    "Z206-2": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B206"
+    },
+    "Z206-3": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B206"
+    },
+    "Z206-4": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B206"
+    },
+    "Z206-5": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B206"
+    },
+    "Z206-6": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B206"
+    },
+    "Z206-7": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B206"
+    },
+    "Z206-8": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B206"
+    },
+    "Z210-1": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B210"
+    },
+    "Z206-10": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B206"
+    },
+    "Z207-1": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B207"
+    },
+    "Z207-2": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B207"
+    },
+    "Z207-3": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B207"
+    },
+    "Z207-4": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B207"
+    },
+    "Z207-5": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B207"
+    },
+    "Z207-6": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B207"
+    },
+    "Z208-1": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B208"
+    },
+    "Z208-2": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B208"
+    },
+    "Z208-3": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B208"
+    },
+    "Z209-1": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B209"
+    },
+    "Z401-1": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B401"
+    },
+    "Z401-2": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B401"
+    },
+    "Z401-3": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B401"
+    },
+    "Z401-4": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B401"
+    },
+    "Z401-5": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B401"
+    },
+    "Z401-6": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B401"
+    },
+    "Z401-7": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B401"
+    },
+    "Z401-8": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B401"
+    },
+    "Z401-9": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B401"
+    },
+    "Z601-1": {
+      "file": "pages/me/index.wxml",
+      "parent": "B601"
+    },
+    "Z601-2": {
+      "file": "pages/me/index.wxml",
+      "parent": "B601"
+    },
+    "Z601-3": {
+      "file": "pages/me/index.wxml",
+      "parent": "B601"
+    },
+    "Z601-4": {
+      "file": "pages/me/index.wxml",
+      "parent": "B601"
+    },
+    "Z601-5": {
+      "file": "pages/me/index.wxml",
+      "parent": "B601"
+    },
+    "Z601-6": {
+      "file": "pages/me/index.wxml",
+      "parent": "B601"
+    },
+    "Z601-7": {
+      "file": "pages/me/index.wxml",
+      "parent": "B601"
+    },
+    "Z601-8": {
+      "file": "pages/me/index.wxml",
+      "parent": "B601"
+    },
+    "Z601-9": {
+      "file": "pages/me/index.wxml",
+      "parent": "B601"
+    },
+    "Z601-10": {
+      "file": "pages/me/index.wxml",
+      "parent": "B601"
+    },
+    "Z601-11": {
+      "file": "pages/me/index.wxml",
+      "parent": "B601"
+    },
+    "Z602-1": {
+      "file": "pages/me/index.wxml",
+      "parent": "B602"
+    },
+    "Z602-2": {
+      "file": "pages/me/index.wxml",
+      "parent": "B602"
+    },
+    "Z602-3": {
+      "file": "pages/me/index.wxml",
+      "parent": "B602"
+    },
+    "Z603-1": {
+      "file": "pages/me/index.wxml",
+      "parent": "B603"
+    },
+    "Z605-1": {
+      "file": "pages/me/index.wxml",
+      "parent": "B605"
+    },
+    "Z606-1": {
+      "file": "pages/me/index.wxml",
+      "parent": "B606"
+    },
+    "Z301-1": {
+      "file": "pages/hall/index.wxml",
+      "parent": "B301"
+    },
+    "Z301-2": {
+      "file": "pages/hall/index.wxml",
+      "parent": "B301"
+    },
+    "Z302-1": {
+      "file": "pages/hall/index.wxml",
+      "parent": "B302"
+    },
+    "Z302-2": {
+      "file": "pages/hall/index.wxml",
+      "parent": "B302"
+    }
+  },
+  "note": "C 模板仍待跨页面交互验证；暂不错误复用。列表中的重复实例共用原型编码。"
+}

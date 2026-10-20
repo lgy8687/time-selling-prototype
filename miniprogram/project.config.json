@@ -1,0 +1,14 @@
+{
+  "description": "时间售卖 · 微信小程序本地演示 v0.1.0",
+  "appid": "touristappid",
+  "compileType": "miniprogram",
+  "miniprogramRoot": "./",
+  "projectname": "时间售卖",
+  "setting": {
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": false,
+    "urlCheck": true
+  }
+}

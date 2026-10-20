@@ -1,0 +1,1 @@
+.icon { width: 76rpx; height: 76rpx; display: flex; align-items: center; justify-content: center; background: #fff4d9; border-radius: 20rpx; font-weight: 700; }.icon.green { background: #e8f3ea; }.grow { flex: 1; }.card .section-title { font-size: 29rpx; }.notice { margin-top: 25rpx; }

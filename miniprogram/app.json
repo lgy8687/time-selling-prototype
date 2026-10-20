@@ -1,0 +1,29 @@
+{
+  "pages": [
+    "pages/hall/index",
+    "pages/schedule/index",
+    "pages/publish/index",
+    "pages/messages/index",
+    "pages/me/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "时间售卖",
+    "navigationBarBackgroundColor": "#f7f8f5",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#f7f8f5"
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#6e8178",
+    "selectedColor": "#236e53",
+    "backgroundColor": "#ffffff",
+    "list": [
+      { "pagePath": "pages/hall/index", "text": "大厅" },
+      { "pagePath": "pages/schedule/index", "text": "时间表" },
+      { "pagePath": "pages/publish/index", "text": "发布" },
+      { "pagePath": "pages/messages/index", "text": "消息" },
+      { "pagePath": "pages/me/index", "text": "我的" }
+    ]
+  },
+  "sitemapLocation": "sitemap.json"
+}
