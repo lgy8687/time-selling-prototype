@@ -1,6 +1,6 @@
 {
   "description": "时间售卖 · 微信小程序本地演示 v0.1.0",
-  "appid": "touristappid",
+  "appid": "wx46a5a66e3d571e9b",
   "compileType": "miniprogram",
   "miniprogramRoot": "./",
   "projectname": "时间售卖",
