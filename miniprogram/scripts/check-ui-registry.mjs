@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url'
 
 const root = fileURLToPath(new URL('../', import.meta.url))
 const registry = JSON.parse(readFileSync(join(root, 'ui-registry.json'), 'utf8'))
+const generated = `module.exports = ${JSON.stringify(registry, null, 2)}\n`
 const files = []
 function walk(dir) {
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
@@ -14,6 +15,7 @@ function walk(dir) {
 }
 walk(root)
 const errors = []
+if (readFileSync(join(root, 'utils/ui-registry-data.js'), 'utf8') !== generated) errors.push('utils/ui-registry-data.js 与 ui-registry.json 不一致，请重新生成')
 const seenB = new Map()
 const seenZ = new Set()
 for (const file of files) {

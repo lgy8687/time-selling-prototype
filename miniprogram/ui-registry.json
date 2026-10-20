@@ -1,5 +1,5 @@
 {
-  "version": "v0.1.0-mini",
+  "version": "v0.2.0-mini",
   "templates": {},
   "states": {
     "B100": {
@@ -28,14 +28,6 @@
     },
     "B206": {
       "name": "添加或编辑时间面板",
-      "template": null
-    },
-    "B207": {
-      "name": "时间表设置面板",
-      "template": null
-    },
-    "B208": {
-      "name": "常用标签编辑面板",
       "template": null
     },
     "B209": {
@@ -82,10 +74,6 @@
       "name": "我的功能详情容器",
       "template": null
     },
-    "B604": {
-      "name": "设置详情",
-      "template": null
-    },
     "B605": {
       "name": "我发布的详情",
       "template": null
@@ -97,6 +85,30 @@
     "B607": {
       "name": "其他工具详情",
       "template": null
+    },
+    "B212": {
+      "name": "所选日期的安排列表",
+      "template": null
+    },
+    "B213": {
+      "name": "连续时间格选中状态",
+      "template": null
+    },
+    "B701": {
+      "name": "设置主界面",
+      "template": null
+    },
+    "B702": {
+      "name": "开发者编号预览",
+      "template": null
+    },
+    "B214": {
+      "name": "尚未选择时间格的提示",
+      "template": null
+    },
+    "B215": {
+      "name": "时间格全宽展示状态",
+      "template": null
     }
   },
   "controls": {
@@ -106,59 +118,73 @@
     },
     "Z201-1": {
       "file": "pages/schedule/index.wxml",
-      "parent": "B201"
+      "parent": "B201",
+      "name": "时间表设置入口"
     },
     "Z201-2": {
       "file": "pages/schedule/index.wxml",
-      "parent": "B201"
+      "parent": "B201",
+      "name": "回到今天"
     },
     "Z201-3": {
       "file": "pages/schedule/index.wxml",
-      "parent": "B201"
+      "parent": "B201",
+      "name": "前一日期范围"
     },
     "Z201-4": {
       "file": "pages/schedule/index.wxml",
-      "parent": "B201"
+      "parent": "B201",
+      "name": "后一日期范围"
     },
     "Z201-5": {
       "file": "pages/schedule/index.wxml",
-      "parent": "B201"
+      "parent": "B201",
+      "name": "日时间格视图"
     },
     "Z201-6": {
       "file": "pages/schedule/index.wxml",
-      "parent": "B201"
+      "parent": "B201",
+      "name": "周与列表视图"
     },
     "Z201-7": {
       "file": "pages/schedule/index.wxml",
-      "parent": "B201"
+      "parent": "B201",
+      "name": "月与列表视图"
     },
     "Z202-1": {
       "file": "pages/schedule/index.wxml",
-      "parent": "B202"
+      "parent": "B202",
+      "name": "选择周历日期"
     },
     "Z203-1": {
       "file": "pages/schedule/index.wxml",
-      "parent": "B203"
+      "parent": "B203",
+      "name": "选择月历日期"
     },
     "Z204-1": {
       "file": "pages/schedule/index.wxml",
-      "parent": "B204"
+      "parent": "B204",
+      "name": "新增时间"
     },
     "Z204-2": {
       "file": "pages/schedule/index.wxml",
-      "parent": "B204"
+      "parent": "B204",
+      "name": "时间格点选或长按"
     },
     "Z205-1": {
       "file": "pages/schedule/index.wxml",
-      "parent": "B205"
+      "parent": "B205",
+      "name": "编辑常用标签"
     },
     "Z205-2": {
       "file": "pages/schedule/index.wxml",
-      "parent": "B205"
+      "parent": "B205",
+      "name": "把标签用于所选时间"
     },
     "Z201-8": {
       "file": "pages/schedule/index.wxml",
-      "parent": "B201"
+      "parent": "B201",
+      "name": "可分享时间入口"
     },
     "Z206-1": {
       "file": "pages/schedule/index.wxml",
@@ -199,42 +225,6 @@
     "Z206-10": {
       "file": "pages/schedule/index.wxml",
       "parent": "B206"
-    },
-    "Z207-1": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B207"
-    },
-    "Z207-2": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B207"
-    },
-    "Z207-3": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B207"
-    },
-    "Z207-4": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B207"
-    },
-    "Z207-5": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B207"
-    },
-    "Z207-6": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B207"
-    },
-    "Z208-1": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B208"
-    },
-    "Z208-2": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B208"
-    },
-    "Z208-3": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B208"
     },
     "Z209-1": {
       "file": "pages/schedule/index.wxml",
@@ -286,7 +276,8 @@
     },
     "Z601-3": {
       "file": "pages/me/index.wxml",
-      "parent": "B601"
+      "parent": "B601",
+      "name": "打开设置"
     },
     "Z601-4": {
       "file": "pages/me/index.wxml",
@@ -359,7 +350,101 @@
     "Z302-2": {
       "file": "pages/hall/index.wxml",
       "parent": "B302"
+    },
+    "Z202-2": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B202",
+      "name": "周历上下滑动"
+    },
+    "Z203-2": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B203",
+      "name": "月历上下滑动"
+    },
+    "Z204-3": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B204",
+      "name": "时间格左右滑动"
+    },
+    "Z212-1": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B212",
+      "name": "列表新增安排"
+    },
+    "Z212-2": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B212",
+      "name": "打开列表安排"
+    },
+    "Z213-1": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B213",
+      "name": "取消时间格选择"
+    },
+    "Z701-1": {
+      "file": "pages/settings/index.wxml",
+      "parent": "B701",
+      "name": "每天开始时间"
+    },
+    "Z701-2": {
+      "file": "pages/settings/index.wxml",
+      "parent": "B701",
+      "name": "每天结束时间"
+    },
+    "Z701-3": {
+      "file": "pages/settings/index.wxml",
+      "parent": "B701",
+      "name": "每小时分成两格"
+    },
+    "Z701-4": {
+      "file": "pages/settings/index.wxml",
+      "parent": "B701",
+      "name": "每小时分成三格"
+    },
+    "Z701-5": {
+      "file": "pages/settings/index.wxml",
+      "parent": "B701",
+      "name": "每小时分成四格"
+    },
+    "Z701-6": {
+      "file": "pages/settings/index.wxml",
+      "parent": "B701",
+      "name": "常用标签名称"
+    },
+    "Z701-7": {
+      "file": "pages/settings/index.wxml",
+      "parent": "B701",
+      "name": "保存标签名称"
+    },
+    "Z701-8": {
+      "file": "pages/settings/index.wxml",
+      "parent": "B701",
+      "name": "开发者模式开关"
+    },
+    "Z702-1": {
+      "file": "pages/settings/index.wxml",
+      "parent": "B702",
+      "name": "切换编号分组"
+    },
+    "Z702-2": {
+      "file": "pages/settings/index.wxml",
+      "parent": "B702",
+      "name": "复制编号"
     }
   },
-  "note": "C 模板仍待跨页面交互验证；暂不错误复用。列表中的重复实例共用原型编码。"
+  "note": "C 模板仍待跨页面交互验证；暂不错误复用。列表中的重复实例共用原型编码。",
+  "retired": {
+    "B207": "时间表设置面板",
+    "B208": "常用标签编辑面板",
+    "B604": "设置详情",
+    "Z207-1": "pages/schedule/index.wxml",
+    "Z207-2": "pages/schedule/index.wxml",
+    "Z207-3": "pages/schedule/index.wxml",
+    "Z207-4": "pages/schedule/index.wxml",
+    "Z207-5": "pages/schedule/index.wxml",
+    "Z207-6": "pages/schedule/index.wxml",
+    "Z208-1": "pages/schedule/index.wxml",
+    "Z208-2": "pages/schedule/index.wxml",
+    "Z208-3": "pages/schedule/index.wxml"
+  }
 }

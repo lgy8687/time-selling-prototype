@@ -4,7 +4,8 @@
     "pages/schedule/index",
     "pages/publish/index",
     "pages/messages/index",
-    "pages/me/index"
+    "pages/me/index",
+    "pages/settings/index"
   ],
   "window": {
     "navigationBarTitleText": "时间售卖",

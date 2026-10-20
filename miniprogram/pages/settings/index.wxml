@@ -1,0 +1,36 @@
+<view class="page" data-b="B701">
+  <view class="title">设置</view>
+  <view class="subtitle">让时间表适合你的作息和排课方式</view>
+  <view class="card">
+    <view class="section-title">时间表</view>
+    <view class="field-label">每天显示的时间</view>
+    <view class="time-fields">
+      <picker mode="selector" range="{{hoursStart}}" value="{{settings.startHour}}" data-key="startHour" data-z="Z701-1" bindchange="setHour"><view class="picker">{{settings.startHour}}:00 开始</view></picker>
+      <picker mode="selector" range="{{hoursEnd}}" value="{{settings.endHour - 1}}" data-key="endHour" data-z="Z701-2" bindchange="setHour"><view class="picker">{{settings.endHour}}:00 结束</view></picker>
+    </view>
+    <view class="field-label">一小时分成</view>
+    <view class="mode-list">
+      <view class="{{settings.mode === 2 ? 'chosen' : ''}}" data-mode="2" data-z="Z701-3" bindtap="setMode">2 格 <text>30 + 30 分钟</text></view>
+      <view class="{{settings.mode === 3 ? 'chosen' : ''}}" data-mode="3" data-z="Z701-4" bindtap="setMode">3 格 <text>30 + 15 + 15 分钟</text></view>
+      <view class="{{settings.mode === 4 ? 'chosen' : ''}}" data-mode="4" data-z="Z701-5" bindtap="setMode">4 格 <text>15 + 15 + 15 + 15 分钟</text></view>
+    </view>
+    <view class="subtitle">分格影响显示和选取；冲突仍按真实起止时间判断。</view>
+  </view>
+  <view class="card">
+    <view class="section-title">常用标签</view>
+    <view class="subtitle">用学生、分组或你习惯的称呼命名。</view>
+    <view wx:for="{{palette}}" wx:key="id" class="palette-field"><text class="palette-dot {{item.color}}"></text><input class="input" value="{{item.title}}" maxlength="20" data-index="{{index}}" data-z="Z701-6" bindinput="editPalette" /></view>
+    <button class="btn secondary" data-z="Z701-7" bindtap="savePalette">保存标签名称</button>
+  </view>
+  <view class="card">
+    <view class="section-title">开发者模式</view>
+    <view class="row switch-row"><view class="subtitle">查看并复制页面和控件编号</view><switch checked="{{settings.developerMode}}" color="#236e53" data-z="Z701-8" bindchange="toggleDeveloper" /></view>
+    <view wx:if="{{settings.developerMode}}" class="code-panel" data-b="B702">
+      <picker mode="selector" range="{{pageGroups}}" value="{{selectedGroup}}" data-z="Z702-1" bindchange="selectGroup"><view class="picker">{{pageGroups[selectedGroup]}}编号 ▾</view></picker>
+      <view class="subtitle code-help">B 是界面，Z 是可沟通的操作。点编号即可复制。</view>
+      <scroll-view scroll-y class="code-scroll"><view wx:for="{{codes}}" wx:key="code" class="code-row" data-code="{{item.code}}" data-z="Z702-2" bindtap="copyCode"><text class="code">{{item.code}}</text><text class="code-name">{{item.name}}</text><text class="copy">复制</text></view></scroll-view>
+    </view>
+  </view>
+  <view class="version">时间售卖 {{version}} · 本地演示</view>
+  <view class="subtitle storage-note">资料与安排目前只保存在本机，换设备不会自动同步。</view>
+</view>

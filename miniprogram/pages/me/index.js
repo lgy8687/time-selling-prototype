@@ -1,6 +1,6 @@
 const store = require('../../utils/store')
 Page({
-  data: { profile: {}, editing: false, nameInput: '', draftCount: 0, eventCount: 0, openCount: 0, section: '', version: 'v0.1.0-mini' },
+  data: { profile: {}, editing: false, nameInput: '', draftCount: 0, eventCount: 0, openCount: 0, section: '', version: 'v0.2.0-mini' },
   onShow() { this.getTabBar().setData({ selected: 4 }); this.refresh() },
   refresh() { const s = store.read(); this.setData({ profile: s.profile, avatarInitial: s.profile.name.slice(0, 1), nameInput: s.profile.name, draftCount: s.drafts.length, eventCount: s.events.length, openCount: s.events.filter(e => store.available(s.events,e)).length }) },
   edit() { this.setData({ editing: true }) },
@@ -20,6 +20,7 @@ Page({
     } })
   },
   openSection(e) { this.setData({ section: e.currentTarget.dataset.section }) },
+  goSettings() { wx.navigateTo({ url: '/pages/settings/index' }) },
   closeSection() { this.setData({ section: '' }) },
   goSchedule() { wx.switchTab({ url: '/pages/schedule/index' }) },
   goPublish() { wx.switchTab({ url: '/pages/publish/index' }) }
