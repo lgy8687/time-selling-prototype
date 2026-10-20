@@ -168,8 +168,8 @@ export default function Schedule({ data, setData, onToast }) {
       dialog.id
         ? "安排已更新"
         : form.type === "open"
-          ? "开放时间已加入课表"
-          : "安排已加入课表",
+          ? "开放时间已加入时间表"
+          : "安排已加入时间表",
     );
   }
 
@@ -203,7 +203,7 @@ export default function Schedule({ data, setData, onToast }) {
     }
     const slot = current.events.find((item) => item.id === request.slotId);
     if (!slot || !isOpenAvailable(current.events, slot)) {
-      onToast("当前时段已不可约，请先检查课表");
+      onToast("当前时段已不可约，请先检查时间表");
       return;
     }
     const booked = {
@@ -263,7 +263,7 @@ export default function Schedule({ data, setData, onToast }) {
         <div>
           <span className="section-kicker">MY CALENDAR</span>
           <h2>
-            我的课表 <span>/ 时间表</span>
+            我的时间表 <span>/ 统一安排</span>
           </h2>
           <p>课程、咨询和私人安排都使用同一份时间轴。</p>
         </div>
@@ -501,7 +501,7 @@ export default function Schedule({ data, setData, onToast }) {
               </div>
               <span className="request-count">{requests.length} 待处理</span>
             </div>
-            <p className="rail-intro">客户提交的是意向，确认后才占用课表。</p>
+            <p className="rail-intro">客户提交的是意向，确认后才占用时间表。</p>
             {requests.length ? (
               <div className="request-stack">
                 {requests.map((request) => {
@@ -765,7 +765,7 @@ export default function Schedule({ data, setData, onToast }) {
                   ))
                 ) : (
                   <p className="rail-empty">
-                    目前没有可约时间。请先在课表里开放未来的空闲时段。
+                    目前没有可约时间。请先在时间表里开放未来的空闲时段。
                   </p>
                 )}
               </div>

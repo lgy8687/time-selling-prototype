@@ -1326,6 +1326,9 @@ p {
 .my-layout.schedule-focus .my-menu button > svg:last-child {
   display: none;
 }
+.my-layout.schedule-focus .my-menu-group {
+  display: none;
+}
 .my-menu {
   border-radius: 15px;
   border: 1px solid var(--line);
@@ -1335,6 +1338,16 @@ p {
   flex-direction: column;
   gap: 2px;
   box-shadow: var(--shadow);
+}
+.my-menu-group {
+  color: #96a99a;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 11px 11px 4px;
+}
+.my-menu-group:first-child {
+  padding-top: 7px;
 }
 .my-menu button {
   display: flex;
@@ -1363,6 +1376,178 @@ p {
 }
 .my-content {
   min-width: 0;
+}
+.trade-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+.trade-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 260px;
+  padding: 23px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: var(--shadow);
+}
+.trade-card::after {
+  content: "";
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  right: -70px;
+  top: -65px;
+  background: #e9f1ec;
+  pointer-events: none;
+}
+.trade-buy::after {
+  background: #e9f2fa;
+}
+.trade-icon {
+  display: grid;
+  place-items: center;
+  width: 43px;
+  height: 43px;
+  border-radius: 12px;
+  background: #e9f3f0;
+  color: #287255;
+  margin-bottom: 14px;
+}
+.trade-buy .trade-icon {
+  background: #e9f1fa;
+  color: #4f83ae;
+}
+.trade-kicker {
+  color: #879a8b;
+  font-size: 10px;
+  font-weight: 800;
+}
+.trade-card h3 {
+  margin: 5px 0 7px;
+  font-size: 20px;
+}
+.trade-card p {
+  color: #7e9083;
+  font-size: 11px;
+  line-height: 1.6;
+  margin: 0;
+}
+.trade-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px 13px;
+  margin: 18px 0;
+  color: #7d9081;
+  font-size: 10px;
+}
+.trade-facts strong {
+  color: var(--ink);
+  font-size: 17px;
+}
+.trade-card button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: auto;
+  padding: 11px 0 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+  background: transparent;
+  color: var(--brand);
+  font-size: 11px;
+  font-weight: 800;
+}
+.trade-card button:hover {
+  color: #164f3b;
+}
+.my-tools-head {
+  margin-top: 24px;
+}
+.order-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 15px;
+}
+.order-summary span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 15px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  color: #809184;
+  font-size: 11px;
+}
+.order-summary strong {
+  color: var(--ink);
+  font-size: 18px;
+}
+.seller-requests {
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #fff;
+}
+.seller-requests-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+.seller-requests-head h3 {
+  margin: 0 0 10px;
+  font-size: 15px;
+}
+.seller-requests-head small {
+  color: #91a295;
+  font-size: 10px;
+}
+.seller-request {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+}
+.request-avatar {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: #e9f3e8;
+  color: #478b65;
+  font-size: 12px;
+  font-weight: 800;
+}
+.seller-request div {
+  flex: 1;
+  min-width: 0;
+}
+.seller-request strong,
+.seller-request small {
+  display: block;
+}
+.seller-request strong {
+  font-size: 12px;
+}
+.seller-request small {
+  color: #8da08f;
+  font-size: 10px;
+  margin-top: 3px;
+}
+.seller-requests > button {
+  margin-top: 15px;
 }
 .stat-grid {
   display: grid;
@@ -2483,6 +2668,9 @@ p {
     padding: 5px;
     gap: 3px;
   }
+  .my-menu-group {
+    display: none;
+  }
   .my-menu button {
     min-width: max-content;
     padding: 9px 11px;
@@ -2490,6 +2678,12 @@ p {
   }
   .my-menu button > svg:last-child {
     display: none;
+  }
+  .trade-grid {
+    grid-template-columns: 1fr;
+  }
+  .trade-card {
+    min-height: 225px;
   }
   .mobile-nav {
     position: fixed;

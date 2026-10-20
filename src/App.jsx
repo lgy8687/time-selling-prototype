@@ -2,7 +2,7 @@ import React, { Suspense, useEffect, useMemo, useState } from "react";
 import {
   ArrowRight,
   Bell,
-  BookOpen,
+  FolderOpen,
   CalendarDays,
   Check,
   ChevronDown,
@@ -32,6 +32,7 @@ import {
   sampleThreads,
   showcase,
   uid,
+  timeLabel,
 } from "./data.js";
 import { UI_REGISTRY } from "./uiRegistry.js";
 
@@ -41,15 +42,46 @@ const mainNav = [
   { id: "hall", label: "大厅", icon: Compass, note: "发现值得交流的人" },
   { id: "publish", label: "发布", icon: Plus, note: "整理你愿意分享的经验" },
   { id: "messages", label: "消息", icon: MessageCircle, note: "预约与沟通" },
-  { id: "me", label: "我的", icon: UserRound, note: "时间、订单与内容" },
+  { id: "me", label: "我的", icon: UserRound, note: "买到的、卖出的与时间" },
 ];
 
 const myNav = [
-  { id: "overview", label: "我的首页", icon: Layers3 },
-  { id: "schedule", label: "我的课表", icon: CalendarDays },
-  { id: "bought", label: "已购买", icon: ShoppingBag },
-  { id: "published", label: "我发布的", icon: Tag },
-  { id: "courseware", label: "我的课件", icon: BookOpen },
+  {
+    id: "overview",
+    label: "我的首页",
+    icon: Layers3,
+    group: "账户",
+    code: "Z07-1",
+  },
+  {
+    id: "bought",
+    label: "我买到的",
+    icon: ShoppingBag,
+    group: "交易",
+    code: "Z07-3",
+  },
+  { id: "sold", label: "我卖出的", icon: Inbox, group: "交易", code: "Z07-8" },
+  {
+    id: "published",
+    label: "我的发布",
+    icon: Tag,
+    group: "管理",
+    code: "Z07-4",
+  },
+  {
+    id: "schedule",
+    label: "我的时间表",
+    icon: CalendarDays,
+    group: "管理",
+    code: "Z07-2",
+  },
+  {
+    id: "materials",
+    label: "交流资料",
+    icon: FolderOpen,
+    group: "管理",
+    code: "Z07-5",
+  },
 ];
 
 function App() {
@@ -79,7 +111,7 @@ function App() {
       drafts: [draft, ...current.drafts.filter((item) => item.id !== draft.id)],
     }));
     setEditDraft(null);
-    setToast("草稿已保存到“我的 → 我发布的”");
+    setToast("草稿已保存到“我的 → 我的发布”");
   }
 
   const pageNames = {
@@ -137,7 +169,7 @@ function App() {
             <span className="mini-avatar">我</span>
             <span>
               <strong>演示账户</strong>
-              <small>个人时间提供者</small>
+              <small>可买，也可分享</small>
             </span>
             <ChevronDown size={15} />
           </button>
@@ -632,7 +664,7 @@ function PublishPage({ onSave, editDraft, clearEdit, onNavigate }) {
             <span>02</span>
             <div>
               <h2>时间与价格</h2>
-              <p>这是服务条件；可预约时段从“我的课表”单独开放。</p>
+              <p>这是服务条件；可预约时段从“我的时间表”单独开放。</p>
             </div>
           </div>
           <div className="form-grid">
@@ -759,7 +791,7 @@ function PublishPage({ onSave, editDraft, clearEdit, onNavigate }) {
               </div>
             </div>
             <p className="detail-hint">
-              可售时间需在“我的课表”里主动开放，保存草稿不会自动公开时间。
+              可售时间需在“我的时间表”里主动开放，保存草稿不会自动公开时间。
             </p>
           </div>
         </div>
@@ -856,14 +888,17 @@ function MyPage({
   const pending = data.requests.filter(
     (item) => item.status === "pending",
   ).length;
+  const recentRequests = [...data.requests]
+    .sort((a, b) => (b.created || 0) - (a.created || 0))
+    .slice(0, 3);
   return (
     <div className="page-stack my-page" data-b="B07">
       <div className="my-banner">
         <div className="my-banner-avatar">我</div>
         <div>
           <span className="my-kicker">个人中心 · 演示账户</span>
-          <h1>把自己的时间，安排得更从容。</h1>
-          <p>在这里管理课表、发布草稿、购买记录和分享资料。</p>
+          <h1>你可以寻找服务，也可以分享自己的时间。</h1>
+          <p>同一个账户，管理买到的、卖出的、发布内容和时间安排。</p>
         </div>
         <span className="my-banner-shape" aria-hidden="true">
           ◌
@@ -874,17 +909,21 @@ function MyPage({
       >
         <nav className="my-menu" aria-label="我的功能">
           {myNav.map((item, index) => (
-            <button
-              key={item.id}
-              type="button"
-              className={tab === item.id ? "active" : ""}
-              onClick={() => setTab(item.id)}
-              data-z={`Z07-${index + 1}`}
-            >
-              <item.icon size={18} />
-              <span>{item.label}</span>
-              <ArrowRight size={15} />
-            </button>
+            <React.Fragment key={item.id}>
+              {(index === 0 || myNav[index - 1].group !== item.group) && (
+                <span className="my-menu-group">{item.group}</span>
+              )}
+              <button
+                type="button"
+                className={tab === item.id ? "active" : ""}
+                onClick={() => setTab(item.id)}
+                data-z={item.code}
+              >
+                <item.icon size={18} />
+                <span>{item.label}</span>
+                <ArrowRight size={15} />
+              </button>
+            </React.Fragment>
           ))}
         </nav>
         <div className="my-content">
@@ -892,32 +931,59 @@ function MyPage({
             <div data-b="B23">
               <div className="section-head compact">
                 <div>
-                  <span className="section-kicker">MY SPACE</span>
-                  <h2>我的时间与服务</h2>
-                  <p>从今天的安排开始，逐步建立自己的服务页面。</p>
+                  <span className="section-kicker">MY ACCOUNT</span>
+                  <h2>我的交易</h2>
+                  <p>每个人都可以同时是买家和卖家，按交易方向查看记录。</p>
                 </div>
               </div>
-              <div className="stat-grid">
-                <div className="stat-card">
-                  <span>
-                    <CalendarDays size={19} /> 已安排
+              <div className="trade-grid">
+                <section className="trade-card trade-buy">
+                  <span className="trade-icon">
+                    <ShoppingBag size={22} />
                   </span>
-                  <strong>{confirmed}</strong>
-                  <small>段时间</small>
-                </div>
-                <div className="stat-card">
-                  <span>
-                    <Tag size={19} /> 已开放
+                  <span className="trade-kicker">作为买家</span>
+                  <h3>我买到的</h3>
+                  <p>查看购买记录、预约进度和对方交付的资料。</p>
+                  <div className="trade-facts">
+                    <span>
+                      <strong>0</strong> 笔购买订单
+                    </span>
+                    <span>交易尚未开放</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setTab("bought")}
+                    data-z="Z23-1"
+                  >
+                    查看买入记录 <ArrowRight size={16} />
+                  </button>
+                </section>
+                <section className="trade-card trade-sell">
+                  <span className="trade-icon">
+                    <Tag size={22} />
                   </span>
-                  <strong>{open}</strong>
-                  <small>段时间</small>
-                </div>
-                <div className="stat-card">
-                  <span>
-                    <Inbox size={19} /> 待处理意向
-                  </span>
-                  <strong>{pending}</strong>
-                  <small>条消息</small>
+                  <span className="trade-kicker">作为卖家</span>
+                  <h3>我卖出的</h3>
+                  <p>处理预约意向，查看卖出订单和服务状态。</p>
+                  <div className="trade-facts">
+                    <span>
+                      <strong>{pending}</strong> 条待处理意向
+                    </span>
+                    <span>{data.drafts.length} 份发布草稿</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setTab("sold")}
+                    data-z="Z23-2"
+                  >
+                    查看卖出记录 <ArrowRight size={16} />
+                  </button>
+                </section>
+              </div>
+              <div className="section-head compact my-tools-head">
+                <div>
+                  <h2>我的工具</h2>
+                  <p>时间表属于个人账户，买卖两侧都可以从这里查看安排。</p>
                 </div>
               </div>
               <div className="shortcut-grid">
@@ -929,8 +995,10 @@ function MyPage({
                   <span className="shortcut-icon green">
                     <CalendarDays size={22} />
                   </span>
-                  <strong>管理我的课表</strong>
-                  <small>统一查看安排、占用与开放时间</small>
+                  <strong>管理时间表</strong>
+                  <small>
+                    {confirmed} 段已安排 · {open} 段主动开放
+                  </small>
                   <ArrowRight size={19} />
                 </button>
                 <button
@@ -941,15 +1009,15 @@ function MyPage({
                   <span className="shortcut-icon amber">
                     <Plus size={22} />
                   </span>
-                  <strong>整理我的服务</strong>
-                  <small>先写内容，保存草稿再慢慢完善</small>
+                  <strong>管理我的发布</strong>
+                  <small>整理服务内容，保存草稿</small>
                   <ArrowRight size={19} />
                 </button>
               </div>
               <div className="overview-note">
                 <ShieldCheck size={19} />
                 <p>
-                  时间管理和交易大厅共用同一份时间表。当前是本机原型，公开发布、支付和跨设备预约仍待接入。
+                  买入和卖出共用一个账户；你开放的时间与已有安排共用同一份时间表。当前交易记录只展示真实可用的原型数据，支付和跨设备预约仍待接入。
                 </p>
               </div>
             </div>
@@ -957,7 +1025,7 @@ function MyPage({
           {tab === "schedule" && (
             <div data-b="B08">
               <Suspense
-                fallback={<div className="loading-panel">正在打开课表…</div>}
+                fallback={<div className="loading-panel">正在打开时间表…</div>}
               >
                 <Schedule data={data} setData={setData} onToast={onToast} />
               </Suspense>
@@ -966,25 +1034,115 @@ function MyPage({
           {tab === "bought" && (
             <div data-b="B13">
               <SectionTitle
-                kicker="PURCHASES"
-                title="已购买"
-                subtitle="你购买过的时间服务与后续资料会集中在这里。"
+                kicker="AS A BUYER"
+                title="我买到的"
+                subtitle="按买家身份查看预约、订单和服务资料。"
               />
+              <div className="order-summary">
+                <span>
+                  待确认 <strong>0</strong>
+                </span>
+                <span>
+                  进行中 <strong>0</strong>
+                </span>
+                <span>
+                  已完成 <strong>0</strong>
+                </span>
+              </div>
               <EmptyState
                 icon={ShoppingBag}
-                title="还没有购买记录"
-                description="大厅目前展示的是示例服务。真实下单和支付接入后，你的预约、订单及状态会出现在这里。"
-                action="逛逛大厅"
+                title="还没有买入订单"
+                description="大厅目前展示示例服务，暂不能真实下单。将来购买或预约他人的时间后，进度和交易资料会从这里进入。"
+                action="去大厅发现服务"
                 onAction={() => onNavigate("hall")}
                 code="Z13-1"
               />
+            </div>
+          )}
+          {tab === "sold" && (
+            <div data-b="B24">
+              <SectionTitle
+                kicker="AS A SELLER"
+                title="我卖出的"
+                subtitle="预约意向、已确认安排和成交订单分别记录，避免把咨询当作收入。"
+              />
+              <div className="order-summary">
+                <span>
+                  待处理意向 <strong>{pending}</strong>
+                </span>
+                <span>
+                  已确认安排{" "}
+                  <strong>
+                    {
+                      data.requests.filter(
+                        (item) => item.status === "confirmed",
+                      ).length
+                    }
+                  </strong>
+                </span>
+                <span>
+                  成交订单 <strong>0</strong>
+                </span>
+              </div>
+              {recentRequests.length ? (
+                <div className="seller-requests">
+                  <div className="seller-requests-head">
+                    <h3>最近的预约意向</h3>
+                    <small>本机演示记录 · 尚非订单</small>
+                  </div>
+                  {recentRequests.map((request) => {
+                    const slot = data.events.find(
+                      (item) => item.id === request.slotId,
+                    );
+                    return (
+                      <div className="seller-request" key={request.id}>
+                        <span className="request-avatar">
+                          {request.name?.slice(0, 1) || "约"}
+                        </span>
+                        <div>
+                          <strong>{request.name || "预约者"}</strong>
+                          <small>
+                            {slot ? timeLabel(slot) : "原时段已撤回"}
+                          </small>
+                        </div>
+                        <span
+                          className={`status-pill ${request.status === "rejected" ? "warning" : ""}`}
+                        >
+                          {request.status === "pending"
+                            ? "待确认"
+                            : request.status === "confirmed"
+                              ? "已确认安排"
+                              : "未接受"}
+                        </span>
+                      </div>
+                    );
+                  })}
+                  <button
+                    type="button"
+                    className="button button-quiet"
+                    onClick={() => setTab("schedule")}
+                    data-z="Z24-1"
+                  >
+                    去时间表处理 <ArrowRight size={16} />
+                  </button>
+                </div>
+              ) : (
+                <EmptyState
+                  icon={Inbox}
+                  title="还没有卖出记录"
+                  description="你可以先发布服务草稿，再从时间表主动开放可约时段。客户提交的意向会先由你确认；真实成交要等交易功能接入。"
+                  action="管理我的发布"
+                  onAction={() => setTab("published")}
+                  code="Z24-1"
+                />
+              )}
             </div>
           )}
           {tab === "published" && (
             <div data-b={data.drafts.length ? "B21" : "B14"}>
               <SectionTitle
                 kicker="MY SERVICES"
-                title="我发布的"
+                title="我的发布"
                 subtitle="先整理草稿，再连接可售时间和公开交易。"
               />
               {data.drafts.length ? (
@@ -1028,28 +1186,28 @@ function MyPage({
               )}
             </div>
           )}
-          {tab === "courseware" && (
+          {tab === "materials" && (
             <div data-b="B15">
               <SectionTitle
                 kicker="MATERIALS"
-                title="我的课件"
-                subtitle="将课程资料、经验清单或交流前说明整理在一起。"
+                title="交流资料"
+                subtitle="以后可查看买到的资料，也可管理自己准备分享的内容。"
               />
               <div className="materials-banner">
                 <span>
-                  <BookOpen size={23} />
+                  <FolderOpen size={23} />
                 </span>
                 <div>
-                  <h3>给每一次交流留下有用的材料</h3>
+                  <h3>每种服务，都有适合自己的资料</h3>
                   <p>
-                    老师可以放课件，司机可以放成本清单，店主可以放经营复盘。资料库与服务发布将在后续相连。
+                    它也可以是服务说明、经验清单、路线建议、经营复盘或交易后交付的文件；具体内容由服务本身决定。
                   </p>
                 </div>
               </div>
               <EmptyState
-                icon={BookOpen}
-                title="资料库正在准备"
-                description="目前可以先在发布草稿中说明交流内容；上传、管理和随订单交付资料将在后续开放。"
+                icon={FolderOpen}
+                title="还没有交流资料"
+                description="目前可以在发布草稿中说明交流内容。买入资料、上传管理和订单交付将在真实交易功能接入后开放。"
                 action="去写服务草稿"
                 onAction={() => onNavigate("publish")}
                 code="Z15-1"

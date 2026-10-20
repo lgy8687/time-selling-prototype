@@ -1,4 +1,4 @@
-export const APP_VERSION = "v0.2.0";
+export const APP_VERSION = "v0.2.1";
 export const STORAGE_KEY = "time-sale-prototype-v2";
 const LEGACY_KEY = "time-sale-prototype-v1";
 
