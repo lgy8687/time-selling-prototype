@@ -1,5 +1,5 @@
 module.exports = {
-  "version": "v0.7.0-mini",
+  "version": "v0.7.1-mini",
   "templates": {},
   "states": {
     "B100": {
@@ -186,7 +186,7 @@ module.exports = {
       "template": null
     },
     "B406": {
-      "name": "发布方向选择卡片",
+      "name": "售卖与求购入口",
       "template": null
     },
     "B407": {
@@ -299,7 +299,7 @@ module.exports = {
       "template": null
     },
     "B425": {
-      "name": "发布双入口弹层",
+      "name": "发布首页介绍",
       "template": null
     },
     "B611": {
@@ -819,11 +819,6 @@ module.exports = {
       "parent": "B421",
       "name": "交互操作"
     },
-    "Z425-1": {
-      "file": "pages/publish/index.wxml",
-      "parent": "B425",
-      "name": "交互操作"
-    },
     "Z424-4": {
       "file": "pages/publish/index.wxml",
       "parent": "B424",
@@ -832,11 +827,6 @@ module.exports = {
     "Z421-1": {
       "file": "pages/publish/index.wxml",
       "parent": "B421",
-      "name": "交互操作"
-    },
-    "Z425-4": {
-      "file": "pages/publish/index.wxml",
-      "parent": "B425",
       "name": "交互操作"
     },
     "Z422-6": {
@@ -857,11 +847,6 @@ module.exports = {
     "Z422-8": {
       "file": "pages/publish/index.wxml",
       "parent": "B422",
-      "name": "交互操作"
-    },
-    "Z425-2": {
-      "file": "pages/publish/index.wxml",
-      "parent": "B425",
       "name": "交互操作"
     },
     "Z424-1": {
@@ -894,11 +879,6 @@ module.exports = {
       "parent": "B424",
       "name": "交互操作"
     },
-    "Z425-3": {
-      "file": "pages/publish/index.wxml",
-      "parent": "B425",
-      "name": "交互操作"
-    },
     "Z422-5": {
       "file": "pages/publish/index.wxml",
       "parent": "B422",
@@ -907,11 +887,6 @@ module.exports = {
     "Z422-3": {
       "file": "pages/publish/index.wxml",
       "parent": "B422",
-      "name": "交互操作"
-    },
-    "Z425-5": {
-      "file": "pages/publish/index.wxml",
-      "parent": "B425",
       "name": "交互操作"
     },
     "Z422-4": {

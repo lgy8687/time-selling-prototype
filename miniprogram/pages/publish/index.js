@@ -19,7 +19,7 @@ const rowsFor = (slots, from, to) => {
 
 Page({
   data: {
-    kind: '', stage: 'start', chooserOpen: false, form: blankForm('experience'), editingId: '', developerMode: false, error: '',
+    kind: '', stage: 'start', form: blankForm('experience'), editingId: '', developerMode: false, error: '',
     marketCategories, subcategories: subcategoriesFor('知识付费'), categoryIndex: 0, priceRows: [], hasOnline: true, hasOffline: false, hasOne: true, hasGroup: false, templates, ownTemplates: [], templatePanel: '', templateNameOpen: false, templateName: '',
     requestForm: { title: '', category: '知识付费', subcategory: '职业经验', detail: '', budget: '', date: today() }, requests: [], requestCategoryIndex: 0, requestSubcategoryIndex: 0, requestSubcategories: subcategoriesFor('知识付费'),
     locationInput: '', timePicker: false, pickerDate: today(), todayKey: today(), pickerRows: [], pickerSlots: [], pickerFrom: -1, pickerTo: -1,
@@ -38,7 +38,7 @@ Page({
       if (item) this.loadItem(item)
     }
     this.refresh()
-    if (getApp().globalData.openPublishChooser && !editId) { this.setData({ stage: 'start', chooserOpen: true }); getApp().globalData.openPublishChooser = false }
+    if (getApp().globalData.openPublishHome && !editId) { this.showPublishHome(); getApp().globalData.openPublishHome = false }
   },
   refresh() {
     const state = store.read()
@@ -49,7 +49,7 @@ Page({
     })
   },
   start(e) {
-    this.setData({ stage: e.currentTarget.dataset.stage, chooserOpen: false, kind: '', error: '' })
+    this.setData({ stage: e.currentTarget.dataset.stage, kind: '', error: '' })
     wx.pageScrollTo({ scrollTop: 0, duration: 0 })
   },
   startCategory(e) {
@@ -61,7 +61,7 @@ Page({
     wx.pageScrollTo({ scrollTop: 0, duration: 0 })
   },
   back() { this.setData({ stage: this.data.editingId ? 'start' : 'sell', kind: '', editingId: '', error: '' }); wx.pageScrollTo({ scrollTop: 0, duration: 0 }) },
-  backStart() { this.setData({ stage: 'start', chooserOpen: true, kind: '', error: '' }); wx.pageScrollTo({ scrollTop: 0, duration: 0 }) },
+  backStart() { this.showPublishHome() },
   loadItem(item) {
     const kind = item.kind || 'experience'
     const marketCategory = item.marketCategory || (kind === 'errand' ? '跑腿代办' : item.category === '技能教学' ? '职业技能' : '知识付费')
@@ -98,9 +98,7 @@ Page({
   field(e) { this.setData({ [`form.${e.currentTarget.dataset.field}`]: e.detail.value, error: '' }) },
   category(e) { const i = Number(e.detail.value); this.setData({ categoryIndex: i, 'form.category': this.data.subcategories[i] }) },
   choose(e) { this.setData({ [`form.${e.currentTarget.dataset.field}`]: e.currentTarget.dataset.value, error: '' }) },
-  openChooser() { this.setData({ stage: 'start', chooserOpen: true }) },
-  closeChooser() { this.setData({ chooserOpen: false }) },
-  noop() {},
+  showPublishHome() { this.setData({ stage: 'start', kind: '', error: '' }); wx.pageScrollTo({ scrollTop: 0, duration: 0 }) },
   chooseMode(e) {
     const value = e.currentTarget.dataset.value
     const modes = value === '线上＋线下' ? ['线上交流', '线下交流'] : [value]

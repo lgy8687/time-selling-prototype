@@ -1,27 +1,31 @@
 <view class="page publish-page" data-b="B401">
   <dev-badge wx:if="{{developerMode}}" code="B401" />
   <view wx:if="{{stage === 'start'}}">
-    <view class="title">发布</view>
-    <view class="subtitle intro">你可以出售自己的时间，也可以发布想购买的服务。</view>
-    <view wx:if="{{!chooserOpen}}" class="card starter" data-b="B406"><dev-badge wx:if="{{developerMode}}" code="B406" />
-      <view class="section-title">选择发布方向</view>
-      <view class="start-option experience" data-stage="sell" data-z="Z406-1" bindtap="start">
-        <view class="start-icon">售</view><view class="start-copy"><view class="start-title">时间售卖</view><view class="subtitle">发布可提供的服务与时间</view></view><text>›</text>
+    <view class="publish-hero" data-b="B425"><dev-badge wx:if="{{developerMode}}" code="B425" />
+      <view class="publish-eyebrow">发布服务与需求</view>
+      <view class="title">你的时间，由你决定</view>
+      <view class="subtitle intro">选择一个方向，发布后可在这里继续管理。</view>
+    </view>
+    <view class="publish-directions" data-b="B406"><dev-badge wx:if="{{developerMode}}" code="B406" />
+      <view class="direction-label">自己卖</view>
+      <view class="direction-tile sell" data-stage="sell" data-z="Z406-1" bindtap="start">
+        <view class="direction-icon">售</view><view class="direction-copy"><view class="direction-title">时间售卖</view><view class="direction-desc">分享经验、授课，或提供线下服务</view></view><text class="direction-arrow">›</text>
       </view>
-      <view class="start-option errand" data-stage="buy" data-z="Z406-2" bindtap="start">
-        <view class="start-icon">求</view><view class="start-copy"><view class="start-title">时间求购</view><view class="subtitle">说出需要的帮助和期望时间</view></view><text>›</text>
+      <view class="direction-label direction-second">我要求购</view>
+      <view class="direction-tile buy" data-stage="buy" data-z="Z406-2" bindtap="start">
+        <view class="direction-icon">求</view><view class="direction-copy"><view class="direction-title">时间求购</view><view class="direction-desc">说出需要的帮助与期望时间</view></view><text class="direction-arrow">›</text>
       </view>
-      <view class="hint-line">当前是本机体验，其他用户尚看不到你的发布。</view>
     </view>
     <view class="card my-list" data-b="B405"><dev-badge wx:if="{{developerMode}}" code="B405" />
-      <view class="section-title">我的售卖</view>
+      <view class="row"><view class="section-title">我的售卖与草稿</view><text class="small muted">{{listings.length}} 条</text></view>
       <view wx:if="{{!listings.length}}" class="empty">还没有草稿或本机发布。</view>
       <view wx:for="{{listings}}" wx:key="id" class="mine-row">
         <view class="mine-main" data-id="{{item.id}}" data-z="Z405-1" bindtap="previewFromList"><view class="mine-title">{{item.title}}</view><view class="small muted">{{item.kindLabel}} · {{item.statusLabel}} · ¥{{item.price || '—'}}</view></view>
         <text class="edit-link" data-id="{{item.id}}" data-z="Z405-2" bindtap="editFromList">编辑</text><text class="delete-link" data-id="{{item.id}}" data-z="Z405-3" bindtap="removeFromList">删除</text>
       </view>
     </view>
-    <view class="card my-list" data-b="B418"><dev-badge wx:if="{{developerMode}}" code="B418" /><view class="section-title">我的求购</view><view wx:if="{{!requests.length}}" class="empty">还没有求购记录。</view><view wx:for="{{requests}}" wx:key="id" class="mine-row"><view class="mine-main"><view class="mine-title">{{item.title}}</view><view class="small muted">{{item.category}} · {{item.subcategory}} · 本机记录</view></view></view></view>
+    <view class="card my-list" data-b="B418"><dev-badge wx:if="{{developerMode}}" code="B418" /><view class="row"><view class="section-title">我的求购</view><text class="small muted">{{requests.length}} 条</text></view><view wx:if="{{!requests.length}}" class="empty">还没有求购记录。</view><view wx:for="{{requests}}" wx:key="id" class="mine-row"><view class="mine-main"><view class="mine-title">{{item.title}}</view><view class="small muted">{{item.category}} · {{item.subcategory}} · 本机记录</view></view></view></view>
+    <view class="hint-line">当前仅在本机保存，其他用户暂时看不到。</view>
   </view>
   <view wx:elif="{{stage === 'sell'}}" data-b="B416" class="form-flow"><dev-badge wx:if="{{developerMode}}" code="B416" /><view class="back-link" data-z="Z416-1" bindtap="backStart">← 返回发布首页</view><view class="title">时间售卖</view><view class="subtitle intro">先选大类，下一步再选具体类别。</view><view class="card starter" data-b="B423"><dev-badge wx:if="{{developerMode}}" code="B423" /><view class="section-title">选择售卖大类</view><view wx:for="{{marketCategories}}" wx:key="name" class="start-option category-option" data-category="{{item.name}}" data-z="Z423-1" bindtap="startCategory"><view class="start-icon">{{item.icon}}</view><view class="start-copy"><view class="start-title">{{item.name}}</view><view class="subtitle">{{item.description}}</view></view><text>›</text></view></view></view>
   <view wx:elif="{{stage === 'buy'}}" data-b="B417" class="form-flow"><dev-badge wx:if="{{developerMode}}" code="B417" /><view class="back-link" data-z="Z417-1" bindtap="backStart">← 返回发布首页</view><view class="title">时间求购</view><view class="notice local-note">目前仅保存在本机，尚未进入公共大厅。</view><view class="card form-card" data-b="B424"><dev-badge wx:if="{{developerMode}}" code="B424" /><view class="section-title">我想找人帮忙</view><text class="field-label">求购标题</text><input class="input" placeholder="例如：周末找钢琴老师" value="{{requestForm.title}}" data-field="title" data-z="Z424-1" bindinput="requestField" maxlength="40" /><text class="field-label">大类</text><picker mode="selector" range="{{marketCategories}}" range-key="name" value="{{requestCategoryIndex}}" data-z="Z424-2" bindchange="requestCategory"><view class="picker">{{requestForm.category}} ▾</view></picker><text class="field-label">具体类别</text><picker mode="selector" range="{{requestSubcategories}}" value="{{requestSubcategoryIndex}}" data-z="Z424-3" bindchange="requestSubcategory"><view class="picker">{{requestForm.subcategory}} ▾</view></picker><text class="field-label">具体需求</text><textarea class="input textarea" placeholder="说明想得到什么帮助、地点和其他要求" value="{{requestForm.detail}}" data-field="detail" data-z="Z424-4" bindinput="requestField" maxlength="500" /><view class="fields"><view><text class="field-label">希望日期</text><picker mode="date" value="{{requestForm.date}}" data-field="date" data-z="Z424-5" bindchange="requestField"><view class="picker">{{requestForm.date}}</view></picker></view><view><text class="field-label">预算（元，可留空）</text><input class="input" type="digit" value="{{requestForm.budget}}" data-field="budget" data-z="Z424-6" bindinput="requestField" /></view></view></view><view wx:if="{{error}}" class="error" data-b="B420"><dev-badge wx:if="{{developerMode}}" code="B420" />{{error}}</view><button class="btn request-save" data-z="Z417-8" bindtap="saveRequest">保存求购到本机</button></view>
@@ -101,5 +105,3 @@
   <scroll-view scroll-y class="time-grid-scroll"><view wx:for="{{pickerRows}}" wx:key="hour" class="time-hour"><text class="time-hour-label">{{item.label}}</text><view class="time-cells"><view wx:for="{{item.cells}}" wx:for-item="cell" wx:key="id" class="time-cell {{cell.busy ? 'busy' : ''}} {{cell.selected ? 'selected' : ''}} {{cell.type === 'open' ? 'open' : ''}}" style="flex:{{cell.flex}}" data-index="{{cell.index}}" data-z="Z409-3" bindtap="selectPickerCell" bindtouchstart="holdStart" bindtouchmove="holdEnd" bindtouchend="holdEnd" bindtouchcancel="holdEnd"><text wx:if="{{cell.index === rangeStart}}" class="corner start">◤</text><text wx:if="{{cell.index === rangeEnd}}" class="corner end">◢</text><text>{{cell.busy ? '已占用' : cell.start}}</text></view></view></view></scroll-view>
   <view class="selected-range">{{pickerSummary || '尚未选择时间'}}</view><button class="btn sheet-button" data-z="Z409-4" bindtap="addWindow">加入这段时间</button>
 </view></view>
-
-<view wx:if="{{chooserOpen}}" class="overlay chooser-overlay" data-b="B425" data-z="Z425-4" catchtap="closeChooser"><view class="sheet chooser-sheet" data-z="Z425-5" catchtap="noop"><view class="row"><view><view class="section-title">选择发布方向</view><view class="subtitle">你的时间可以出售，也可以向别人求购帮助。</view></view><dev-badge wx:if="{{developerMode}}" code="B425" /><text class="close" data-z="Z425-1" catchtap="closeChooser">×</text></view><view class="chooser-pair"><view class="chooser-tile sell" data-stage="sell" data-z="Z425-2" catchtap="start"><text class="chooser-icon">售</text><text class="chooser-title">时间售卖</text><text class="small muted">分享经验或提供服务</text></view><view class="chooser-tile buy" data-stage="buy" data-z="Z425-3" catchtap="start"><text class="chooser-icon">求</text><text class="chooser-title">时间求购</text><text class="small muted">发布需求寻找帮助</text></view></view></view></view>

@@ -1,4 +1,20 @@
 .publish-page { padding-bottom: 180rpx; }
+.publish-hero { padding: 20rpx 8rpx 30rpx; }
+.publish-eyebrow { display: inline-block; color: #236e53; background: #e8f3ea; border-radius: 999rpx; padding: 8rpx 18rpx; font-size: 21rpx; margin: 16rpx 0 17rpx; }
+.publish-hero .title { font-size: 48rpx; }
+.publish-directions { margin-top: 12rpx; }
+.direction-label { font-size: 30rpx; font-weight: 700; margin: 17rpx 4rpx 14rpx; }
+.direction-second { margin-top: 32rpx; }
+.direction-tile { box-sizing: border-box; display: flex; align-items: center; gap: 22rpx; width: 100%; min-height: 160rpx; border-radius: 28rpx; padding: 26rpx; }
+.direction-tile.sell { background: linear-gradient(110deg, #e0f0e5, #f1f9eb); }
+.direction-tile.buy { background: linear-gradient(110deg, #fff0c9, #fff8e9); }
+.direction-icon { flex-shrink: 0; display: flex; align-items: center; justify-content: center; width: 78rpx; height: 78rpx; background: #fff; border-radius: 22rpx; color: #236e53; font-size: 33rpx; font-weight: 700; }
+.direction-copy { flex: 1; min-width: 0; }
+.direction-title { font-size: 32rpx; font-weight: 700; }
+.direction-desc { color: #64796e; font-size: 23rpx; margin-top: 7rpx; }
+.direction-arrow { font-size: 40rpx; color: #236e53; }
+.publish-page .my-list { margin-top: 30rpx; }
+.publish-page .hint-line { text-align: center; padding: 22rpx 0; }
 .intro { margin-top: 8rpx; }
 .starter { padding-bottom: 18rpx; }
 .start-option { display: flex; align-items: center; gap: 20rpx; padding: 24rpx 18rpx; border-radius: 22rpx; margin-top: 18rpx; }
@@ -84,11 +100,3 @@
 .selected-range { color: #236e53; font-size: 23rpx; padding: 18rpx 0 0; min-height: 30rpx; }
 
 .mode-choice text { white-space: normal; min-height: 54rpx; display: flex; align-items: center; justify-content: center; }
-.chooser-overlay { z-index: 80; }
-.chooser-sheet { padding-bottom: calc(58rpx + env(safe-area-inset-bottom)); }
-.chooser-pair { display: flex; gap: 16rpx; margin-top: 26rpx; }
-.chooser-tile { width: 50%; min-height: 210rpx; box-sizing: border-box; border-radius: 22rpx; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 10rpx; padding: 20rpx 10rpx; text-align: center; }
-.chooser-tile.sell { background: #e8f3ea; }
-.chooser-tile.buy { background: #fff2d6; }
-.chooser-icon { display: flex; align-items: center; justify-content: center; width: 70rpx; height: 70rpx; background: #fff; border-radius: 18rpx; font-size: 34rpx; color: #236e53; }
-.chooser-title { font-size: 29rpx; font-weight: 700; }
