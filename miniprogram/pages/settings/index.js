@@ -16,7 +16,7 @@ const allCodes = [
 
 Page({
   data: {
-    settings: {}, version: 'v0.8.0-mini',
+    settings: {}, version: 'v0.8.1-mini',
     pageGroups: pageGroups.map(item => item.label), selectedGroup: 0, codes: []
   },
   onShow() { this.refresh() },

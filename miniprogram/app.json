@@ -8,6 +8,8 @@
     "pages/me/index",
     "pages/settings/index",
     "pages/time-settings/index",
+    "pages/time-labels/index",
+    "pages/time-label-detail/index",
     "pages/time-stats/index",
     "pages/orders/index",
     "pages/my-listings/index"

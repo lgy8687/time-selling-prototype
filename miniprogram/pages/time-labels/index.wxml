@@ -1,0 +1,16 @@
+<view class="page" data-b="B235">
+  <dev-badge wx:if="{{developerMode}}" code="B235" />
+  <view wx:if="{{parentId}}" data-b="B237"><dev-badge wx:if="{{developerMode}}" code="B237" /></view>
+  <view wx:if="{{editing}}" data-b="B238"><dev-badge wx:if="{{developerMode}}" code="B238" /></view>
+  <view class="row heading">
+    <view><view class="title">{{parentTitle || '更多标签'}}</view><view wx:if="{{pick}}" class="subtitle">点名称将标签贴到选中的时间块</view></view>
+    <view class="heading-actions"><text data-z="Z235-1" bindtap="addLabel">＋</text><text class="{{editing ? 'active' : ''}}" data-z="Z235-2" bindtap="toggleEdit">{{editing ? '✓' : '✎'}}</text></view>
+  </view>
+  <view wx:if="{{!rows.length}}" class="empty" data-b="B241">还没有标签<dev-badge wx:if="{{developerMode}}" code="B241" /></view>
+  <view wx:for="{{rows}}" wx:key="id" class="label-row" data-b="B236">
+    <view class="label-main" data-id="{{item.id}}" data-z="Z236-1" bindtap="chooseLabel"><text class="label-dot {{item.color}}"></text><text class="label-name">{{item.title}}</text></view>
+    <text class="star {{item.pinned !== false ? 'on' : ''}}" data-id="{{item.id}}" data-z="Z236-2" bindtap="togglePin">{{item.pinned !== false ? '★' : '☆'}}</text>
+    <text wx:if="{{item.hasChildren || !parentId}}" class="child-arrow" data-id="{{item.id}}" data-z="Z236-3" bindtap="openChildren">›</text>
+    <dev-badge wx:if="{{developerMode}}" code="B236" />
+  </view>
+</view>

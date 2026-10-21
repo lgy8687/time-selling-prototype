@@ -1,0 +1,15 @@
+.heading { margin-bottom: 24rpx; }
+.heading-actions { display: flex; gap: 20rpx; color: #236e53; font-size: 43rpx; }
+.heading-actions text { display: flex; align-items: center; justify-content: center; width: 55rpx; height: 55rpx; }
+.heading-actions .active { background: #e8f3ea; border-radius: 10rpx; }
+.label-row { display: flex; align-items: center; min-height: 88rpx; border-bottom: 1rpx solid #e7ede7; }
+.label-main { flex: 1; display: flex; align-items: center; min-width: 0; gap: 14rpx; }
+.label-dot { width: 22rpx; height: 22rpx; flex-shrink: 0; border-radius: 50%; background: #6db687; }
+.label-dot.blue { background: #76a8d8; }
+.label-dot.gray { background: #97a59b; }
+.label-dot.yellow { background: #d7aa5b; }
+.label-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 27rpx; }
+.star { width: 55rpx; text-align: center; color: #9ba99e; font-size: 32rpx; }
+.star.on { color: #d6a84b; }
+.child-arrow { width: 44rpx; text-align: right; color: #6e8178; font-size: 36rpx; }
+.empty { padding: 50rpx 0; color: #819288; text-align: center; }

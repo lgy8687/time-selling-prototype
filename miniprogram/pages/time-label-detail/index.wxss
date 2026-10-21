@@ -1,0 +1,7 @@
+.color-row { display: flex; gap: 20rpx; padding: 10rpx 0; }
+.color-option { width: 60rpx; height: 60rpx; border-radius: 12rpx; background: #69b888; border: 4rpx solid transparent; box-sizing: border-box; }
+.color-option.blue { background: #76a8d8; }
+.color-option.yellow { background: #d7aa5b; }
+.color-option.gray { background: #97a59b; }
+.color-option.active { border-color: #172c26; }
+.save-button { margin-top: 30rpx; }

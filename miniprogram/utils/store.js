@@ -10,7 +10,7 @@ const initial = () => {
   return {
     profile: { name: '演示账户', avatar: '' },
     demoSeedVersion: 2,
-    settings: { startHour: 8, endHour: 22, mode: 2, developerMode: false },
+    settings: { startHour: 8, endHour: 22, mode: 2, blockHeight: 0, blockFontSize: 1, labelLevel: 1, developerMode: false },
     palette: [
       { id: 'yoga', title: '瑜伽课', type: 'reserved', color: 'mint', parentId: '' },
       { id: 'yoga-student', title: '学员小王', type: 'reserved', color: 'mint', parentId: 'yoga' },

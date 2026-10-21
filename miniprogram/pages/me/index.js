@@ -1,7 +1,7 @@
 const store = require('../../utils/store')
 const { viewModel } = require('../../utils/service-format')
 Page({
-  data: { profile: {}, editing: false, nameInput: '', draftCount: 0, eventCount: 0, openCount: 0, orderCount: 0, buyCount: 0, listings: [], section: '', version: 'v0.8.0-mini', developerMode: false },
+  data: { profile: {}, editing: false, nameInput: '', draftCount: 0, eventCount: 0, openCount: 0, orderCount: 0, buyCount: 0, listings: [], section: '', version: 'v0.8.1-mini', developerMode: false },
   onShow() { this.getTabBar().setData({ selected: 4, developerMode: Boolean(store.read().settings.developerMode) }); this.refresh() },
   refresh() { const s = store.read(); this.setData({ profile: s.profile, avatarInitial: s.profile.name.slice(0, 1), nameInput: s.profile.name, draftCount: s.drafts.length, listings: s.drafts.map(item => viewModel(item, s.profile, true)).reverse(), eventCount: s.events.filter(e => e.type !== 'open').length, openCount: s.drafts.filter(item => item.status === 'published').reduce((sum, item) => sum + (item.windows || []).length, 0), orderCount: (s.orders || []).filter(item => item.status === 'confirmed').length, buyCount: (s.orders || []).length, developerMode: Boolean(s.settings.developerMode) }) },
   edit() { this.setData({ editing: true }) },

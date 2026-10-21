@@ -1,7 +1,7 @@
 const samples = require('../../utils/showcase')
 const store = require('../../utils/store')
 Page({
-  data: { categories: ['全部','知识付费','跑腿代办','职业技能','情绪价值'], category: '全部', list: [], developerMode: false, version: 'v0.8.0-mini' },
+  data: { categories: ['全部','知识付费','跑腿代办','职业技能','情绪价值'], category: '全部', list: [], developerMode: false, version: 'v0.8.1-mini' },
   onShow() { this.getTabBar().setData({ selected: 0, developerMode: Boolean(store.read().settings.developerMode) }); this.filter() },
   filter() {
     const state = store.read()

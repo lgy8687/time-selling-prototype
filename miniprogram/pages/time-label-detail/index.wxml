@@ -1,0 +1,14 @@
+<view class="page" data-b="B239">
+  <dev-badge wx:if="{{developerMode}}" code="B239" />
+  <view class="title">{{id ? '编辑标签' : '新增标签'}}</view>
+  <view class="card" data-b="B242">
+    <dev-badge wx:if="{{developerMode}}" code="B242" />
+    <text class="field-label">名称</text>
+    <input class="input" value="{{title}}" maxlength="20" data-z="Z242-1" bindinput="editTitle" placeholder="例如：瑜伽课、小王" />
+    <text class="field-label">颜色</text>
+    <view class="color-row">
+      <view wx:for="{{colors}}" wx:key="*this" class="color-option {{item}} {{color === item ? 'active' : ''}}" data-color="{{item}}" data-z="Z242-2" bindtap="chooseColor"></view>
+    </view>
+  </view>
+  <button class="btn save-button" data-z="Z239-1" bindtap="save">保存标签</button>
+</view>

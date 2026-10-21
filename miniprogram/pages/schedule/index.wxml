@@ -1,38 +1,79 @@
-<view class="page schedule-page" data-b="B201"><dev-badge wx:if="{{developerMode}}" code="B201" />
-  <view class="row page-head"><view><view class="title">时间表</view><view class="subtitle">私人记录与售卖预约，共用一张时间表</view></view><view class="settings-link" data-z="Z201-1" bindtap="goSettings">设置</view></view>
-  <view class="calendar-stage"><view class="sticky-calendar">
-    <view class="card toolbar" data-b="B220">
-      <view class="row"><text class="date-label" data-z="Z220-1" bindtap="goToday">{{monthLabel}}</text><dev-badge wx:if="{{developerMode}}" code="B220" /></view>
-      <view class="view-switch"><text class="{{layout === 'agenda' ? 'selected' : ''}}" data-layout="agenda" data-z="Z220-2" bindtap="setLayout">日历＋安排</text><text class="{{layout === 'blocks' ? 'selected' : ''}}" data-layout="blocks" data-z="Z220-3" bindtap="setLayout">日历＋时间块</text></view>
+<view class="page schedule-page" data-b="B201">
+  <view class="toolbar" style="padding-top:{{navTop}}px;padding-right:{{navRight}}px;min-height:{{navHeight}}px" data-b="B220">
+    <view class="month-label" data-z="Z220-1" bindtap="goToday">{{monthLabel}}</view>
+    <view class="layout-icons">
+      <view class="icon-button {{layout === 'agenda' ? 'active' : ''}}" data-layout="agenda" data-z="Z220-2" aria-label="日历与安排" bindtap="setLayout">☷</view>
+      <view class="icon-button {{layout === 'blocks' ? 'active' : ''}}" data-layout="blocks" data-z="Z220-3" aria-label="日历与时间块" bindtap="setLayout">▦</view>
     </view>
-    <view class="card month-calendar" data-b="B203" data-z="Z203-2" bindtouchstart="calendarTouchStart" bindtouchend="calendarTouchEnd">
-      <dev-badge wx:if="{{developerMode && collapseProgress < 0.98}}" code="B203" />
-      <view wx:if="{{collapseProgress >= 0.98}}" data-b="B202"><dev-badge wx:if="{{developerMode}}" code="B202" /></view>
-      <view class="weekday-head"><text wx:for="{{weekdays}}" wx:key="*this">{{item}}</text></view>
-      <view class="month-viewport" style="height:{{calendarHeightRpx}}rpx"><view class="month-grid" style="transform:translateY(-{{monthOffsetRpx}}rpx)"><view wx:for="{{month}}" wx:key="date" class="month-day {{item.active ? '' : 'outside'}} {{item.selected ? 'current' : ''}}" data-date="{{item.date}}" data-z="Z203-1" bindtap="chooseDate"><text class="day-number">{{item.day}}</text><view wx:for="{{item.chips}}" wx:for-item="chip" wx:key="id" class="event-chip {{chip.type}}">{{chip.title}}</view><text wx:if="{{item.extra}}" class="extra">+{{item.extra}}</text></view></view></view>
+    <dev-badge wx:if="{{developerMode}}" code="B201" />
+    <dev-badge wx:if="{{developerMode}}" code="B220" />
+  </view>
+  <view class="month-calendar" data-b="B203" data-z="Z203-2" bindtouchstart="calendarTouchStart" bindtouchend="calendarTouchEnd">
+    <dev-badge wx:if="{{developerMode && collapseProgress < 0.98}}" code="B203" />
+    <view wx:if="{{collapseProgress >= 0.98}}" data-b="B202"><dev-badge wx:if="{{developerMode}}" code="B202" /></view>
+    <view class="weekday-head"><text wx:for="{{weekdays}}" wx:key="*this">{{item}}</text></view>
+    <view class="month-viewport" style="height:{{calendarHeightRpx}}rpx">
+      <view class="month-grid" style="transform:translateY(-{{monthOffsetRpx}}rpx)">
+        <view wx:for="{{month}}" wx:key="date" class="month-day {{item.active ? '' : 'outside'}} {{item.selected ? 'current' : ''}}" data-date="{{item.date}}" data-z="Z203-1" bindtap="chooseDate">
+          <text class="day-number">{{item.day}}</text>
+          <view wx:for="{{item.chips}}" wx:for-item="chip" wx:key="id" class="event-chip {{chip.type}}">{{chip.title}}</view>
+          <text wx:if="{{item.extra}}" class="extra">+{{item.extra}}</text>
+        </view>
+      </view>
     </view>
   </view>
-  <scroll-view scroll-y enhanced show-scrollbar="false" class="schedule-scroll" bindscroll="onAgendaScroll"><view class="schedule-flow">
-  <view wx:if="{{layout === 'agenda'}}" class="card agenda" data-b="B212"><dev-badge wx:if="{{developerMode}}" code="B212" /><view class="row"><view><view class="section-title">{{dateLabel}}的安排</view><view class="subtitle">{{eventCount}} 项安排</view></view><view class="pill" data-z="Z212-1" bindtap="addEvent">＋ 添加</view></view>
-    <view wx:if="{{!agenda.length}}" class="agenda-empty">这一天还没有安排。点“添加”后选择时间格与右侧标签。</view>
-    <view wx:for="{{agenda}}" wx:key="id" class="agenda-row {{item.type}}" data-eventid="{{item.id}}" data-z="Z212-2" bindtap="openAgenda"><text class="agenda-time">{{item.range}}</text><view class="agenda-detail"><text class="agenda-name">{{item.title}}</text><text class="agenda-type">{{item.typeLabel}}</text></view><text class="agenda-arrow">›</text></view>
-    
+  <view wx:if="{{layout === 'agenda'}}" class="agenda" data-b="B212">
+    <dev-badge wx:if="{{developerMode}}" code="B212" />
+    <scroll-view scroll-y enhanced show-scrollbar="false" class="agenda-scroll" bindscroll="onContentScroll" bindtouchstart="collapseTouchStart" bindtouchmove="collapseTouchMove" bindtouchend="collapseTouchEnd">
+      <view wx:if="{{!agenda.length}}" class="agenda-empty" data-b="B234">当天没有安排<dev-badge wx:if="{{developerMode}}" code="B234" /></view>
+      <view wx:for="{{agenda}}" wx:key="id" class="agenda-row {{item.type}}" data-b="B233" data-eventid="{{item.id}}" data-z="Z233-1" bindtap="openAgenda">
+        <text class="agenda-time">{{item.range}}</text>
+        <text class="agenda-name">{{item.title}}</text>
+        <text class="agenda-arrow">›</text>
+        <dev-badge wx:if="{{developerMode}}" code="B233" />
+      </view>
+    </scroll-view>
   </view>
-  <view wx:if="{{layout === 'blocks'}}" class="card calendar {{fullscreen ? 'fullscreen' : ''}}" data-b="B204">
-    <dev-badge wx:if="{{developerMode}}" code="B204" /><view wx:if="{{fullscreen}}" data-b="B222"><dev-badge wx:if="{{developerMode}}" code="B222" /></view><view class="row"><view><view class="section-title">{{dateLabel}}</view><view class="small muted">{{modeLabel}} · 当日 {{eventCount}} 项</view></view><view class="block-actions"><text class="pill" data-z="Z204-4" bindtap="goStats">统计</text><text class="pill" data-z="Z204-5" bindtap="toggleFullscreen">{{fullscreen ? '↙ 还原' : '⛶ 全屏'}}</text></view></view>
-    <view class="legend"><text>● 已安排</text><text>● 私人占用</text><text>● 待确认预约</text></view>
-    <view class="selection-slot"><view wx:if="{{selectedLabel}}" class="selection-bar" data-b="B213"><view class="selection-details"><text>已选 {{selectedLabel}}</text><text wx:if="{{selectionHint}}" class="selection-hint">再点单格或选区两端可取消</text></view><dev-badge wx:if="{{developerMode}}" code="B213" /></view><view wx:else class="selection-placeholder" data-b="B214">点时间格选择连续时段，再点右侧标签<dev-badge wx:if="{{developerMode}}" code="B214" /></view></view>
+  <view wx:else class="calendar {{fullscreen ? 'fullscreen' : ''}}" data-b="B204">
+    <view class="block-toolbar">
+      <view class="tool-icon" data-z="Z204-1" aria-label="切换每小时分格" bindtap="cycleMode">{{settings.mode === 2 ? '▥' : settings.mode === 3 ? '▦' : '▧'}}</view>
+      <view class="tool-icon" data-z="Z204-6" aria-label="展开或还原时间格" bindtap="togglePalette">{{paletteHidden ? '⇤' : '⇥'}}</view>
+      <view class="tool-icon" data-z="Z204-7" aria-label="调整时间格高度" bindtap="cycleHeight">↕</view>
+      <view class="tool-icon" data-z="Z204-4" aria-label="时间块统计" bindtap="goStats">▤</view>
+      <view class="tool-icon" data-z="Z204-5" aria-label="全屏或还原" bindtap="toggleFullscreen">{{fullscreen ? '↙' : '⛶'}}</view>
+      <view class="tool-icon" data-z="Z204-8" aria-label="时间块设置" bindtap="goSettings">⚙</view>
+      <dev-badge wx:if="{{developerMode}}" code="B204" />
+      <view wx:if="{{fullscreen}}" data-b="B222"><dev-badge wx:if="{{developerMode}}" code="B222" /></view>
+    </view>
     <view class="calendar-body {{paletteHidden ? 'wide' : ''}}" data-z="Z204-3" bindtouchstart="gridTouchStart" bindtouchmove="gridTouchMove" bindtouchend="gridTouchEnd">
-      <scroll-view scroll-y class="calendar-scroll">
-        <view wx:for="{{hourRows}}" wx:key="hourNumber" class="hour-row"><view class="hour">{{item.label}}</view><view class="hour-cells"><view wx:for="{{item.cells}}" wx:for-item="cell" wx:key="id" id="cell-{{cell.index}}" class="grid-cell {{cell.type}} {{cell.selected ? 'selected' : ''}}" style="flex:{{cell.flex}}" data-index="{{cell.index}}" data-z="Z204-2" bindtap="openSlot" bindlongpress="longPressSlot"><text wx:if="{{cell.title}}" class="cell-title">{{cell.title}}</text><text wx:elif="{{!cell.eventId}}" class="cell-plus">＋</text><text class="cell-time">{{cell.start}}</text></view></view></view>
+      <scroll-view scroll-y enhanced show-scrollbar="false" class="calendar-scroll" bindscroll="onContentScroll">
+        <view wx:for="{{hourRows}}" wx:key="hourNumber" class="hour-row" style="height:{{rowHeight}}rpx">
+          <view class="hour" style="font-size:{{blockFontSize}}rpx">{{item.label}}</view>
+          <view class="hour-cells">
+            <view wx:for="{{item.cells}}" wx:for-item="cell" wx:key="id" id="cell-{{cell.index}}" class="grid-cell {{cell.type}} {{cell.selected ? 'selected' : ''}}" style="flex:{{cell.flex}}" data-index="{{cell.index}}" data-z="Z204-2" bindtap="openSlot" bindlongpress="longPressSlot">
+              <text wx:if="{{cell.title}}" class="cell-title" style="font-size:{{blockFontSize}}rpx">{{cell.title}}</text>
+            </view>
+          </view>
+        </view>
       </scroll-view>
-      <view wx:if="{{!paletteHidden}}" class="palette" data-b="B205"><dev-badge wx:if="{{developerMode}}" code="B205" /><text class="palette-note">选时间格，再点标签</text><view class="palette-heading"><text wx:if="{{paletteParent}}" data-z="Z205-3" bindtap="paletteBack">‹ 返回</text><text>{{paletteTitle}}</text></view><view class="palette-items"><view wx:for="{{paletteRows}}" wx:key="id" class="palette-item {{item.color}}" data-id="{{item.id}}" data-z="Z205-2" bindtap="choosePalette">{{item.title}}</view></view><text class="small edit-link" data-z="Z205-1" bindtap="goSettings">编辑标签</text><dev-badge wx:if="{{developerMode}}" code="Z205-2" /></view>
+      <view wx:if="{{!paletteHidden}}" class="right-rail">
+        <view class="palette" data-b="B205">
+          <dev-badge wx:if="{{developerMode}}" code="B205" />
+          <view wx:for="{{paletteRows}}" wx:key="id" class="palette-item {{item.color}}" style="font-size:{{blockFontSize}}rpx">
+            <text class="palette-name" data-id="{{item.id}}" data-z="Z205-2" bindtap="choosePalette">{{item.title}}</text>
+            <text wx:if="{{item.hasChildren}}" class="palette-arrow" data-id="{{item.id}}" data-z="Z205-3" catchtap="openChildLabels">›</text>
+          </view>
+          <view class="more-labels" data-z="Z205-1" bindtap="goMoreLabels">更多标签</view>
+        </view>
+        <view class="operation-zone" data-b="B232">
+          <dev-badge wx:if="{{developerMode}}" code="B232" />
+          <view wx:if="{{selectedLabel}}" class="selection-note" data-b="B213">{{selectedLabel}}<dev-badge wx:if="{{developerMode}}" code="B213" /></view>
+          <view wx:if="{{selectionHint}}" class="selection-hint">长按可连续选择</view>
+          <view wx:if="{{selectedEventId}}" class="clear-record" data-z="Z232-1" bindtap="clearSelectedEvent">清除记录</view>
+          <view wx:if="{{undoEvent}}" class="undo-record" data-z="Z232-2" bindtap="undoClear">撤销清除</view>
+        </view>
+      </view>
+      <view wx:if="{{paletteHidden}}" class="wide-marker" data-b="B215"><dev-badge wx:if="{{developerMode}}" code="B215" /></view>
     </view>
-    <view wx:if="{{paletteHidden}}" class="grid-hint" data-b="B215">全宽时间格 · 左滑恢复标签<dev-badge wx:if="{{developerMode}}" code="B215" /></view><view wx:else class="grid-hint">在时间格右滑可放大</view>
   </view>
-  <view class="card" data-b="B219"><dev-badge wx:if="{{developerMode}}" code="B219" /><view class="row"><view><view class="section-title">时间块统计</view><view class="subtitle">按标签查看记录次数与时长</view></view><text class="edit-link" data-z="Z219-1" bindtap="goStats">查看</text></view></view>
-  <view class="scroll-runway"></view>
-  </view></scroll-view></view>
 </view>
-
-<view wx:if="{{editor && editing}}" class="overlay" data-b="B206"><view class="sheet"><view class="row"><view class="section-title">编辑时间 <dev-badge wx:if="{{developerMode}}" code="B206" /></view><text class="close" data-z="Z206-1" bindtap="closeEditor">×</text></view><view class="type-switch"><text class="{{form.type === 'reserved' ? 'on' : ''}}" data-type="reserved" data-z="Z206-2" bindtap="chooseType">已安排</text><text class="{{form.type === 'blocked' ? 'on' : ''}}" data-type="blocked" data-z="Z206-3" bindtap="chooseType">私人占用</text></view><text class="field-label">名称（可写学生或小组名字）</text><input class="input" value="{{form.title}}" data-field="title" data-z="Z206-5" bindinput="editField" maxlength="40"/><text class="field-label">日期</text><picker mode="date" value="{{form.date}}" data-field="date" data-z="Z206-6" bindchange="editField"><view class="picker">{{form.date}}</view></picker><view class="time-fields"><view><text class="field-label">开始</text><picker mode="time" value="{{form.start}}" data-field="start" data-z="Z206-7" bindchange="editField"><view class="picker">{{form.start}}</view></picker></view><view><text class="field-label">结束</text><picker mode="time" value="{{form.end}}" data-field="end" data-z="Z206-8" bindchange="editField"><view class="picker">{{form.end}}</view></picker></view></view><view wx:if="{{error}}" class="error" data-b="B211">{{error}}<dev-badge wx:if="{{developerMode}}" code="B211" /></view><view class="row sheet-actions"><view wx:if="{{editing}}" data-b="B210"><dev-badge wx:if="{{developerMode}}" code="B210" /><button class="btn warn" data-z="Z210-1" bindtap="deleteEvent">删除</button></view><button class="btn save" data-z="Z206-10" bindtap="saveEvent">保存时间</button></view></view></view>

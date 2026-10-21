@@ -1,5 +1,5 @@
 {
-  "version": "v0.8.0-mini",
+  "version": "v0.8.1-mini",
   "templates": {},
   "states": {
     "B100": {
@@ -7,7 +7,7 @@
       "template": null
     },
     "B201": {
-      "name": "时间表主视图",
+      "name": "无重复页头的时间表主视图",
       "template": null
     },
     "B202": {
@@ -19,48 +19,27 @@
       "template": null
     },
     "B204": {
-      "name": "日历下方时间块排列",
+      "name": "周历下方固定的时间块",
       "template": null
     },
     "B205": {
-      "name": "常用标签栏",
+      "name": "右侧常用标签区",
       "template": null
-    },
-    "B206": {
-      "name": "编辑时间面板",
-      "template": null
-    },
-    "B210": {
-      "name": "已安排时间的删除操作",
-      "template": null
-    },
-    "B211": {
-      "name": "时间编辑错误提示",
-      "template": null,
-      "repeatable": true
     },
     "B212": {
-      "name": "日历下方安排排列",
+      "name": "精简安排列表",
       "template": null
     },
     "B213": {
-      "name": "连续时间格选中状态",
-      "template": null
-    },
-    "B214": {
-      "name": "尚未选择时间格的提示",
+      "name": "操作区内的选中提示",
       "template": null
     },
     "B215": {
       "name": "时间格全宽展示状态",
       "template": null
     },
-    "B219": {
-      "name": "可分享时间入口",
-      "template": null
-    },
     "B220": {
-      "name": "月份与排列切换",
+      "name": "月份与双图标排列切换",
       "template": null
     },
     "B222": {
@@ -338,11 +317,11 @@
       "template": null
     },
     "B703": {
-      "name": "时间表设置",
+      "name": "时间块显示设置",
       "template": null
     },
     "B704": {
-      "name": "常用标签设置",
+      "name": "常用标签管理入口",
       "template": null
     },
     "B705": {
@@ -353,17 +332,54 @@
       "name": "可复制的开发者编号",
       "template": null,
       "repeatable": true
+    },
+    "B232": {
+      "name": "时间块独立操作区",
+      "template": null
+    },
+    "B233": {
+      "name": "单条安排",
+      "template": null,
+      "repeatable": true
+    },
+    "B234": {
+      "name": "安排空状态",
+      "template": null
+    },
+    "B235": {
+      "name": "标签目录页",
+      "template": null
+    },
+    "B236": {
+      "name": "单条标签",
+      "template": null,
+      "repeatable": true
+    },
+    "B237": {
+      "name": "二级标签目录状态",
+      "template": null
+    },
+    "B238": {
+      "name": "标签修改状态",
+      "template": null
+    },
+    "B239": {
+      "name": "标签资料编辑页",
+      "template": null
+    },
+    "B241": {
+      "name": "标签目录空状态",
+      "template": null
+    },
+    "B242": {
+      "name": "标签基础资料区",
+      "template": null
     }
   },
   "controls": {
     "Z100-1": {
       "file": "custom-tab-bar/index.wxml",
       "parent": "B100"
-    },
-    "Z201-1": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B201",
-      "name": "时间表设置入口"
     },
     "Z203-1": {
       "file": "pages/schedule/index.wxml",
@@ -388,78 +404,27 @@
     "Z204-4": {
       "file": "pages/schedule/index.wxml",
       "parent": "B204",
-      "name": "Z204-4 交互"
+      "name": "打开时间块统计"
     },
     "Z204-5": {
       "file": "pages/schedule/index.wxml",
       "parent": "B204",
-      "name": "Z204-5 交互"
+      "name": "全屏或还原时间块"
     },
     "Z205-1": {
       "file": "pages/schedule/index.wxml",
       "parent": "B205",
-      "name": "编辑常用标签"
+      "name": "打开更多标签目录"
     },
     "Z205-2": {
       "file": "pages/schedule/index.wxml",
       "parent": "B205",
-      "name": "把标签用于所选时间"
+      "name": "把标签用于选中的时间"
     },
     "Z205-3": {
       "file": "pages/schedule/index.wxml",
       "parent": "B205",
-      "name": "Z205-3 交互"
-    },
-    "Z206-1": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B206"
-    },
-    "Z206-2": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B206"
-    },
-    "Z206-3": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B206"
-    },
-    "Z206-5": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B206"
-    },
-    "Z206-6": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B206"
-    },
-    "Z206-7": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B206"
-    },
-    "Z206-8": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B206"
-    },
-    "Z206-10": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B206"
-    },
-    "Z210-1": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B210"
-    },
-    "Z212-1": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B212",
-      "name": "列表新增安排"
-    },
-    "Z212-2": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B212",
-      "name": "打开列表安排"
-    },
-    "Z219-1": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B219",
-      "name": "查看可分享时间"
+      "name": "进入二级标签目录"
     },
     "Z220-1": {
       "file": "pages/schedule/index.wxml",
@@ -1080,45 +1045,115 @@
       "parent": "B703",
       "name": "Z703-5 交互"
     },
-    "Z704-1": {
-      "file": "pages/time-settings/index.wxml",
-      "parent": "B704",
-      "name": "Z704-1 交互"
-    },
-    "Z704-2": {
-      "file": "pages/time-settings/index.wxml",
-      "parent": "B704",
-      "name": "Z704-2 交互"
-    },
-    "Z704-3": {
-      "file": "pages/time-settings/index.wxml",
-      "parent": "B704",
-      "name": "Z704-3 交互"
-    },
-    "Z704-4": {
-      "file": "pages/time-settings/index.wxml",
-      "parent": "B704",
-      "name": "Z704-4 交互"
-    },
-    "Z704-5": {
-      "file": "pages/time-settings/index.wxml",
-      "parent": "B704",
-      "name": "Z704-5 交互"
-    },
-    "Z704-6": {
-      "file": "pages/time-settings/index.wxml",
-      "parent": "B704",
-      "name": "Z704-6 交互"
-    },
-    "Z704-7": {
-      "file": "pages/time-settings/index.wxml",
-      "parent": "B704",
-      "name": "Z704-7 交互"
-    },
     "Z900-1": {
       "file": "components/dev-badge/index.wxml",
       "parent": "B900",
       "name": "复制界面编号"
+    },
+    "Z204-1": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B204",
+      "name": "循环切换每小时分格"
+    },
+    "Z204-6": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B204",
+      "name": "展开或还原左侧时间格"
+    },
+    "Z204-7": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B204",
+      "name": "循环切换格子高度"
+    },
+    "Z204-8": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B204",
+      "name": "时间块设置"
+    },
+    "Z232-1": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B232",
+      "name": "清除选中的私人记录"
+    },
+    "Z232-2": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B232",
+      "name": "撤销清除记录"
+    },
+    "Z233-1": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B233",
+      "name": "从安排列表打开记录"
+    },
+    "Z235-1": {
+      "file": "pages/time-labels/index.wxml",
+      "parent": "B235",
+      "name": "新增标签"
+    },
+    "Z235-2": {
+      "file": "pages/time-labels/index.wxml",
+      "parent": "B235",
+      "name": "切换标签修改状态"
+    },
+    "Z236-1": {
+      "file": "pages/time-labels/index.wxml",
+      "parent": "B236",
+      "name": "选用或编辑标签"
+    },
+    "Z236-2": {
+      "file": "pages/time-labels/index.wxml",
+      "parent": "B236",
+      "name": "切换右侧常用星号"
+    },
+    "Z236-3": {
+      "file": "pages/time-labels/index.wxml",
+      "parent": "B236",
+      "name": "进入二级标签目录"
+    },
+    "Z239-1": {
+      "file": "pages/time-label-detail/index.wxml",
+      "parent": "B239",
+      "name": "保存标签"
+    },
+    "Z242-1": {
+      "file": "pages/time-label-detail/index.wxml",
+      "parent": "B242",
+      "name": "编辑标签名称"
+    },
+    "Z242-2": {
+      "file": "pages/time-label-detail/index.wxml",
+      "parent": "B242",
+      "name": "选择标签颜色"
+    },
+    "Z704-8": {
+      "file": "pages/time-settings/index.wxml",
+      "parent": "B704",
+      "name": "进入常用标签目录"
+    },
+    "Z703-6": {
+      "file": "pages/time-settings/index.wxml",
+      "parent": "B703",
+      "name": "时间块字号或标签显示层级"
+    },
+    "Z703-7": {
+      "file": "pages/time-settings/index.wxml",
+      "parent": "B703",
+      "name": "时间块字号或标签显示层级"
+    },
+    "Z703-8": {
+      "file": "pages/time-settings/index.wxml",
+      "parent": "B703",
+      "name": "时间块字号或标签显示层级"
+    },
+    "Z703-9": {
+      "file": "pages/time-settings/index.wxml",
+      "parent": "B703",
+      "name": "时间块字号或标签显示层级"
+    },
+    "Z703-10": {
+      "file": "pages/time-settings/index.wxml",
+      "parent": "B703",
+      "name": "时间块字号或标签显示层级"
     }
   },
   "note": "B 为可见页面、弹层与功能区边框；Z 为区内操作。每个功能区在开发者模式显示可点选复制的编号。退役编码不得复用。",
@@ -1190,6 +1225,31 @@
     "Z417-4": "pages/publish/index.wxml",
     "Z417-5": "pages/publish/index.wxml",
     "Z417-6": "pages/publish/index.wxml",
-    "Z417-7": "pages/publish/index.wxml"
+    "Z417-7": "pages/publish/index.wxml",
+    "B206": "旧时间编辑、重复提示或统计卡片，已移除",
+    "B210": "旧时间编辑、重复提示或统计卡片，已移除",
+    "B211": "旧时间编辑、重复提示或统计卡片，已移除",
+    "B214": "旧时间编辑、重复提示或统计卡片，已移除",
+    "B219": "旧时间编辑、重复提示或统计卡片，已移除",
+    "Z201-1": "旧时间编辑或重复入口，已移除",
+    "Z206-1": "旧时间编辑或重复入口，已移除",
+    "Z206-2": "旧时间编辑或重复入口，已移除",
+    "Z206-3": "旧时间编辑或重复入口，已移除",
+    "Z206-5": "旧时间编辑或重复入口，已移除",
+    "Z206-6": "旧时间编辑或重复入口，已移除",
+    "Z206-7": "旧时间编辑或重复入口，已移除",
+    "Z206-8": "旧时间编辑或重复入口，已移除",
+    "Z206-10": "旧时间编辑或重复入口，已移除",
+    "Z210-1": "旧时间编辑或重复入口，已移除",
+    "Z212-1": "旧时间编辑或重复入口，已移除",
+    "Z212-2": "旧时间编辑或重复入口，已移除",
+    "Z219-1": "旧时间编辑或重复入口，已移除",
+    "Z704-1": "旧时间编辑或重复入口，已移除",
+    "Z704-2": "旧时间编辑或重复入口，已移除",
+    "Z704-3": "旧时间编辑或重复入口，已移除",
+    "Z704-4": "旧时间编辑或重复入口，已移除",
+    "Z704-5": "旧时间编辑或重复入口，已移除",
+    "Z704-6": "旧时间编辑或重复入口，已移除",
+    "Z704-7": "旧时间编辑或重复入口，已移除"
   }
 }
