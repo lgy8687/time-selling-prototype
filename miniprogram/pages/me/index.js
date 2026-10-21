@@ -1,8 +1,9 @@
 const store = require('../../utils/store')
+const { viewModel } = require('../../utils/service-format')
 Page({
-  data: { profile: {}, editing: false, nameInput: '', draftCount: 0, eventCount: 0, openCount: 0, section: '', version: 'v0.4.0-mini', developerMode: false },
+  data: { profile: {}, editing: false, nameInput: '', draftCount: 0, eventCount: 0, openCount: 0, listings: [], section: '', version: 'v0.5.0-mini', developerMode: false },
   onShow() { this.getTabBar().setData({ selected: 4, developerMode: Boolean(store.read().settings.developerMode) }); this.refresh() },
-  refresh() { const s = store.read(); this.setData({ profile: s.profile, avatarInitial: s.profile.name.slice(0, 1), nameInput: s.profile.name, draftCount: s.drafts.length, eventCount: s.events.length, openCount: s.events.filter(e => store.available(s.events,e)).length, developerMode: Boolean(s.settings.developerMode) }) },
+  refresh() { const s = store.read(); this.setData({ profile: s.profile, avatarInitial: s.profile.name.slice(0, 1), nameInput: s.profile.name, draftCount: s.drafts.length, listings: s.drafts.map(item => viewModel(item, s.profile, true)).reverse(), eventCount: s.events.length, openCount: s.events.filter(e => store.available(s.events,e)).length, developerMode: Boolean(s.settings.developerMode) }) },
   edit() { this.setData({ editing: true }) },
   closeEdit() { this.setData({ editing: false }) },
   inputName(e) { this.setData({ nameInput: e.detail.value }) },
@@ -22,6 +23,7 @@ Page({
   openSection(e) { this.setData({ section: e.currentTarget.dataset.section }) },
   goSettings() { wx.navigateTo({ url: '/pages/settings/index' }) },
   closeSection() { this.setData({ section: '' }) },
+  openListing(e) { wx.navigateTo({ url: `/pages/service/index?id=${e.currentTarget.dataset.id}` }) },
   goSchedule() { wx.switchTab({ url: '/pages/schedule/index' }) },
-  goPublish() { wx.switchTab({ url: '/pages/publish/index' }) }
+  goPublish() { this.setData({ section: '' }); wx.switchTab({ url: '/pages/publish/index' }) }
 })

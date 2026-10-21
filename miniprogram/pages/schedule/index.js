@@ -97,6 +97,11 @@ Page({
   openExisting(id) {
     const state = store.read()
     const old = state.events.find(item => item.id === id)
+    if (old && old.serviceId) {
+      getApp().globalData.editServiceId = old.serviceId
+      wx.switchTab({ url: '/pages/publish/index' })
+      return
+    }
     if (old) this.setData({ form: { ...old }, editing: true, editor: true, error: '' })
   },
   openAgenda(e) { this.openExisting(e.currentTarget.dataset.eventid) },

@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/hall/index",
+    "pages/service/index",
     "pages/schedule/index",
     "pages/publish/index",
     "pages/messages/index",

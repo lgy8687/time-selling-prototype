@@ -21,7 +21,7 @@ const seenZ = new Set()
 for (const file of files) {
   const source = readFileSync(file, 'utf8')
   const name = relative(root, file)
-  for (const tag of source.match(/<[^>]+>/g) || []) {
+  for (const tag of source.match(/<(?:(?:"[^"]*")|(?:'[^']*')|[^'">])*>/g) || []) {
     const b = tag.match(/data-b="(B\d+)"/)?.[1]
     const z = tag.match(/data-z="(Z\d+-\d+)"/)?.[1]
     if (b) {

@@ -1,0 +1,24 @@
+.service-page { padding-bottom: 220rpx; }
+.service-hero { padding: 12rpx 3rpx 0; }
+.service-hero .title { margin: 23rpx 0 19rpx; }
+.host-line { display: flex; align-items: center; gap: 15rpx; font-size: 26rpx; }
+.host-avatar { display: flex; align-items: center; justify-content: center; width: 69rpx; height: 69rpx; border-radius: 20rpx; background: #dcecc6; font-size: 27rpx; font-weight: 700; }
+.price-card { background: #fbfdf8; }
+.price { color: #b47736; font-size: 46rpx; font-weight: 700; }
+.body-text { line-height: 1.7; white-space: pre-wrap; margin-top: 20rpx; }
+.resume-detail { display: flex; gap: 14rpx; align-items: flex-start; margin-top: 18rpx; line-height: 1.5; }
+.resume-number { flex-shrink: 0; display: flex; width: 32rpx; height: 32rpx; align-items: center; justify-content: center; border-radius: 50%; background: #e8f3ea; color: #236e53; font-size: 19rpx; }
+.info-row { display: flex; justify-content: space-between; gap: 22rpx; padding: 20rpx 0; border-bottom: 1rpx solid #edf0ed; font-size: 24rpx; }
+.info-row text:first-child { color: #6e8178; flex-shrink: 0; }
+.info-row text:last-child { text-align: right; }
+.window-detail,.choose-window { display: flex; justify-content: space-between; gap: 12rpx; padding: 20rpx 0; border-bottom: 1rpx solid #edf0ed; font-size: 23rpx; }
+.ok,.choose-window text:last-child { color: #236e53; }
+.unavailable,.choose-window.disabled { color: #9ca9a0; }
+.empty { color: #8a9a90; padding: 20rpx 0; }
+.final-note { margin-top: 24rpx; }
+.owner-actions { display: flex; gap: 12rpx; position: fixed; bottom: 0; left: 0; right: 0; box-sizing: border-box; padding: 16rpx 26rpx calc(18rpx + env(safe-area-inset-bottom)); background: #fff; box-shadow: 0 -5rpx 20rpx rgba(25,58,43,.07); }
+.owner-actions .btn { flex: 1; font-size: 24rpx; padding: 18rpx 12rpx; }
+.overlay { position: fixed; inset: 0; background: rgba(11,31,23,.4); display: flex; align-items: flex-end; z-index: 20; }
+.sheet { box-sizing: border-box; width: 100%; max-height: 75vh; overflow-y: auto; background: #fff; border-radius: 32rpx 32rpx 0 0; padding: 30rpx 28rpx calc(35rpx + env(safe-area-inset-bottom)); }
+.close { color: #6e8178; font-size: 48rpx; padding: 0 10rpx; }
+.sheet .notice { margin-top: 25rpx; }

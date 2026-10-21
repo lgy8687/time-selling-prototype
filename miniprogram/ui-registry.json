@@ -1,5 +1,5 @@
 {
-  "version": "v0.4.0-mini",
+  "version": "v0.5.0-mini",
   "templates": {},
   "states": {
     "B100": {
@@ -47,12 +47,8 @@
       "name": "大厅列表",
       "template": null
     },
-    "B302": {
-      "name": "服务详情面板",
-      "template": null
-    },
     "B401": {
-      "name": "发布草稿",
+      "name": "发布入口与类型选择",
       "template": null
     },
     "B402": {
@@ -76,7 +72,7 @@
       "template": null
     },
     "B605": {
-      "name": "我发布的详情",
+      "name": "我的发布列表面板",
       "template": null
     },
     "B606": {
@@ -133,15 +129,15 @@
       "repeatable": true
     },
     "B403": {
-      "name": "服务草稿表单",
+      "name": "经验分享或帮人办事发布表单",
       "template": null
     },
     "B404": {
-      "name": "可关联开放时间",
+      "name": "发布页时间与价格区",
       "template": null
     },
     "B405": {
-      "name": "我的草稿列表",
+      "name": "发布页我的发布列表",
       "template": null
     },
     "B502": {
@@ -187,6 +183,59 @@
     },
     "B221": {
       "name": "新增常用标签面板",
+      "template": null
+    },
+    "B406": {
+      "name": "发布类型选择卡片",
+      "template": null
+    },
+    "B407": {
+      "name": "服务内容或履历模板选择面板",
+      "template": null
+    },
+    "B408": {
+      "name": "保存自定义模板命名面板",
+      "template": null
+    },
+    "B409": {
+      "name": "发布页时间块选择面板",
+      "template": null
+    },
+    "B412": {
+      "name": "单条履历编辑行",
+      "template": null,
+      "repeatable": true
+    },
+    "B413": {
+      "name": "线下场地选择状态",
+      "template": null
+    },
+    "B414": {
+      "name": "开团人数设置状态",
+      "template": null
+    },
+    "B415": {
+      "name": "多地点指定状态",
+      "template": null
+    },
+    "B307": {
+      "name": "买卖双方共用服务详情页",
+      "template": null
+    },
+    "B308": {
+      "name": "服务详情履历列表",
+      "template": null
+    },
+    "B309": {
+      "name": "发布者详情管理操作",
+      "template": null
+    },
+    "B310": {
+      "name": "买家时间选择预览面板",
+      "template": null
+    },
+    "B311": {
+      "name": "服务不存在状态",
       "template": null
     }
   },
@@ -269,42 +318,6 @@
       "file": "pages/schedule/index.wxml",
       "parent": "B209"
     },
-    "Z401-1": {
-      "file": "pages/publish/index.wxml",
-      "parent": "B401"
-    },
-    "Z401-2": {
-      "file": "pages/publish/index.wxml",
-      "parent": "B401"
-    },
-    "Z401-3": {
-      "file": "pages/publish/index.wxml",
-      "parent": "B401"
-    },
-    "Z401-4": {
-      "file": "pages/publish/index.wxml",
-      "parent": "B401"
-    },
-    "Z401-5": {
-      "file": "pages/publish/index.wxml",
-      "parent": "B401"
-    },
-    "Z401-6": {
-      "file": "pages/publish/index.wxml",
-      "parent": "B401"
-    },
-    "Z401-7": {
-      "file": "pages/publish/index.wxml",
-      "parent": "B401"
-    },
-    "Z401-8": {
-      "file": "pages/publish/index.wxml",
-      "parent": "B401"
-    },
-    "Z401-9": {
-      "file": "pages/publish/index.wxml",
-      "parent": "B401"
-    },
     "Z601-1": {
       "file": "pages/me/index.wxml",
       "parent": "B601"
@@ -381,14 +394,6 @@
     "Z301-2": {
       "file": "pages/hall/index.wxml",
       "parent": "B301"
-    },
-    "Z302-1": {
-      "file": "pages/hall/index.wxml",
-      "parent": "B302"
-    },
-    "Z302-2": {
-      "file": "pages/hall/index.wxml",
-      "parent": "B302"
     },
     "Z204-3": {
       "file": "pages/schedule/index.wxml",
@@ -544,9 +549,299 @@
       "file": "pages/schedule/index.wxml",
       "parent": "B221",
       "name": "取消新增标签"
+    },
+    "Z405-1": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B405",
+      "name": "打开我发布的服务详情"
+    },
+    "Z405-2": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B405",
+      "name": "编辑已保存的服务"
+    },
+    "Z406-1": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B406",
+      "name": "选择经验分享"
+    },
+    "Z406-2": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B406",
+      "name": "选择帮人办事"
+    },
+    "Z403-1": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B403",
+      "name": "返回发布类型选择"
+    },
+    "Z403-2": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B403",
+      "name": "填写服务名称"
+    },
+    "Z403-3": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B403",
+      "name": "选择经验分享类别"
+    },
+    "Z403-4": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B403",
+      "name": "选择服务内容模板"
+    },
+    "Z403-5": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B403",
+      "name": "填写我能提供什么"
+    },
+    "Z403-6": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B403",
+      "name": "选择履历模板"
+    },
+    "Z403-7": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B403",
+      "name": "增加履历"
+    },
+    "Z403-8": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B403",
+      "name": "选择线上交流"
+    },
+    "Z403-9": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B403",
+      "name": "选择线下交流"
+    },
+    "Z403-10": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B403",
+      "name": "选择一对一"
+    },
+    "Z403-11": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B403",
+      "name": "选择开团"
+    },
+    "Z403-12": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B403",
+      "name": "选择指定地点范围"
+    },
+    "Z403-13": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B403",
+      "name": "选择全城范围"
+    },
+    "Z403-14": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B403",
+      "name": "填写服务城市"
+    },
+    "Z403-15": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B403",
+      "name": "打开保存模板命名"
+    },
+    "Z403-16": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B403",
+      "name": "保存本机草稿"
+    },
+    "Z403-17": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B403",
+      "name": "本机发布并查看"
+    },
+    "Z403-18": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B403",
+      "name": "选用整套模板"
+    },
+    "Z404-1": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B404",
+      "name": "选择约定具体时段"
+    },
+    "Z404-2": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B404",
+      "name": "选择限期内完成"
+    },
+    "Z404-3": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B404",
+      "name": "移除已选时间"
+    },
+    "Z404-4": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B404",
+      "name": "打开发布页时间块"
+    },
+    "Z404-5": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B404",
+      "name": "填写每时段接单上限"
+    },
+    "Z404-6": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B404",
+      "name": "填写价格"
+    },
+    "Z404-7": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B404",
+      "name": "填写参考时长"
+    },
+    "Z404-8": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B404",
+      "name": "选择按次收费"
+    },
+    "Z404-9": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B404",
+      "name": "选择按小时收费"
+    },
+    "Z407-1": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B407",
+      "name": "关闭模板选择"
+    },
+    "Z407-2": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B407",
+      "name": "应用所选模板"
+    },
+    "Z408-1": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B408",
+      "name": "关闭模板命名"
+    },
+    "Z408-2": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B408",
+      "name": "填写模板名称"
+    },
+    "Z408-3": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B408",
+      "name": "保存自定义模板"
+    },
+    "Z409-1": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B409",
+      "name": "关闭时间块选择"
+    },
+    "Z409-2": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B409",
+      "name": "选择服务日期"
+    },
+    "Z409-3": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B409",
+      "name": "点选或长按时间块"
+    },
+    "Z409-4": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B409",
+      "name": "将选中时间加入发布"
+    },
+    "Z412-1": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B412",
+      "name": "编辑单条履历"
+    },
+    "Z412-2": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B412",
+      "name": "删除单条履历"
+    },
+    "Z413-1": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B413",
+      "name": "选择公共场所"
+    },
+    "Z414-1": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B414",
+      "name": "填写最低成团人数"
+    },
+    "Z414-2": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B414",
+      "name": "填写最多人数"
+    },
+    "Z415-1": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B415",
+      "name": "移除指定地点"
+    },
+    "Z415-2": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B415",
+      "name": "输入地点或小区"
+    },
+    "Z415-3": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B415",
+      "name": "增加指定地点"
+    },
+    "Z307-1": {
+      "file": "pages/service/index.wxml",
+      "parent": "B307",
+      "name": "买家打开选时间面板"
+    },
+    "Z309-1": {
+      "file": "pages/service/index.wxml",
+      "parent": "B309",
+      "name": "编辑自己的发布"
+    },
+    "Z309-2": {
+      "file": "pages/service/index.wxml",
+      "parent": "B309",
+      "name": "预览买家选时间"
+    },
+    "Z310-1": {
+      "file": "pages/service/index.wxml",
+      "parent": "B310",
+      "name": "关闭买家选时间面板"
+    },
+    "Z310-2": {
+      "file": "pages/service/index.wxml",
+      "parent": "B310",
+      "name": "选择买家可选时段"
+    },
+    "Z605-2": {
+      "file": "pages/me/index.wxml",
+      "parent": "B605",
+      "name": "打开我发布的共用详情页"
+    },
+    "Z405-3": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B405",
+      "name": "删除本机发布或草稿"
+    },
+    "Z413-2": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B413",
+      "name": "选择我提供场地"
+    },
+    "Z413-3": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B413",
+      "name": "选择双方协商"
+    },
+    "Z413-4": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B413",
+      "name": "选择指定地点"
     }
   },
-  "note": "B 为界面或可见状态，Z 为操作。B220 在同一日历下切换安排和时间块；B203 逐渐收放至 B202 当前周状态。开发者模式下点 B 编号复制，设置中可查全部 B/Z。",
+  "note": "B 为可见界面状态，Z 为操作；发布分经验分享与帮人办事，B307 为买卖双方共用详情。开发者模式可点编号复制。",
   "retired": {
     "B207": "时间表设置面板",
     "B208": "常用标签编辑面板",
@@ -570,6 +865,18 @@
     "Z201-7": "pages/schedule/index.wxml",
     "Z201-8": "pages/schedule/index.wxml",
     "Z201-9": "pages/schedule/index.wxml",
-    "Z202-1": "pages/schedule/index.wxml"
+    "Z202-1": "pages/schedule/index.wxml",
+    "B302": "原大厅服务详情弹层，改为 B307 共用详情页",
+    "Z401-1": "pages/publish/index.wxml",
+    "Z401-2": "pages/publish/index.wxml",
+    "Z401-3": "pages/publish/index.wxml",
+    "Z401-4": "pages/publish/index.wxml",
+    "Z401-5": "pages/publish/index.wxml",
+    "Z401-6": "pages/publish/index.wxml",
+    "Z401-7": "pages/publish/index.wxml",
+    "Z401-8": "pages/publish/index.wxml",
+    "Z401-9": "pages/publish/index.wxml",
+    "Z302-1": "pages/hall/index.wxml",
+    "Z302-2": "pages/hall/index.wxml"
   }
 }

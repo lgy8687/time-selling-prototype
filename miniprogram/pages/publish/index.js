@@ -1,23 +1,243 @@
 const store = require('../../utils/store')
-const { dateText } = require('../../utils/time')
+const { today, dateText, makeSlots, overlaps, minutes } = require('../../utils/time')
+const { templates, blankForm } = require('../../utils/service-templates')
+const { viewModel } = require('../../utils/service-format')
+
+const categories = ['职业经验', '技能教学', '开店经营', '内容创作', '专业咨询']
+const rowsFor = (slots, from, to) => {
+  const rows = []
+  slots.forEach((slot, index) => {
+    const hour = Math.floor(minutes(slot.start) / 60)
+    if (!rows.length || rows[rows.length - 1].hour !== hour) rows.push({ hour, label: `${String(hour).padStart(2, '0')}:00`, cells: [] })
+    rows[rows.length - 1].cells.push({ ...slot, index, selected: from >= 0 && index >= from && index <= to, busy: slot.type === 'reserved' || slot.type === 'blocked', flex: minutes(slot.end) - minutes(slot.start) })
+  })
+  return rows
+}
+
 Page({
-  data: { form: { name: '', category: '职业经验', description: '', price: '', duration: '60', mode: '线上交流' }, categories: ['技能教学','职业经验','开店经营','内容创作','专业咨询'], categoryIndex: 1, openSlots: [], drafts: [], error: '', developerMode: false },
-  onShow() { this.getTabBar().setData({ selected: 2, developerMode: Boolean(store.read().settings.developerMode) }); this.refresh() },
-  refresh() { const s = store.read(); this.setData({ openSlots: s.events.filter(e => store.available(s.events,e)).map(e => ({ ...e, label: `${dateText(e.date)} ${e.start}–${e.end}` })), drafts: s.drafts, developerMode: Boolean(s.settings.developerMode) }) },
-  field(e) { this.setData({ [`form.${e.currentTarget.dataset.field}`]: e.detail.value, error: '' }) },
-  category(e) { this.setData({ categoryIndex: Number(e.detail.value), 'form.category': this.data.categories[Number(e.detail.value)] }) },
-  save() {
-    const form = this.data.form
-    if (!form.name.trim()) return this.setData({ error: '请填写服务名称。' })
-    if (!form.description.trim()) return this.setData({ error: '请说明你能分享什么。' })
-    const price = Number(form.price)
-    if (!Number.isFinite(price) || price < 0 || price > 99999 || form.price === '') return this.setData({ error: '请输入 0 到 99999 元之间的价格。' })
-    const duration = Number(form.duration)
-    if (!Number.isInteger(duration) || duration < 15 || duration > 480) return this.setData({ error: '时长请输入 15 到 480 分钟。' })
-    const item = { ...form, name: form.name.trim(), description: form.description.trim(), price, duration, id: store.uid(), status: 'local' }
-    try { store.update(s => ({ ...s, drafts: [...s.drafts, item] })); this.setData({ form: { name: '', category: '职业经验', description: '', price: '', duration: '60', mode: '线上交流' }, error: '' }); this.refresh(); wx.showToast({ title: '已存为本机草稿', icon: 'success' }) }
-    catch (error) { this.setData({ error: '保存失败，请检查手机存储空间后重试。' }) }
+  data: {
+    kind: '', form: blankForm('experience'), editingId: '', developerMode: false, error: '',
+    categories, categoryIndex: 0, templates, ownTemplates: [], templatePanel: '', templateNameOpen: false, templateName: '',
+    locationInput: '', timePicker: false, pickerDate: today(), todayKey: today(), pickerRows: [], pickerSlots: [], pickerFrom: -1, pickerTo: -1,
+    rangeStart: -1, rangeEnd: -1, pickerSummary: '', listings: []
   },
-  goSchedule() { wx.switchTab({ url: '/pages/schedule/index' }) },
-  remove(e) { const id = e.currentTarget.dataset.id; wx.showModal({ title: '删除这份草稿？', success: r => { if (r.confirm) { store.update(s => ({ ...s, drafts: s.drafts.filter(d => d.id !== id) })); this.refresh() } } }) }
+  onLoad(options) {
+    if (options.kind === 'experience' || options.kind === 'errand') this.setData({ kind: options.kind, form: blankForm(options.kind) })
+  },
+  onShow() {
+    const state = store.read()
+    this.getTabBar().setData({ selected: 2, developerMode: Boolean(state.settings.developerMode) })
+    const editId = getApp().globalData.editServiceId
+    if (editId) {
+      getApp().globalData.editServiceId = ''
+      const item = state.drafts.find(x => x.id === editId)
+      if (item) this.loadItem(item)
+    }
+    this.refresh()
+  },
+  refresh() {
+    const state = store.read()
+    this.setData({
+      developerMode: Boolean(state.settings.developerMode),
+      listings: state.drafts.map(item => viewModel(item, state.profile, true)).reverse(),
+      ownTemplates: state.serviceTemplates || []
+    })
+  },
+  start(e) {
+    const kind = e.currentTarget.dataset.kind
+    this.setData({ kind, form: blankForm(kind), editingId: '', error: '', categoryIndex: 0 })
+    wx.pageScrollTo({ scrollTop: 0, duration: 0 })
+  },
+  back() { this.setData({ kind: '', editingId: '', error: '' }); wx.pageScrollTo({ scrollTop: 0, duration: 0 }) },
+  loadItem(item) {
+    const kind = item.kind || 'experience'
+    const form = {
+      ...blankForm(kind), ...item,
+      title: item.title || item.name || '', offer: item.offer || item.description || '',
+      resume: Array.isArray(item.resume) ? [...item.resume, '', '', ''].slice(0, Math.max(3, item.resume.length)) : ['', '', ''],
+      locations: Array.isArray(item.locations) ? item.locations : [],
+      windows: Array.isArray(item.windows) ? item.windows : []
+    }
+    this.setData({ kind, form, editingId: item.id, error: '', categoryIndex: Math.max(0, categories.indexOf(form.category)) })
+    wx.pageScrollTo({ scrollTop: 0, duration: 0 })
+  },
+  editFromList(e) {
+    const item = store.read().drafts.find(x => x.id === e.currentTarget.dataset.id)
+    if (item) this.loadItem(item)
+  },
+  previewFromList(e) { wx.navigateTo({ url: `/pages/service/index?id=${e.currentTarget.dataset.id}` }) },
+  removeFromList(e) {
+    const id = e.currentTarget.dataset.id
+    wx.showModal({ title: '删除这条发布？', content: '本机草稿或本机展示会删除，由它新增的开放时间也会移除。', success: result => {
+      if (!result.confirm) return
+      try {
+        store.update(state => ({ ...state, drafts: state.drafts.filter(item => item.id !== id), events: state.events.filter(event => event.serviceId !== id) }))
+        this.refresh()
+      } catch (error) { wx.showToast({ title: '删除失败', icon: 'none' }) }
+    } })
+  },
+  field(e) { this.setData({ [`form.${e.currentTarget.dataset.field}`]: e.detail.value, error: '' }) },
+  category(e) { const i = Number(e.detail.value); this.setData({ categoryIndex: i, 'form.category': categories[i] }) },
+  choose(e) { this.setData({ [`form.${e.currentTarget.dataset.field}`]: e.currentTarget.dataset.value, error: '' }) },
+  resumeInput(e) { this.setData({ [`form.resume[${e.currentTarget.dataset.index}]`]: e.detail.value, error: '' }) },
+  addResume() { this.setData({ 'form.resume': [...this.data.form.resume, ''] }) },
+  removeResume(e) {
+    if (this.data.form.resume.length <= 3) return wx.showToast({ title: '至少保留三条履历', icon: 'none' })
+    this.setData({ 'form.resume': this.data.form.resume.filter((_, i) => i !== Number(e.currentTarget.dataset.index)) })
+  },
+  locationInput(e) { this.setData({ locationInput: e.detail.value }) },
+  addLocation() {
+    const value = this.data.locationInput.trim()
+    if (!value) return wx.showToast({ title: '先输入地点或小区', icon: 'none' })
+    if (this.data.form.locations.includes(value)) return wx.showToast({ title: '地点已添加', icon: 'none' })
+    this.setData({ 'form.locations': [...this.data.form.locations, value], locationInput: '' })
+  },
+  removeLocation(e) { this.setData({ 'form.locations': this.data.form.locations.filter((_, i) => i !== Number(e.currentTarget.dataset.index)) }) },
+  openTemplates(e) { this.setData({ templatePanel: e.currentTarget.dataset.target }) },
+  closeTemplates() { this.setData({ templatePanel: '' }) },
+  applyTemplate(e) {
+    const template = [...templates, ...this.data.ownTemplates].find(x => x.id === e.currentTarget.dataset.id)
+    if (!template) return
+    const target = this.data.templatePanel
+    const patch = {}
+    if (target === 'offer' || target === 'whole') patch['form.offer'] = template.offer
+    if (target === 'resume' || target === 'whole') patch['form.resume'] = [...template.resume]
+    if (target === 'whole') {
+      patch['form.title'] = template.title
+      patch['form.category'] = template.category
+      patch['form.price'] = template.price || ''
+      patch['form.duration'] = template.duration || '60'
+      patch.categoryIndex = Math.max(0, categories.indexOf(template.category))
+    }
+    patch.templatePanel = ''
+    this.setData(patch)
+    wx.showToast({ title: '模板已填入，可继续修改', icon: 'none' })
+  },
+  openSaveTemplate() { this.setData({ templateNameOpen: true, templateName: '' }) },
+  closeSaveTemplate() { this.setData({ templateNameOpen: false }) },
+  templateNameInput(e) { this.setData({ templateName: e.detail.value }) },
+  saveTemplate() {
+    const name = this.data.templateName.trim()
+    if (!name) return wx.showToast({ title: '请填写模板名称', icon: 'none' })
+    const form = this.data.form
+    if (!form.offer.trim() || form.resume.filter(x => x.trim()).length < 3) return wx.showToast({ title: '先填写服务内容和三条履历', icon: 'none' })
+    const template = { id: store.uid(), name, kind: form.kind, title: form.title, category: form.category, offer: form.offer, resume: [...form.resume], price: form.price, duration: form.duration }
+    try {
+      store.update(state => ({ ...state, serviceTemplates: [...(state.serviceTemplates || []), template] }))
+      this.setData({ templateNameOpen: false, templateName: '' })
+      this.refresh()
+      wx.showToast({ title: '模板已保存', icon: 'success' })
+    } catch (error) { wx.showToast({ title: '模板保存失败', icon: 'none' }) }
+  },
+  openTimePicker() {
+    const date = this.data.form.windows[0]?.date || today()
+    this.setData({ timePicker: true, pickerDate: date, pickerFrom: -1, pickerTo: -1, rangeStart: -1, rangeEnd: -1, pickerSummary: '' })
+    this.refreshPicker(date, -1, -1)
+  },
+  closeTimePicker() { this.clearHold(); this.setData({ timePicker: false }) },
+  pickerDateChange(e) {
+    const date = e.detail.value
+    this.setData({ pickerDate: date, rangeStart: -1, rangeEnd: -1 })
+    this.refreshPicker(date, -1, -1)
+  },
+  refreshPicker(date, from, to) {
+    const state = store.read()
+    const slots = makeSlots(date, state.settings.startHour, state.settings.endHour, state.settings.mode, state.events.filter(x => x.serviceId !== this.data.editingId))
+    const summary = from >= 0 ? `${dateText(date)} ${slots[from].start}—${slots[to].end}` : ''
+    this.setData({ pickerSlots: slots, pickerRows: rowsFor(slots, from, to), pickerFrom: from, pickerTo: to, pickerSummary: summary })
+  },
+  selectPickerCell(e) {
+    if (this.heldCell) { this.heldCell = false; return }
+    const index = Number(e.currentTarget.dataset.index)
+    const slots = this.data.pickerSlots
+    if (slots[index]?.type === 'reserved' || slots[index]?.type === 'blocked') return wx.showToast({ title: '这段时间已占用', icon: 'none' })
+    let { pickerFrom: from, pickerTo: to } = this.data
+    if (from < 0) { from = index; to = index }
+    else if (from === to && index === from) { from = -1; to = -1 }
+    else if (index === from) from += 1
+    else if (index === to) to -= 1
+    else if (index === from - 1) from = index
+    else if (index === to + 1) to = index
+    else return wx.showToast({ title: '请连续选格；长按可定起止', icon: 'none' })
+    this.setData({ rangeStart: -1, rangeEnd: -1 })
+    this.refreshPicker(this.data.pickerDate, from, to)
+  },
+  holdStart(e) {
+    const index = Number(e.currentTarget.dataset.index)
+    this.clearHold()
+    this.heldCell = false
+    this.holdTimer = setTimeout(() => this.markRange(index), 2000)
+  },
+  holdEnd() { this.clearHold() },
+  clearHold() { if (this.holdTimer) clearTimeout(this.holdTimer); this.holdTimer = null },
+  markRange(index) {
+    const slots = this.data.pickerSlots
+    if (!slots[index] || ['reserved', 'blocked'].includes(slots[index].type)) return wx.showToast({ title: '已占用时间不能选', icon: 'none' })
+    this.heldCell = true
+    if (this.data.rangeStart < 0 || this.data.rangeEnd >= 0) {
+      this.setData({ rangeStart: index, rangeEnd: -1 })
+      this.refreshPicker(this.data.pickerDate, index, index)
+      wx.vibrateShort({ type: 'light' })
+      return
+    }
+    const from = Math.min(this.data.rangeStart, index), to = Math.max(this.data.rangeStart, index)
+    if (slots.slice(from, to + 1).some(x => x.type === 'reserved' || x.type === 'blocked')) return wx.showToast({ title: '区间内有已占用时间', icon: 'none' })
+    this.setData({ rangeStart: from, rangeEnd: to })
+    this.refreshPicker(this.data.pickerDate, from, to)
+    wx.vibrateShort({ type: 'light' })
+  },
+  addWindow() {
+    const { pickerFrom: from, pickerTo: to, pickerDate: date, pickerSlots: slots } = this.data
+    if (from < 0) return wx.showToast({ title: '先选择时间块', icon: 'none' })
+    const window = { id: store.uid(), date, start: slots[from].start, end: slots[to].end }
+    if (new Date(`${date}T${window.start}:00`).getTime() <= Date.now()) return wx.showToast({ title: '请选择未来的时间', icon: 'none' })
+    if (this.data.form.windows.some(w => overlaps(w, window))) return wx.showToast({ title: '已添加重叠的时间', icon: 'none' })
+    this.setData({ 'form.windows': [...this.data.form.windows, window], timePicker: false, error: '' })
+  },
+  removeWindow(e) { this.setData({ 'form.windows': this.data.form.windows.filter((_, i) => i !== Number(e.currentTarget.dataset.index)) }) },
+  saveDraft() { this.save('draft') },
+  publish() { this.save('published') },
+  save(status) {
+    const form = this.data.form
+    const title = form.title.trim()
+    const offer = form.offer.trim()
+    if (!title) return this.setData({ error: '请填写服务名称。' })
+    if (status === 'published') {
+      if (!offer) return this.setData({ error: '请填写“我能提供什么”。' })
+      if (form.resume.filter(x => x.trim()).length < 3) return this.setData({ error: '请填写至少三条履历。' })
+      if (form.resume.some(x => /【|】/.test(x))) return this.setData({ error: '请把履历模板里的待填写内容改成自己的真实经历。' })
+      if (!form.windows.length) return this.setData({ error: '请添加至少一段可服务时间。' })
+      if (form.windows.some(w => new Date(`${w.date}T${w.end}:00`).getTime() <= Date.now())) return this.setData({ error: '可服务时间已过期，请重新选择未来的时间。' })
+      if ((form.kind === 'errand' && form.scope === '指定地点' || form.kind === 'experience' && form.mode === '线下交流' && form.venue === '指定地点') && !form.locations.length) return this.setData({ error: '请添加至少一个服务地点。' })
+      if (form.kind === 'errand' && form.scope === '全城' && !form.city.trim()) return this.setData({ error: '请填写实际服务的城市。' })
+    }
+    const price = Number(form.price), duration = Number(form.duration)
+    if (status === 'published' && (!Number.isFinite(price) || price < 0 || price > 99999 || form.price === '')) return this.setData({ error: '价格请填 0—99999 元。' })
+    if (status === 'published' && (!Number.isInteger(duration) || duration < 15 || duration > 480)) return this.setData({ error: '时长请填 15—480 分钟。' })
+    const capacity = Number(form.capacity), minPeople = Number(form.minPeople), maxPeople = Number(form.maxPeople)
+    if (status === 'published' && form.kind === 'errand' && (!Number.isInteger(capacity) || capacity < 1 || capacity > 99)) return this.setData({ error: '每时段接单上限请填 1—99。' })
+    if (status === 'published' && form.kind === 'experience' && form.meeting === '开团' && (!Number.isInteger(minPeople) || !Number.isInteger(maxPeople) || minPeople < 3 || maxPeople < minPeople)) return this.setData({ error: '开团人数至少 3 人，最多人数不能低于成团人数。' })
+    const state = store.read()
+    const id = this.data.editingId || store.uid()
+    if (status === 'published') {
+      const busy = state.events.filter(e => e.type !== 'open' && e.serviceId !== id)
+      if (form.windows.some(w => busy.some(e => overlaps(w, e)))) return this.setData({ error: '所选时间与现有安排冲突，请重新选择。' })
+      const other = state.drafts.filter(x => x.id !== id && x.status === 'published')
+      if (form.windows.some(w => other.some(x => (x.windows || []).some(ow => overlaps(w, ow))))) return this.setData({ error: '所选时间已有另一项本机发布，请重新选择。' })
+    }
+    const item = {
+      ...form, id, title, offer, resume: form.resume.map(x => x.trim()).filter(Boolean),
+      locations: [...form.locations], windows: [...form.windows],
+      price: status === 'published' ? price : form.price, duration: status === 'published' ? duration : form.duration,
+      status, updatedAt: Date.now()
+    }
+    try {
+      const events = state.events.filter(e => e.serviceId !== id)
+      if (status === 'published') form.windows.forEach(w => events.push({ id: store.uid(), ...w, type: 'open', title, serviceId: id, source: 'publish' }))
+      store.write({ ...state, events, drafts: [...state.drafts.filter(x => x.id !== id), item] })
+      this.setData({ kind: '', editingId: '', error: '' })
+      this.refresh()
+      wx.navigateTo({ url: `/pages/service/index?id=${id}` })
+    } catch (error) { this.setData({ error: '保存失败，请检查手机存储空间后重试。' }) }
+  }
 })
