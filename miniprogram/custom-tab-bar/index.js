@@ -16,7 +16,14 @@ Component({
   methods: {
     switchTab(e) {
       const index = Number(e.currentTarget.dataset.index)
-      wx.switchTab({ url: this.data.list[index].path })
+      const target = this.data.list[index]
+      if (!target) return
+      if (index === 2) {
+        const current = getCurrentPages().slice(-1)[0]
+        if (current && current.route === 'pages/publish/index' && typeof current.openChooser === 'function') return current.openChooser()
+        getApp().globalData.openPublishChooser = true
+      }
+      wx.switchTab({ url: target.path, fail: () => wx.showToast({ title: '页面打开失败，请重试', icon: 'none' }) })
     }
   }
 })

@@ -16,7 +16,7 @@ const rowsFor = (slots, from, to) => {
 
 Page({
   data: {
-    date: today(), dateLabel: '', monthLabel: '', layout: 'agenda', collapseProgress: 0, flowLiftRpx: 0, monthOffsetRpx: 0,
+    date: today(), dateLabel: '', monthLabel: '', layout: 'agenda', collapseProgress: 0, calendarHeightRpx: 516, monthOffsetRpx: 0,
     slots: [], hourRows: [], week: [], month: [], agenda: [], weekdays: ['一','二','三','四','五','六','日'], paletteHidden: false,
     settings: {}, palette: [], selectedFrom: -1, selectedTo: -1, selectedLabel: '', selectionHint: false,
     editor: false, shareOpen: false, developerMode: false, editorSlots: [], editorRows: [], editorFrom: -1, editorTo: -1, editorRange: '', newLabelOpen: false, newLabelName: '',
@@ -59,7 +59,7 @@ Page({
   },
   setLayout(e) {
     this.setData({ layout: e.currentTarget.dataset.layout, selectedFrom: -1, selectedTo: -1, selectionHint: false })
-    wx.pageScrollTo({ scrollTop: 0, duration: 0 })
+    this.setData({ scheduleScrollTop: 0 })
     this.updateCalendarGeometry(0)
     this.refresh()
   },
@@ -69,12 +69,12 @@ Page({
     const offset = (fromDay(first).getDay() + 6) % 7
     const selectedWeek = Math.floor((offset + Number(date.slice(-2)) - 1) / 7)
     const p = Math.max(0, Math.min(1, progress))
-    this.setData({ collapseProgress: p, flowLiftRpx: Math.round(430 * p), monthOffsetRpx: Math.round(selectedWeek * 86 * p) })
+    this.setData({ collapseProgress: p, calendarHeightRpx: Math.round(516 - 430 * p), monthOffsetRpx: Math.round(selectedWeek * 86 * p) })
   },
-  onPageScroll(e) {
+  onAgendaScroll(e) {
     const width = wx.getWindowInfo ? wx.getWindowInfo().windowWidth : wx.getSystemInfoSync().windowWidth
     const distance = 430 * width / 750
-    const progress = Math.round(Math.max(0, Math.min(1, (e.scrollTop || 0) / distance)) * 100) / 100
+    const progress = Math.round(Math.max(0, Math.min(1, (e.detail.scrollTop || 0) / distance)) * 100) / 100
     if (Math.abs(progress - this.data.collapseProgress) >= 0.01) this.updateCalendarGeometry(progress)
   },
   changeDate(date) { this.setData({ date, selectedFrom: -1, selectedTo: -1, selectionHint: false }); this.refresh() },
@@ -91,7 +91,7 @@ Page({
     this.calendarTouch = null
     if (Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 1.3) this.shiftMonth(dx < 0 ? 1 : -1)
   },
-  goToday() { wx.pageScrollTo({ scrollTop: 0, duration: 0 }); this.updateCalendarGeometry(0); this.changeDate(today()) },
+  goToday() { this.setData({ scheduleScrollTop: 0 }); this.updateCalendarGeometry(0); this.changeDate(today()) },
   pickDate(e) { this.changeDate(e.detail.value) },
   chooseDate(e) { this.changeDate(e.currentTarget.dataset.date) },
   openExisting(id) {

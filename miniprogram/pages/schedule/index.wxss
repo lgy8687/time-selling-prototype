@@ -44,7 +44,7 @@
 .grid-cell.selected { border-color: #236e53; background: #d9efdf; }.cell-title { font-size: 18rpx; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 0 3rpx; }.cell-plus { color: #b3c1b5; font-size: 24rpx; }
 .cell-time { position: absolute; left: 4rpx; bottom: 3rpx; font-size: 13rpx; color: #82958a; }
 .selection-slot { height: 70rpx; margin: 10rpx 0; }.selection-bar,.selection-placeholder { box-sizing: border-box; height: 70rpx; display: flex; align-items: center; justify-content: space-between; padding: 9rpx 16rpx; border-radius: 12rpx; font-size: 21rpx; }
-.selection-bar { background: #e8f3ea; color: #236e53; }.selection-bar view { display: flex; flex-direction: column; }.selection-placeholder { background: #f7f8f5; color: #899a8d; }
+.selection-bar { background: #e8f3ea; color: #236e53; }.selection-details { display: flex; flex-direction: column; }.selection-placeholder { background: #f7f8f5; color: #899a8d; }
 .selection-hint { color: #6e8178; font-size: 18rpx; }.grid-hint { color: #899a8d; font-size: 19rpx; margin: 9rpx 0; text-align: center; }
 .calendar-body .palette-item { font-size: 18rpx; padding: 11rpx 5rpx; }
 .dev-mark { display: inline-block; color: #236e53; background: #e8f3ea; font-size: 18rpx; padding: 4rpx 9rpx; margin-top: 10rpx; border-radius: 7rpx; }
@@ -76,3 +76,14 @@
 .new-label-panel { margin-top: 14rpx; padding: 14rpx; background: #f7f8f5; border-radius: 16rpx; }
 .new-label-panel .input { margin-top: 12rpx; background: #fff; }
 .new-label-actions { justify-content: flex-end; gap: 24rpx; margin-top: 12rpx; color: #236e53; font-size: 22rpx; }
+
+/* 月历高度只受日程滚动控制，当前周始终留在视口顶部。 */
+.schedule-page { height: calc(100vh - 112rpx - env(safe-area-inset-bottom)); display: flex; flex-direction: column; overflow: hidden; padding-bottom: 0; }
+.schedule-page .page-head { flex-shrink: 0; }
+.schedule-page .sticky-calendar { position: relative; top: auto; z-index: 1; flex-shrink: 0; padding-bottom: 0; }
+.schedule-page .schedule-scroll { flex: 1; min-height: 0; width: 100%; }
+.schedule-page .schedule-flow { z-index: auto; padding-top: 12rpx; padding-bottom: 18rpx; }
+.schedule-page .month-viewport { transition: height .05s linear; }
+.schedule-page .scroll-runway { height: 800rpx; }
+.schedule-page .schedule-flow .agenda,
+.schedule-page .schedule-flow .calendar { position: sticky; top: 0; z-index: 2; background: #fff; }

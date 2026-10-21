@@ -1,3 +1,3 @@
 App({
-  globalData: { version: 'v0.6.0-mini', editServiceId: '' }
+  globalData: { version: 'v0.7.0-mini', editServiceId: '' }
 })

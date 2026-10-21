@@ -24,6 +24,7 @@ for (const file of files) {
   for (const tag of source.match(/<(?:(?:"[^"]*")|(?:'[^']*')|[^'">])*>/g) || []) {
     const b = tag.match(/data-b="(B\d+)"/)?.[1]
     const z = tag.match(/data-z="(Z\d+-\d+)"/)?.[1]
+    if ((tag.match(/\bclass="([^"]*)"/)?.[1].split(/\s+/).some(name => ['card','hero','banner'].includes(name))) && !b) errors.push(`${name}: 可见功能区缺少 B 编码：${tag.slice(0, 90)}`)
     if (b) {
       if (!registry.states[b]) errors.push(`${name}: ${b} 未登记`)
       if (seenB.has(b) && !registry.states[b]?.repeatable) errors.push(`${name}: ${b} 已在 ${seenB.get(b)} 使用`)

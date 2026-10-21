@@ -1,6 +1,6 @@
-<view class="page" data-b="B201"><dev-badge wx:if="{{developerMode}}" code="B201" />
+<view class="page schedule-page" data-b="B201"><dev-badge wx:if="{{developerMode}}" code="B201" />
   <view class="row page-head"><view><view class="title">时间表</view><view class="subtitle">私人安排和开放时间，共用同一张表</view></view><view class="settings-link" data-z="Z201-1" bindtap="goSettings">设置</view></view>
-  <view class="sticky-calendar" style="clip-path:inset(0 0 {{flowLiftRpx}}rpx 0)">
+  <view class="sticky-calendar">
     <view class="card toolbar" data-b="B220">
       <view class="row"><text class="date-label" data-z="Z220-1" bindtap="goToday">{{monthLabel}}</text><dev-badge wx:if="{{developerMode}}" code="B220" /></view>
       <view class="view-switch"><text class="{{layout === 'agenda' ? 'selected' : ''}}" data-layout="agenda" data-z="Z220-2" bindtap="setLayout">日历＋安排</text><text class="{{layout === 'blocks' ? 'selected' : ''}}" data-layout="blocks" data-z="Z220-3" bindtap="setLayout">日历＋时间块</text></view>
@@ -9,10 +9,10 @@
       <dev-badge wx:if="{{developerMode && collapseProgress < 0.98}}" code="B203" />
       <view wx:if="{{collapseProgress >= 0.98}}" data-b="B202"><dev-badge wx:if="{{developerMode}}" code="B202" /></view>
       <view class="weekday-head"><text wx:for="{{weekdays}}" wx:key="*this">{{item}}</text></view>
-      <view class="month-viewport"><view class="month-grid" style="transform:translateY(-{{monthOffsetRpx}}rpx)"><view wx:for="{{month}}" wx:key="date" class="month-day {{item.active ? '' : 'outside'}} {{item.selected ? 'current' : ''}}" data-date="{{item.date}}" data-z="Z203-1" bindtap="chooseDate"><text class="day-number">{{item.day}}</text><view wx:for="{{item.chips}}" wx:for-item="chip" wx:key="id" class="event-chip {{chip.type}}">{{chip.title}}</view><text wx:if="{{item.extra}}" class="extra">+{{item.extra}}</text></view></view></view>
+      <view class="month-viewport" style="height:{{calendarHeightRpx}}rpx"><view class="month-grid" style="transform:translateY(-{{monthOffsetRpx}}rpx)"><view wx:for="{{month}}" wx:key="date" class="month-day {{item.active ? '' : 'outside'}} {{item.selected ? 'current' : ''}}" data-date="{{item.date}}" data-z="Z203-1" bindtap="chooseDate"><text class="day-number">{{item.day}}</text><view wx:for="{{item.chips}}" wx:for-item="chip" wx:key="id" class="event-chip {{chip.type}}">{{chip.title}}</view><text wx:if="{{item.extra}}" class="extra">+{{item.extra}}</text></view></view></view>
     </view>
   </view>
-  <view class="schedule-flow" style="transform:translateY(-{{flowLiftRpx}}rpx)">
+  <scroll-view scroll-y enhanced show-scrollbar="false" class="schedule-scroll" bindscroll="onAgendaScroll"><view class="schedule-flow">
   <view wx:if="{{layout === 'agenda'}}" class="card agenda" data-b="B212"><dev-badge wx:if="{{developerMode}}" code="B212" /><view class="row"><view><view class="section-title">{{dateLabel}}的安排</view><view class="subtitle">{{eventCount}} 项安排</view></view><view class="pill" data-z="Z212-1" bindtap="addEvent">＋ 添加</view></view>
     <view wx:if="{{!agenda.length}}" class="agenda-empty">这一天还没有安排。点“添加”记下课程或开放时间。</view>
     <view wx:for="{{agenda}}" wx:key="id" class="agenda-row {{item.type}}" data-eventid="{{item.id}}" data-z="Z212-2" bindtap="openAgenda"><text class="agenda-time">{{item.range}}</text><view class="agenda-detail"><text class="agenda-name">{{item.title}}</text><text class="agenda-type">{{item.typeLabel}}</text></view><text class="agenda-arrow">›</text></view>
@@ -21,7 +21,7 @@
   <view wx:if="{{layout === 'blocks'}}" class="card calendar" data-b="B204">
     <dev-badge wx:if="{{developerMode}}" code="B204" /><view class="row"><view><view class="section-title">{{dateLabel}}</view><view class="small muted">{{modeLabel}} · 当日 {{eventCount}} 项</view></view><view class="pill" data-z="Z204-1" bindtap="addEvent">＋ 添加</view></view>
     <view class="legend"><text>● 已安排</text><text>● 私人占用</text><text>● 开放时间</text></view>
-    <view class="selection-slot"><view wx:if="{{selectedLabel}}" class="selection-bar" data-b="B213"><view><text>已选 {{selectedLabel}}</text><text wx:if="{{selectionHint}}" class="selection-hint">再点单格或选区两端可取消</text></view><dev-badge wx:if="{{developerMode}}" code="B213" /></view><view wx:else class="selection-placeholder" data-b="B214">点时间格选择连续时段，再点右侧标签<dev-badge wx:if="{{developerMode}}" code="B214" /></view></view>
+    <view class="selection-slot"><view wx:if="{{selectedLabel}}" class="selection-bar" data-b="B213"><view class="selection-details"><text>已选 {{selectedLabel}}</text><text wx:if="{{selectionHint}}" class="selection-hint">再点单格或选区两端可取消</text></view><dev-badge wx:if="{{developerMode}}" code="B213" /></view><view wx:else class="selection-placeholder" data-b="B214">点时间格选择连续时段，再点右侧标签<dev-badge wx:if="{{developerMode}}" code="B214" /></view></view>
     <view class="calendar-body {{paletteHidden ? 'wide' : ''}}" data-z="Z204-3" bindtouchstart="gridTouchStart" bindtouchmove="gridTouchMove" bindtouchend="gridTouchEnd">
       <scroll-view scroll-y class="calendar-scroll">
         <view wx:for="{{hourRows}}" wx:key="hourNumber" class="hour-row"><view class="hour">{{item.label}}</view><view class="hour-cells"><view wx:for="{{item.cells}}" wx:for-item="cell" wx:key="id" id="cell-{{cell.index}}" class="grid-cell {{cell.type}} {{cell.selected ? 'selected' : ''}}" style="flex:{{cell.flex}}" data-index="{{cell.index}}" data-z="Z204-2" bindtap="openSlot" bindlongpress="longPressSlot"><text wx:if="{{cell.title}}" class="cell-title">{{cell.title}}</text><text wx:elif="{{!cell.eventId}}" class="cell-plus">＋</text><text class="cell-time">{{cell.start}}</text></view></view></view>
@@ -32,7 +32,7 @@
   </view>
   <view class="card" data-b="B219"><dev-badge wx:if="{{developerMode}}" code="B219" /><view class="row"><view><view class="section-title">可分享的时间</view><view class="subtitle">仅显示没有冲突的开放时间</view></view><text class="edit-link" data-z="Z219-1" bindtap="toggleShare">查看</text></view></view>
   <view class="scroll-runway"></view>
-  </view>
+  </view></scroll-view>
 </view>
 
 <view wx:if="{{editor && !editing}}" class="overlay" data-b="B216">

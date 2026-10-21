@@ -5,3 +5,6 @@
 .published-row > view { flex: 1; min-width: 0; }
 .published-row > view > view:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; }
 .published-row > text { color: #236e53; font-size: 32rpx; }
+
+.banner { position: relative; }
+.banner-code { position: absolute; top: 8rpx; right: 18rpx; width: auto; }

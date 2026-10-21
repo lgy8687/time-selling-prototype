@@ -16,7 +16,7 @@ const allCodes = [
 
 Page({
   data: {
-    settings: {}, palette: [], version: 'v0.6.0-mini',
+    settings: {}, palette: [], version: 'v0.7.0-mini',
     hoursStart: Array.from({ length: 24 }, (_, i) => i),
     hoursEnd: Array.from({ length: 24 }, (_, i) => i + 1),
     pageGroups: pageGroups.map(item => item.label), selectedGroup: 0, codes: []

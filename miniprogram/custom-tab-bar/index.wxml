@@ -1,7 +1,7 @@
-<view class="tab-shell" data-b="B100">
-  <dev-badge wx:if="{{developerMode}}" class="tab-code" code="B100" />
-  <view wx:for="{{list}}" wx:key="path" class="tab-item {{index === selected ? 'active' : ''}}" data-index="{{index}}" data-z="Z100-1" bindtap="switchTab">
-    <view class="tab-icon {{index === 2 ? 'publish-icon' : ''}}">{{item.icon}}</view>
-    <text>{{item.text}}</text>
-  </view>
-</view>
+<cover-view class="tab-shell" data-b="B100">
+  <cover-view wx:for="{{list}}" wx:key="path" class="tab-item {{index === selected ? 'active' : ''}}" data-index="{{index}}" data-z="Z100-1" catchtap="switchTab">
+    <cover-view class="tab-icon {{index === 2 ? 'publish-icon' : ''}}">{{item.icon}}</cover-view>
+    <cover-view class="tab-text">{{item.text}}</cover-view>
+  </cover-view>
+</cover-view>
+<dev-badge wx:if="{{developerMode}}" class="tab-code" code="B100" />

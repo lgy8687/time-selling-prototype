@@ -6,7 +6,8 @@
     "pages/publish/index",
     "pages/messages/index",
     "pages/me/index",
-    "pages/settings/index"
+    "pages/settings/index",
+    "pages/my-listings/index"
   ],
   "window": {
     "navigationBarTitleText": "时间售卖",

@@ -19,7 +19,7 @@ const rowsFor = (slots, from, to) => {
 
 Page({
   data: {
-    kind: '', stage: 'start', form: blankForm('experience'), editingId: '', developerMode: false, error: '',
+    kind: '', stage: 'start', chooserOpen: false, form: blankForm('experience'), editingId: '', developerMode: false, error: '',
     marketCategories, subcategories: subcategoriesFor('知识付费'), categoryIndex: 0, priceRows: [], hasOnline: true, hasOffline: false, hasOne: true, hasGroup: false, templates, ownTemplates: [], templatePanel: '', templateNameOpen: false, templateName: '',
     requestForm: { title: '', category: '知识付费', subcategory: '职业经验', detail: '', budget: '', date: today() }, requests: [], requestCategoryIndex: 0, requestSubcategoryIndex: 0, requestSubcategories: subcategoriesFor('知识付费'),
     locationInput: '', timePicker: false, pickerDate: today(), todayKey: today(), pickerRows: [], pickerSlots: [], pickerFrom: -1, pickerTo: -1,
@@ -38,6 +38,7 @@ Page({
       if (item) this.loadItem(item)
     }
     this.refresh()
+    if (getApp().globalData.openPublishChooser && !editId) { this.setData({ stage: 'start', chooserOpen: true }); getApp().globalData.openPublishChooser = false }
   },
   refresh() {
     const state = store.read()
@@ -48,7 +49,7 @@ Page({
     })
   },
   start(e) {
-    this.setData({ stage: e.currentTarget.dataset.stage, kind: '', error: '' })
+    this.setData({ stage: e.currentTarget.dataset.stage, chooserOpen: false, kind: '', error: '' })
     wx.pageScrollTo({ scrollTop: 0, duration: 0 })
   },
   startCategory(e) {
@@ -60,7 +61,7 @@ Page({
     wx.pageScrollTo({ scrollTop: 0, duration: 0 })
   },
   back() { this.setData({ stage: this.data.editingId ? 'start' : 'sell', kind: '', editingId: '', error: '' }); wx.pageScrollTo({ scrollTop: 0, duration: 0 }) },
-  backStart() { this.setData({ stage: 'start', kind: '', error: '' }); wx.pageScrollTo({ scrollTop: 0, duration: 0 }) },
+  backStart() { this.setData({ stage: 'start', chooserOpen: true, kind: '', error: '' }); wx.pageScrollTo({ scrollTop: 0, duration: 0 }) },
   loadItem(item) {
     const kind = item.kind || 'experience'
     const marketCategory = item.marketCategory || (kind === 'errand' ? '跑腿代办' : item.category === '技能教学' ? '职业技能' : '知识付费')
@@ -70,7 +71,7 @@ Page({
       resume: Array.isArray(item.resume) && item.resume.length ? [...item.resume] : [''],
       locations: Array.isArray(item.locations) ? item.locations : [],
       windows: Array.isArray(item.windows) ? item.windows : [],
-      modes: item.modes || [item.mode || '线上交流'], meetings: item.meetings || [item.meeting || '一对一'],
+      modes: item.modes || (item.mode === '线上＋线下' ? ['线上交流', '线下交流'] : [item.mode || '线上交流']), meetings: item.meetings || [item.meeting || '一对一'],
       prices: item.prices || { onlineOne: item.price || '', offlineOne: item.price || '', onlineGroup: item.price || '', offlineGroup: item.price || '' }
     }
     form.marketCategory = marketCategory
@@ -97,6 +98,15 @@ Page({
   field(e) { this.setData({ [`form.${e.currentTarget.dataset.field}`]: e.detail.value, error: '' }) },
   category(e) { const i = Number(e.detail.value); this.setData({ categoryIndex: i, 'form.category': this.data.subcategories[i] }) },
   choose(e) { this.setData({ [`form.${e.currentTarget.dataset.field}`]: e.currentTarget.dataset.value, error: '' }) },
+  openChooser() { this.setData({ stage: 'start', chooserOpen: true }) },
+  closeChooser() { this.setData({ chooserOpen: false }) },
+  noop() {},
+  chooseMode(e) {
+    const value = e.currentTarget.dataset.value
+    const modes = value === '线上＋线下' ? ['线上交流', '线下交流'] : [value]
+    const form = { ...this.data.form, modes, mode: value }
+    this.setData({ form, priceRows: activePrices(form), ...choiceFlags(form), error: '' })
+  },
   toggleChoice(e) {
     const field = e.currentTarget.dataset.field, value = e.currentTarget.dataset.value
     const current = this.data.form[field] || []
@@ -246,6 +256,7 @@ Page({
     const price = form.kind === 'experience' ? Math.min(...charges) : Number(form.price)
     if (status === 'published' && form.kind === 'experience' && chargeRows.some(row => form.prices?.[row.key] === '' || !Number.isFinite(Number(form.prices?.[row.key])) || Number(form.prices?.[row.key]) < 0 || Number(form.prices?.[row.key]) > 99999)) return this.setData({ error: '请填写每种已选方式的价格（0—99999 元）。' })
     if (status === 'published' && form.kind === 'errand' && (!Number.isFinite(price) || price < 0 || price > 99999 || form.price === '')) return this.setData({ error: '价格请填 0—99999 元。' })
+    const duration = Number(form.duration)
     if (status === 'published' && (!Number.isInteger(duration) || duration < 15 || duration > 480)) return this.setData({ error: '时长请填 15—480 分钟。' })
     const capacity = Number(form.capacity), minPeople = Number(form.minPeople), maxPeople = Number(form.maxPeople)
     if (status === 'published' && form.kind === 'errand' && (!Number.isInteger(capacity) || capacity < 1 || capacity > 99)) return this.setData({ error: '每时段接单上限请填 1—99。' })

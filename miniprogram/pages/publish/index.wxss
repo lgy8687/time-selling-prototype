@@ -82,3 +82,13 @@
 .corner.start { left: 1rpx; top: 1rpx; }
 .corner.end { right: 1rpx; bottom: 1rpx; }
 .selected-range { color: #236e53; font-size: 23rpx; padding: 18rpx 0 0; min-height: 30rpx; }
+
+.mode-choice text { white-space: normal; min-height: 54rpx; display: flex; align-items: center; justify-content: center; }
+.chooser-overlay { z-index: 80; }
+.chooser-sheet { padding-bottom: calc(58rpx + env(safe-area-inset-bottom)); }
+.chooser-pair { display: flex; gap: 16rpx; margin-top: 26rpx; }
+.chooser-tile { width: 50%; min-height: 210rpx; box-sizing: border-box; border-radius: 22rpx; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 10rpx; padding: 20rpx 10rpx; text-align: center; }
+.chooser-tile.sell { background: #e8f3ea; }
+.chooser-tile.buy { background: #fff2d6; }
+.chooser-icon { display: flex; align-items: center; justify-content: center; width: 70rpx; height: 70rpx; background: #fff; border-radius: 18rpx; font-size: 34rpx; color: #236e53; }
+.chooser-title { font-size: 29rpx; font-weight: 700; }
