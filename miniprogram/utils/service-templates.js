@@ -42,7 +42,7 @@ const marketCategories = [
 const blankForm = (kind, marketCategory = kind === 'errand' ? '跑腿代办' : '知识付费') => ({
   kind, marketCategory, title: '', category: marketCategories.find(x => x.name === marketCategory)?.subcategories[0] || '职业经验', offer: '', resume: [''],
   mode: '线上交流', modes: ['线上交流'], venue: '公共场所', meeting: '一对一', meetings: ['一对一'], prices: { onlineOne: '', offlineOne: '', onlineGroup: '', offlineGroup: '' }, minPeople: '3', maxPeople: '6',
-  locations: [], scope: '指定地点', city: '', timeMode: 'exact', windows: [], capacity: '1',
+  locations: [], scope: '指定地点', city: '', timeMode: 'exact', availabilityMode: 'selected', allFrom: '', allTo: '', windows: [], capacity: '1',
   price: '', priceUnit: kind === 'experience' ? '按次' : '按次', duration: '60'
 })
 

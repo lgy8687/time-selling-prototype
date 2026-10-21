@@ -77,13 +77,25 @@
 .new-label-panel .input { margin-top: 12rpx; background: #fff; }
 .new-label-actions { justify-content: flex-end; gap: 24rpx; margin-top: 12rpx; color: #236e53; font-size: 22rpx; }
 
-/* 月历高度只受日程滚动控制，当前周始终留在视口顶部。 */
-.schedule-page { height: calc(100vh - 112rpx - env(safe-area-inset-bottom)); display: flex; flex-direction: column; overflow: hidden; padding-bottom: 0; }
+/* 月历浮在独立滚动层上方：改变月历高度不再反过来改变滚动容器。 */
+.schedule-page { height: calc(100vh - 126rpx - env(safe-area-inset-bottom)); display: flex; flex-direction: column; overflow: hidden; padding-bottom: 0; }
 .schedule-page .page-head { flex-shrink: 0; }
-.schedule-page .sticky-calendar { position: relative; top: auto; z-index: 1; flex-shrink: 0; padding-bottom: 0; }
-.schedule-page .schedule-scroll { flex: 1; min-height: 0; width: 100%; }
-.schedule-page .schedule-flow { z-index: auto; padding-top: 12rpx; padding-bottom: 18rpx; }
-.schedule-page .month-viewport { transition: height .05s linear; }
-.schedule-page .scroll-runway { height: 800rpx; }
+.calendar-stage { position: relative; flex: 1; min-height: 0; }
+.schedule-page .sticky-calendar { position: absolute; top: 0; left: 0; right: 0; z-index: 3; padding-bottom: 0; }
+.schedule-page .schedule-scroll { width: 100%; height: 100%; }
+.schedule-page .schedule-flow { z-index: auto; padding-top: 710rpx; padding-bottom: 18rpx; }
+.schedule-page .scroll-runway { height: 600rpx; }
 .schedule-page .schedule-flow .agenda,
-.schedule-page .schedule-flow .calendar { position: sticky; top: 0; z-index: 2; background: #fff; }
+.schedule-page .schedule-flow .calendar { position: relative; z-index: 2; background: #fff; }
+.block-actions { display: flex; gap: 8rpx; }
+.block-actions .pill { font-size: 21rpx; padding: 9rpx 15rpx; }
+.palette-heading { display: flex; flex-direction: column; gap: 5rpx; font-size: 20rpx; color: #236e53; }
+.palette-heading text:first-child { font-weight: 700; }
+.calendar.fullscreen { position: fixed !important; inset: 0; z-index: 1200 !important; box-sizing: border-box; margin: 0; border-radius: 0; padding: 24rpx; padding-top: calc(22rpx + env(safe-area-inset-top)); height: 100vh; }
+.calendar.fullscreen .calendar-body { height: calc(100vh - 270rpx - env(safe-area-inset-top)); }
+.calendar.fullscreen .calendar-scroll { height: 100%; }
+.calendar.fullscreen .hour-row { height: 112rpx; }
+.calendar.fullscreen .hour { width: 72rpx; font-size: 23rpx; }
+.calendar.fullscreen .cell-title { font-size: 26rpx; }
+.calendar.fullscreen .cell-time { font-size: 19rpx; }
+.calendar.fullscreen .palette-item { font-size: 23rpx; }

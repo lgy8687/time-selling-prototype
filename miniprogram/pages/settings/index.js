@@ -16,42 +16,20 @@ const allCodes = [
 
 Page({
   data: {
-    settings: {}, palette: [], version: 'v0.7.1-mini',
-    hoursStart: Array.from({ length: 24 }, (_, i) => i),
-    hoursEnd: Array.from({ length: 24 }, (_, i) => i + 1),
+    settings: {}, version: 'v0.8.0-mini',
     pageGroups: pageGroups.map(item => item.label), selectedGroup: 0, codes: []
   },
   onShow() { this.refresh() },
   refresh() {
     const state = store.read()
     const settings = { developerMode: false, ...state.settings }
-    this.setData({ settings, palette: state.palette, codes: this.codesFor(this.data.selectedGroup) })
+    this.setData({ settings, codes: this.codesFor(this.data.selectedGroup) })
   },
   codesFor(index) {
     const prefixes = pageGroups[index].prefix
     return allCodes.filter(item => prefixes.some(prefix => item.code.startsWith(prefix)))
   },
-  setHour(e) {
-    const key = e.currentTarget.dataset.key
-    const hour = Number(e.detail.value) + (key === 'endHour' ? 1 : 0)
-    const next = { ...this.data.settings, [key]: hour }
-    if (next.startHour >= next.endHour) return wx.showToast({ title: '结束时间要晚于开始时间', icon: 'none' })
-    store.update(state => ({ ...state, settings: next }))
-    this.refresh()
-  },
-  setMode(e) {
-    const mode = Number(e.currentTarget.dataset.mode)
-    store.update(state => ({ ...state, settings: { ...state.settings, mode } }))
-    this.refresh()
-  },
-  editPalette(e) { this.setData({ [`palette.${e.currentTarget.dataset.index}.title`]: e.detail.value }) },
-  savePalette() {
-    const old = store.read()
-    const palette = this.data.palette.map((item, index) => ({ ...item, title: item.title.trim() || old.palette[index].title }))
-    store.write({ ...old, palette })
-    this.refresh()
-    wx.showToast({ title: '标签已保存', icon: 'success' })
-  },
+  goTimeSettings() { wx.navigateTo({ url: '/pages/time-settings/index' }) },
   toggleDeveloper(e) {
     const developerMode = e.detail.value
     store.update(state => ({ ...state, settings: { ...state.settings, developerMode } }))

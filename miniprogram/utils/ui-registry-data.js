@@ -1,5 +1,5 @@
 module.exports = {
-  "version": "v0.7.1-mini",
+  "version": "v0.8.0-mini",
   "templates": {},
   "states": {
     "B100": {
@@ -30,10 +30,6 @@ module.exports = {
       "name": "编辑时间面板",
       "template": null
     },
-    "B209": {
-      "name": "可分享时间预览面板",
-      "template": null
-    },
     "B210": {
       "name": "已安排时间的删除操作",
       "template": null
@@ -43,60 +39,12 @@ module.exports = {
       "template": null,
       "repeatable": true
     },
-    "B301": {
-      "name": "大厅列表",
-      "template": null
-    },
-    "B401": {
-      "name": "发布入口与类型选择",
-      "template": null
-    },
-    "B402": {
-      "name": "发布表单错误提示",
-      "template": null
-    },
-    "B501": {
-      "name": "消息入口",
-      "template": null
-    },
-    "B601": {
-      "name": "我的首页",
-      "template": null
-    },
-    "B602": {
-      "name": "修改昵称面板",
-      "template": null
-    },
-    "B603": {
-      "name": "我的功能详情容器",
-      "template": null
-    },
-    "B605": {
-      "name": "我发布的列表功能区",
-      "template": null
-    },
-    "B606": {
-      "name": "我可卖的详情",
-      "template": null
-    },
-    "B607": {
-      "name": "其他工具详情",
-      "template": null
-    },
     "B212": {
       "name": "日历下方安排排列",
       "template": null
     },
     "B213": {
       "name": "连续时间格选中状态",
-      "template": null
-    },
-    "B701": {
-      "name": "设置主界面",
-      "template": null
-    },
-    "B702": {
-      "name": "开发者编号预览",
       "template": null
     },
     "B214": {
@@ -107,16 +55,56 @@ module.exports = {
       "name": "时间格全宽展示状态",
       "template": null
     },
-    "B216": {
-      "name": "添加时间块面板",
-      "template": null
-    },
-    "B218": {
-      "name": "添加面板时间块和标签",
-      "template": null
-    },
     "B219": {
       "name": "可分享时间入口",
+      "template": null
+    },
+    "B220": {
+      "name": "月份与排列切换",
+      "template": null
+    },
+    "B222": {
+      "name": "时间块全屏状态",
+      "template": null
+    },
+    "B223": {
+      "name": "时间块设置页面",
+      "template": null
+    },
+    "B224": {
+      "name": "时间块统计页面",
+      "template": null
+    },
+    "B225": {
+      "name": "设置中的统计入口",
+      "template": null
+    },
+    "B226": {
+      "name": "统计时段切换",
+      "template": null
+    },
+    "B227": {
+      "name": "统计汇总",
+      "template": null
+    },
+    "B228": {
+      "name": "按标签统计表",
+      "template": null
+    },
+    "B229": {
+      "name": "总设置中的时间块入口",
+      "template": null
+    },
+    "B230": {
+      "name": "预约记录列表",
+      "template": null
+    },
+    "B231": {
+      "name": "预约详情与卖家确认",
+      "template": null
+    },
+    "B301": {
+      "name": "大厅列表",
       "template": null
     },
     "B303": {
@@ -128,6 +116,62 @@ module.exports = {
       "template": null,
       "repeatable": true
     },
+    "B305": {
+      "name": "大厅介绍与版本",
+      "template": null
+    },
+    "B307": {
+      "name": "买卖双方共用服务详情页",
+      "template": null
+    },
+    "B308": {
+      "name": "服务详情履历列表",
+      "template": null
+    },
+    "B309": {
+      "name": "发布者详情管理操作",
+      "template": null
+    },
+    "B310": {
+      "name": "买家时间选择预览面板",
+      "template": null
+    },
+    "B311": {
+      "name": "服务不存在状态",
+      "template": null
+    },
+    "B312": {
+      "name": "服务详情介绍",
+      "template": null
+    },
+    "B313": {
+      "name": "服务价格",
+      "template": null
+    },
+    "B314": {
+      "name": "服务内容",
+      "template": null
+    },
+    "B315": {
+      "name": "服务安排",
+      "template": null
+    },
+    "B316": {
+      "name": "可选时间",
+      "template": null
+    },
+    "B317": {
+      "name": "买家预约请求表单",
+      "template": null
+    },
+    "B401": {
+      "name": "发布入口与类型选择",
+      "template": null
+    },
+    "B402": {
+      "name": "发布表单错误提示",
+      "template": null
+    },
     "B403": {
       "name": "经验分享或帮人办事发布表单",
       "template": null
@@ -138,51 +182,6 @@ module.exports = {
     },
     "B405": {
       "name": "发布页我的发布列表",
-      "template": null
-    },
-    "B502": {
-      "name": "预约沟通入口",
-      "template": null
-    },
-    "B503": {
-      "name": "订单通知入口",
-      "template": null
-    },
-    "B608": {
-      "name": "我的头像与资料",
-      "template": null
-    },
-    "B609": {
-      "name": "我的交易",
-      "template": null
-    },
-    "B610": {
-      "name": "我的工具",
-      "template": null
-    },
-    "B703": {
-      "name": "时间表设置",
-      "template": null
-    },
-    "B704": {
-      "name": "常用标签设置",
-      "template": null
-    },
-    "B705": {
-      "name": "开发者模式设置",
-      "template": null
-    },
-    "B900": {
-      "name": "可复制的开发者编号",
-      "template": null,
-      "repeatable": true
-    },
-    "B220": {
-      "name": "月份与排列切换",
-      "template": null
-    },
-    "B221": {
-      "name": "新增常用标签面板",
       "template": null
     },
     "B406": {
@@ -218,26 +217,6 @@ module.exports = {
       "name": "多地点指定状态",
       "template": null
     },
-    "B307": {
-      "name": "买卖双方共用服务详情页",
-      "template": null
-    },
-    "B308": {
-      "name": "服务详情履历列表",
-      "template": null
-    },
-    "B309": {
-      "name": "发布者详情管理操作",
-      "template": null
-    },
-    "B310": {
-      "name": "买家时间选择预览面板",
-      "template": null
-    },
-    "B311": {
-      "name": "服务不存在状态",
-      "template": null
-    },
     "B416": {
       "name": "时间售卖大类选择",
       "template": null
@@ -256,30 +235,6 @@ module.exports = {
     },
     "B420": {
       "name": "时间求购填写错误提示",
-      "template": null
-    },
-    "B305": {
-      "name": "大厅介绍与版本",
-      "template": null
-    },
-    "B312": {
-      "name": "服务详情介绍",
-      "template": null
-    },
-    "B313": {
-      "name": "服务价格",
-      "template": null
-    },
-    "B314": {
-      "name": "服务内容",
-      "template": null
-    },
-    "B315": {
-      "name": "服务安排",
-      "template": null
-    },
-    "B316": {
-      "name": "可选时间",
       "template": null
     },
     "B421": {
@@ -302,6 +257,70 @@ module.exports = {
       "name": "发布首页介绍",
       "template": null
     },
+    "B426": {
+      "name": "售卖入口及售卖记录",
+      "template": null
+    },
+    "B427": {
+      "name": "求购入口及求购记录",
+      "template": null
+    },
+    "B428": {
+      "name": "售卖时间选择方式",
+      "template": null
+    },
+    "B429": {
+      "name": "全部空闲时间日期范围",
+      "template": null
+    },
+    "B501": {
+      "name": "消息入口",
+      "template": null
+    },
+    "B502": {
+      "name": "预约沟通入口",
+      "template": null
+    },
+    "B503": {
+      "name": "订单通知入口",
+      "template": null
+    },
+    "B601": {
+      "name": "我的首页",
+      "template": null
+    },
+    "B602": {
+      "name": "修改昵称面板",
+      "template": null
+    },
+    "B603": {
+      "name": "我的功能详情容器",
+      "template": null
+    },
+    "B605": {
+      "name": "我发布的列表功能区",
+      "template": null
+    },
+    "B606": {
+      "name": "我可卖的详情",
+      "template": null
+    },
+    "B607": {
+      "name": "其他工具详情",
+      "template": null
+    },
+    "B608": {
+      "name": "我的头像与资料",
+      "template": null
+    },
+    "B609": {
+      "name": "我的交易",
+      "template": null
+    },
+    "B610": {
+      "name": "我的工具",
+      "template": null
+    },
     "B611": {
       "name": "我发布的独立页面",
       "template": null
@@ -309,6 +328,31 @@ module.exports = {
     "B612": {
       "name": "我的宣传语",
       "template": null
+    },
+    "B701": {
+      "name": "设置主界面",
+      "template": null
+    },
+    "B702": {
+      "name": "开发者编号预览",
+      "template": null
+    },
+    "B703": {
+      "name": "时间表设置",
+      "template": null
+    },
+    "B704": {
+      "name": "常用标签设置",
+      "template": null
+    },
+    "B705": {
+      "name": "开发者模式设置",
+      "template": null
+    },
+    "B900": {
+      "name": "可复制的开发者编号",
+      "template": null,
+      "repeatable": true
     }
   },
   "controls": {
@@ -326,15 +370,30 @@ module.exports = {
       "parent": "B203",
       "name": "选择月历日期"
     },
-    "Z204-1": {
+    "Z203-2": {
       "file": "pages/schedule/index.wxml",
-      "parent": "B204",
-      "name": "新增时间"
+      "parent": "B203",
+      "name": "左右滑动切换月份"
     },
     "Z204-2": {
       "file": "pages/schedule/index.wxml",
       "parent": "B204",
       "name": "时间格点选或长按"
+    },
+    "Z204-3": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B204",
+      "name": "时间格左右滑动"
+    },
+    "Z204-4": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B204",
+      "name": "Z204-4 交互"
+    },
+    "Z204-5": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B204",
+      "name": "Z204-5 交互"
     },
     "Z205-1": {
       "file": "pages/schedule/index.wxml",
@@ -346,6 +405,11 @@ module.exports = {
       "parent": "B205",
       "name": "把标签用于所选时间"
     },
+    "Z205-3": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B205",
+      "name": "Z205-3 交互"
+    },
     "Z206-1": {
       "file": "pages/schedule/index.wxml",
       "parent": "B206"
@@ -355,10 +419,6 @@ module.exports = {
       "parent": "B206"
     },
     "Z206-3": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B206"
-    },
-    "Z206-4": {
       "file": "pages/schedule/index.wxml",
       "parent": "B206"
     },
@@ -378,46 +438,13 @@ module.exports = {
       "file": "pages/schedule/index.wxml",
       "parent": "B206"
     },
-    "Z210-1": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B210"
-    },
     "Z206-10": {
       "file": "pages/schedule/index.wxml",
       "parent": "B206"
     },
-    "Z209-1": {
+    "Z210-1": {
       "file": "pages/schedule/index.wxml",
-      "parent": "B209"
-    },
-    "Z602-1": {
-      "file": "pages/me/index.wxml",
-      "parent": "B602"
-    },
-    "Z602-2": {
-      "file": "pages/me/index.wxml",
-      "parent": "B602"
-    },
-    "Z602-3": {
-      "file": "pages/me/index.wxml",
-      "parent": "B602"
-    },
-    "Z603-1": {
-      "file": "pages/me/index.wxml",
-      "parent": "B603"
-    },
-    "Z605-1": {
-      "file": "pages/my-listings/index.wxml",
-      "parent": "B605"
-    },
-    "Z606-1": {
-      "file": "pages/me/index.wxml",
-      "parent": "B606"
-    },
-    "Z204-3": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B204",
-      "name": "时间格左右滑动"
+      "parent": "B210"
     },
     "Z212-1": {
       "file": "pages/schedule/index.wxml",
@@ -428,106 +455,6 @@ module.exports = {
       "file": "pages/schedule/index.wxml",
       "parent": "B212",
       "name": "打开列表安排"
-    },
-    "Z701-1": {
-      "file": "pages/settings/index.wxml",
-      "parent": "B701",
-      "name": "每天开始时间"
-    },
-    "Z701-2": {
-      "file": "pages/settings/index.wxml",
-      "parent": "B701",
-      "name": "每天结束时间"
-    },
-    "Z701-3": {
-      "file": "pages/settings/index.wxml",
-      "parent": "B701",
-      "name": "每小时分成两格"
-    },
-    "Z701-4": {
-      "file": "pages/settings/index.wxml",
-      "parent": "B701",
-      "name": "每小时分成三格"
-    },
-    "Z701-5": {
-      "file": "pages/settings/index.wxml",
-      "parent": "B701",
-      "name": "每小时分成四格"
-    },
-    "Z701-6": {
-      "file": "pages/settings/index.wxml",
-      "parent": "B701",
-      "name": "常用标签名称"
-    },
-    "Z701-7": {
-      "file": "pages/settings/index.wxml",
-      "parent": "B701",
-      "name": "保存标签名称"
-    },
-    "Z701-8": {
-      "file": "pages/settings/index.wxml",
-      "parent": "B701",
-      "name": "开发者模式开关"
-    },
-    "Z702-1": {
-      "file": "pages/settings/index.wxml",
-      "parent": "B702",
-      "name": "切换编号分组"
-    },
-    "Z702-2": {
-      "file": "pages/settings/index.wxml",
-      "parent": "B702",
-      "name": "复制编号"
-    },
-    "Z216-1": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B216",
-      "name": "关闭添加时间"
-    },
-    "Z216-2": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B216",
-      "name": "选择已安排"
-    },
-    "Z216-3": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B216",
-      "name": "选择私人占用"
-    },
-    "Z216-4": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B216",
-      "name": "选择开放时间"
-    },
-    "Z216-5": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B216",
-      "name": "选择日期"
-    },
-    "Z216-6": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B216",
-      "name": "保存添加时间"
-    },
-    "Z218-1": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B218",
-      "name": "选择或取消时间块"
-    },
-    "Z218-2": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B218",
-      "name": "选择常用标签"
-    },
-    "Z900-1": {
-      "file": "components/dev-badge/index.wxml",
-      "parent": "B900",
-      "name": "复制界面编号"
-    },
-    "Z203-2": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B203",
-      "name": "左右滑动切换月份"
     },
     "Z219-1": {
       "file": "pages/schedule/index.wxml",
@@ -549,45 +476,130 @@ module.exports = {
       "parent": "B220",
       "name": "日历下方显示时间块"
     },
-    "Z218-3": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B218",
-      "name": "打开新增标签"
+    "Z225-1": {
+      "file": "pages/time-settings/index.wxml",
+      "parent": "B225",
+      "name": "Z225-1 交互"
     },
-    "Z221-1": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B221",
-      "name": "输入标签名称"
+    "Z226-1": {
+      "file": "pages/time-stats/index.wxml",
+      "parent": "B226",
+      "name": "Z226-1 交互"
     },
-    "Z221-2": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B221",
-      "name": "保存新增标签"
+    "Z226-2": {
+      "file": "pages/time-stats/index.wxml",
+      "parent": "B226",
+      "name": "Z226-2 交互"
     },
-    "Z221-3": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B221",
-      "name": "取消新增标签"
+    "Z226-3": {
+      "file": "pages/time-stats/index.wxml",
+      "parent": "B226",
+      "name": "Z226-3 交互"
     },
-    "Z405-1": {
-      "file": "pages/publish/index.wxml",
-      "parent": "B405",
-      "name": "打开我发布的服务详情"
+    "Z229-1": {
+      "file": "pages/settings/index.wxml",
+      "parent": "B229",
+      "name": "Z229-1 交互"
     },
-    "Z405-2": {
-      "file": "pages/publish/index.wxml",
-      "parent": "B405",
-      "name": "编辑已保存的服务"
+    "Z230-1": {
+      "file": "pages/orders/index.wxml",
+      "parent": "B230",
+      "name": "Z230-1 交互"
     },
-    "Z406-1": {
-      "file": "pages/publish/index.wxml",
-      "parent": "B406",
-      "name": "进入时间售卖"
+    "Z231-1": {
+      "file": "pages/orders/index.wxml",
+      "parent": "B231",
+      "name": "Z231-1 交互"
     },
-    "Z406-2": {
-      "file": "pages/publish/index.wxml",
-      "parent": "B406",
-      "name": "进入时间求购"
+    "Z231-2": {
+      "file": "pages/orders/index.wxml",
+      "parent": "B231",
+      "name": "Z231-2 交互"
+    },
+    "Z231-3": {
+      "file": "pages/orders/index.wxml",
+      "parent": "B231",
+      "name": "Z231-3 交互"
+    },
+    "Z231-4": {
+      "file": "pages/orders/index.wxml",
+      "parent": "B231",
+      "name": "Z231-4 交互"
+    },
+    "Z231-5": {
+      "file": "pages/orders/index.wxml",
+      "parent": "B231",
+      "name": "Z231-5 交互"
+    },
+    "Z303-1": {
+      "file": "pages/hall/index.wxml",
+      "parent": "B303",
+      "name": "交互操作"
+    },
+    "Z304-1": {
+      "file": "pages/hall/index.wxml",
+      "parent": "B304",
+      "name": "交互操作"
+    },
+    "Z307-1": {
+      "file": "pages/service/index.wxml",
+      "parent": "B307",
+      "name": "买家打开选时间面板"
+    },
+    "Z309-1": {
+      "file": "pages/service/index.wxml",
+      "parent": "B309",
+      "name": "编辑自己的发布"
+    },
+    "Z309-2": {
+      "file": "pages/service/index.wxml",
+      "parent": "B309",
+      "name": "预览买家选时间"
+    },
+    "Z309-3": {
+      "file": "pages/service/index.wxml",
+      "parent": "B309",
+      "name": "Z309-3 交互"
+    },
+    "Z310-1": {
+      "file": "pages/service/index.wxml",
+      "parent": "B310",
+      "name": "关闭买家选时间面板"
+    },
+    "Z310-2": {
+      "file": "pages/service/index.wxml",
+      "parent": "B310",
+      "name": "选择买家可选时段"
+    },
+    "Z317-1": {
+      "file": "pages/service/index.wxml",
+      "parent": "B317",
+      "name": "Z317-1 交互"
+    },
+    "Z317-2": {
+      "file": "pages/service/index.wxml",
+      "parent": "B317",
+      "name": "Z317-2 交互"
+    },
+    "Z317-3": {
+      "file": "pages/service/index.wxml",
+      "parent": "B317",
+      "name": "Z317-3 交互"
+    },
+    "Z317-4": {
+      "file": "pages/service/index.wxml",
+      "parent": "B317",
+      "name": "Z317-4 交互"
+    },
+    "Z317-5": {
+      "file": "pages/service/index.wxml",
+      "parent": "B317",
+      "name": "Z317-5 交互"
+    },
+    "Z317-6": {
+      "file": "pages/service/index.wxml",
+      "parent": "B317",
+      "name": "Z317-6 交互"
     },
     "Z403-1": {
       "file": "pages/publish/index.wxml",
@@ -659,6 +671,31 @@ module.exports = {
       "parent": "B404",
       "name": "选择按小时收费"
     },
+    "Z405-1": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B405",
+      "name": "打开我发布的服务详情"
+    },
+    "Z405-2": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B405",
+      "name": "编辑已保存的服务"
+    },
+    "Z405-3": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B405",
+      "name": "删除本机发布或草稿"
+    },
+    "Z406-1": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B406",
+      "name": "进入时间售卖"
+    },
+    "Z406-2": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B406",
+      "name": "进入时间求购"
+    },
     "Z407-1": {
       "file": "pages/publish/index.wxml",
       "parent": "B407",
@@ -719,6 +756,21 @@ module.exports = {
       "parent": "B413",
       "name": "选择公共场所"
     },
+    "Z413-2": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B413",
+      "name": "选择我提供场地"
+    },
+    "Z413-3": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B413",
+      "name": "选择双方协商"
+    },
+    "Z413-4": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B413",
+      "name": "选择指定地点"
+    },
     "Z414-1": {
       "file": "pages/publish/index.wxml",
       "parent": "B414",
@@ -744,56 +796,6 @@ module.exports = {
       "parent": "B415",
       "name": "增加指定地点"
     },
-    "Z307-1": {
-      "file": "pages/service/index.wxml",
-      "parent": "B307",
-      "name": "买家打开选时间面板"
-    },
-    "Z309-1": {
-      "file": "pages/service/index.wxml",
-      "parent": "B309",
-      "name": "编辑自己的发布"
-    },
-    "Z309-2": {
-      "file": "pages/service/index.wxml",
-      "parent": "B309",
-      "name": "预览买家选时间"
-    },
-    "Z310-1": {
-      "file": "pages/service/index.wxml",
-      "parent": "B310",
-      "name": "关闭买家选时间面板"
-    },
-    "Z310-2": {
-      "file": "pages/service/index.wxml",
-      "parent": "B310",
-      "name": "选择买家可选时段"
-    },
-    "Z605-2": {
-      "file": "pages/my-listings/index.wxml",
-      "parent": "B605",
-      "name": "打开我发布的共用详情页"
-    },
-    "Z405-3": {
-      "file": "pages/publish/index.wxml",
-      "parent": "B405",
-      "name": "删除本机发布或草稿"
-    },
-    "Z413-2": {
-      "file": "pages/publish/index.wxml",
-      "parent": "B413",
-      "name": "选择我提供场地"
-    },
-    "Z413-3": {
-      "file": "pages/publish/index.wxml",
-      "parent": "B413",
-      "name": "选择双方协商"
-    },
-    "Z413-4": {
-      "file": "pages/publish/index.wxml",
-      "parent": "B413",
-      "name": "选择指定地点"
-    },
     "Z416-1": {
       "file": "pages/publish/index.wxml",
       "parent": "B416",
@@ -814,44 +816,9 @@ module.exports = {
       "parent": "B419",
       "name": "填写组合价格"
     },
-    "Z421-3": {
-      "file": "pages/publish/index.wxml",
-      "parent": "B421",
-      "name": "交互操作"
-    },
-    "Z424-4": {
-      "file": "pages/publish/index.wxml",
-      "parent": "B424",
-      "name": "交互操作"
-    },
     "Z421-1": {
       "file": "pages/publish/index.wxml",
       "parent": "B421",
-      "name": "交互操作"
-    },
-    "Z422-6": {
-      "file": "pages/publish/index.wxml",
-      "parent": "B422",
-      "name": "交互操作"
-    },
-    "Z422-1": {
-      "file": "pages/publish/index.wxml",
-      "parent": "B422",
-      "name": "交互操作"
-    },
-    "Z424-5": {
-      "file": "pages/publish/index.wxml",
-      "parent": "B424",
-      "name": "交互操作"
-    },
-    "Z422-8": {
-      "file": "pages/publish/index.wxml",
-      "parent": "B422",
-      "name": "交互操作"
-    },
-    "Z424-1": {
-      "file": "pages/publish/index.wxml",
-      "parent": "B424",
       "name": "交互操作"
     },
     "Z421-2": {
@@ -859,27 +826,32 @@ module.exports = {
       "parent": "B421",
       "name": "交互操作"
     },
-    "Z423-1": {
+    "Z421-3": {
       "file": "pages/publish/index.wxml",
-      "parent": "B423",
+      "parent": "B421",
       "name": "交互操作"
     },
-    "Z424-3": {
+    "Z421-4": {
       "file": "pages/publish/index.wxml",
-      "parent": "B424",
+      "parent": "B421",
       "name": "交互操作"
     },
-    "Z424-2": {
+    "Z421-5": {
       "file": "pages/publish/index.wxml",
-      "parent": "B424",
+      "parent": "B421",
       "name": "交互操作"
     },
-    "Z424-6": {
+    "Z421-6": {
       "file": "pages/publish/index.wxml",
-      "parent": "B424",
+      "parent": "B421",
       "name": "交互操作"
     },
-    "Z422-5": {
+    "Z422-1": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B422",
+      "name": "交互操作"
+    },
+    "Z422-2": {
       "file": "pages/publish/index.wxml",
       "parent": "B422",
       "name": "交互操作"
@@ -894,19 +866,14 @@ module.exports = {
       "parent": "B422",
       "name": "交互操作"
     },
-    "Z421-4": {
-      "file": "pages/publish/index.wxml",
-      "parent": "B421",
-      "name": "交互操作"
-    },
-    "Z422-2": {
+    "Z422-5": {
       "file": "pages/publish/index.wxml",
       "parent": "B422",
       "name": "交互操作"
     },
-    "Z421-6": {
+    "Z422-6": {
       "file": "pages/publish/index.wxml",
-      "parent": "B421",
+      "parent": "B422",
       "name": "交互操作"
     },
     "Z422-7": {
@@ -914,14 +881,103 @@ module.exports = {
       "parent": "B422",
       "name": "交互操作"
     },
-    "Z421-5": {
+    "Z422-8": {
       "file": "pages/publish/index.wxml",
-      "parent": "B421",
+      "parent": "B422",
       "name": "交互操作"
     },
-    "Z610-1": {
+    "Z423-1": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B423",
+      "name": "交互操作"
+    },
+    "Z424-1": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B424",
+      "name": "交互操作"
+    },
+    "Z424-2": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B424",
+      "name": "交互操作"
+    },
+    "Z424-3": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B424",
+      "name": "交互操作"
+    },
+    "Z424-4": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B424",
+      "name": "交互操作"
+    },
+    "Z424-5": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B424",
+      "name": "交互操作"
+    },
+    "Z424-6": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B424",
+      "name": "交互操作"
+    },
+    "Z428-1": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B428",
+      "name": "Z428-1 交互"
+    },
+    "Z428-2": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B428",
+      "name": "Z428-2 交互"
+    },
+    "Z428-3": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B428",
+      "name": "Z428-3 交互"
+    },
+    "Z429-1": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B429",
+      "name": "Z429-1 交互"
+    },
+    "Z429-2": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B429",
+      "name": "Z429-2 交互"
+    },
+    "Z602-1": {
       "file": "pages/me/index.wxml",
-      "parent": "B610",
+      "parent": "B602"
+    },
+    "Z602-2": {
+      "file": "pages/me/index.wxml",
+      "parent": "B602"
+    },
+    "Z602-3": {
+      "file": "pages/me/index.wxml",
+      "parent": "B602"
+    },
+    "Z603-1": {
+      "file": "pages/me/index.wxml",
+      "parent": "B603"
+    },
+    "Z605-1": {
+      "file": "pages/my-listings/index.wxml",
+      "parent": "B605"
+    },
+    "Z605-2": {
+      "file": "pages/my-listings/index.wxml",
+      "parent": "B605",
+      "name": "打开我发布的共用详情页"
+    },
+    "Z606-1": {
+      "file": "pages/me/index.wxml",
+      "parent": "B606"
+    },
+    "Z608-1": {
+      "file": "pages/me/index.wxml",
+      "parent": "B608",
       "name": "交互操作"
     },
     "Z608-2": {
@@ -929,7 +985,17 @@ module.exports = {
       "parent": "B608",
       "name": "交互操作"
     },
+    "Z608-3": {
+      "file": "pages/me/index.wxml",
+      "parent": "B608",
+      "name": "交互操作"
+    },
     "Z609-1": {
+      "file": "pages/me/index.wxml",
+      "parent": "B609",
+      "name": "交互操作"
+    },
+    "Z609-2": {
       "file": "pages/me/index.wxml",
       "parent": "B609",
       "name": "交互操作"
@@ -944,27 +1010,12 @@ module.exports = {
       "parent": "B609",
       "name": "交互操作"
     },
-    "Z608-1": {
-      "file": "pages/me/index.wxml",
-      "parent": "B608",
-      "name": "交互操作"
-    },
-    "Z608-3": {
-      "file": "pages/me/index.wxml",
-      "parent": "B608",
-      "name": "交互操作"
-    },
-    "Z609-2": {
-      "file": "pages/me/index.wxml",
-      "parent": "B609",
-      "name": "交互操作"
-    },
-    "Z610-2": {
+    "Z610-1": {
       "file": "pages/me/index.wxml",
       "parent": "B610",
       "name": "交互操作"
     },
-    "Z610-4": {
+    "Z610-2": {
       "file": "pages/me/index.wxml",
       "parent": "B610",
       "name": "交互操作"
@@ -974,20 +1025,100 @@ module.exports = {
       "parent": "B610",
       "name": "交互操作"
     },
+    "Z610-4": {
+      "file": "pages/me/index.wxml",
+      "parent": "B610",
+      "name": "交互操作"
+    },
+    "Z610-5": {
+      "file": "pages/me/index.wxml",
+      "parent": "B610",
+      "name": "Z610-5 交互"
+    },
     "Z611-1": {
       "file": "pages/my-listings/index.wxml",
       "parent": "B611",
       "name": "交互操作"
     },
-    "Z304-1": {
-      "file": "pages/hall/index.wxml",
-      "parent": "B304",
-      "name": "交互操作"
+    "Z701-8": {
+      "file": "pages/settings/index.wxml",
+      "parent": "B701",
+      "name": "开发者模式开关"
     },
-    "Z303-1": {
-      "file": "pages/hall/index.wxml",
-      "parent": "B303",
-      "name": "交互操作"
+    "Z702-1": {
+      "file": "pages/settings/index.wxml",
+      "parent": "B702",
+      "name": "切换编号分组"
+    },
+    "Z702-2": {
+      "file": "pages/settings/index.wxml",
+      "parent": "B702",
+      "name": "复制编号"
+    },
+    "Z703-1": {
+      "file": "pages/time-settings/index.wxml",
+      "parent": "B703",
+      "name": "Z703-1 交互"
+    },
+    "Z703-2": {
+      "file": "pages/time-settings/index.wxml",
+      "parent": "B703",
+      "name": "Z703-2 交互"
+    },
+    "Z703-3": {
+      "file": "pages/time-settings/index.wxml",
+      "parent": "B703",
+      "name": "Z703-3 交互"
+    },
+    "Z703-4": {
+      "file": "pages/time-settings/index.wxml",
+      "parent": "B703",
+      "name": "Z703-4 交互"
+    },
+    "Z703-5": {
+      "file": "pages/time-settings/index.wxml",
+      "parent": "B703",
+      "name": "Z703-5 交互"
+    },
+    "Z704-1": {
+      "file": "pages/time-settings/index.wxml",
+      "parent": "B704",
+      "name": "Z704-1 交互"
+    },
+    "Z704-2": {
+      "file": "pages/time-settings/index.wxml",
+      "parent": "B704",
+      "name": "Z704-2 交互"
+    },
+    "Z704-3": {
+      "file": "pages/time-settings/index.wxml",
+      "parent": "B704",
+      "name": "Z704-3 交互"
+    },
+    "Z704-4": {
+      "file": "pages/time-settings/index.wxml",
+      "parent": "B704",
+      "name": "Z704-4 交互"
+    },
+    "Z704-5": {
+      "file": "pages/time-settings/index.wxml",
+      "parent": "B704",
+      "name": "Z704-5 交互"
+    },
+    "Z704-6": {
+      "file": "pages/time-settings/index.wxml",
+      "parent": "B704",
+      "name": "Z704-6 交互"
+    },
+    "Z704-7": {
+      "file": "pages/time-settings/index.wxml",
+      "parent": "B704",
+      "name": "Z704-7 交互"
+    },
+    "Z900-1": {
+      "file": "components/dev-badge/index.wxml",
+      "parent": "B900",
+      "name": "复制界面编号"
     }
   },
   "note": "B 为可见页面、弹层与功能区边框；Z 为区内操作。每个功能区在开发者模式显示可点选复制的编号。退役编码不得复用。",

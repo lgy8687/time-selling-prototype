@@ -7,24 +7,23 @@
       <view class="subtitle intro">选择一个方向，发布后可在这里继续管理。</view>
     </view>
     <view class="publish-directions" data-b="B406"><dev-badge wx:if="{{developerMode}}" code="B406" />
-      <view class="direction-label">自己卖</view>
+      <view class="publish-lane sell-lane" data-b="B426"><dev-badge wx:if="{{developerMode}}" code="B426" /><view class="direction-label">自己卖</view>
       <view class="direction-tile sell" data-stage="sell" data-z="Z406-1" bindtap="start">
         <view class="direction-icon">售</view><view class="direction-copy"><view class="direction-title">时间售卖</view><view class="direction-desc">分享经验、授课，或提供线下服务</view></view><text class="direction-arrow">›</text>
       </view>
-      <view class="direction-label direction-second">我要求购</view>
+      <dev-badge wx:if="{{developerMode}}" code="Z406-1" />
+      <view class="lane-records" data-b="B405"><dev-badge wx:if="{{developerMode}}" code="B405" />
+        <view class="row"><view class="section-title">我的售卖与草稿</view><text class="small muted">{{listings.length}} 条</text></view>
+        <view wx:if="{{!listings.length}}" class="empty">还没有草稿或本机发布。</view>
+        <view wx:for="{{listings}}" wx:key="id" class="mine-row"><view class="mine-main" data-id="{{item.id}}" data-z="Z405-1" bindtap="previewFromList"><view class="mine-title">{{item.title}}</view><view class="small muted">{{item.kindLabel}} · {{item.statusLabel}} · ¥{{item.price || '—'}}</view></view><text class="edit-link" data-id="{{item.id}}" data-z="Z405-2" bindtap="editFromList">编辑</text><text class="delete-link" data-id="{{item.id}}" data-z="Z405-3" bindtap="removeFromList">删除</text></view>
+      </view></view>
+      <view class="publish-lane buy-lane" data-b="B427"><dev-badge wx:if="{{developerMode}}" code="B427" /><view class="direction-label">我要求购</view>
       <view class="direction-tile buy" data-stage="buy" data-z="Z406-2" bindtap="start">
         <view class="direction-icon">求</view><view class="direction-copy"><view class="direction-title">时间求购</view><view class="direction-desc">说出需要的帮助与期望时间</view></view><text class="direction-arrow">›</text>
       </view>
+      <dev-badge wx:if="{{developerMode}}" code="Z406-2" />
+      <view class="lane-records" data-b="B418"><dev-badge wx:if="{{developerMode}}" code="B418" /><view class="row"><view class="section-title">我的求购</view><text class="small muted">{{requests.length}} 条</text></view><view wx:if="{{!requests.length}}" class="empty">还没有求购记录。</view><view wx:for="{{requests}}" wx:key="id" class="mine-row"><view class="mine-main"><view class="mine-title">{{item.title}}</view><view class="small muted">{{item.category}} · {{item.subcategory}} · 本机记录</view></view></view></view></view>
     </view>
-    <view class="card my-list" data-b="B405"><dev-badge wx:if="{{developerMode}}" code="B405" />
-      <view class="row"><view class="section-title">我的售卖与草稿</view><text class="small muted">{{listings.length}} 条</text></view>
-      <view wx:if="{{!listings.length}}" class="empty">还没有草稿或本机发布。</view>
-      <view wx:for="{{listings}}" wx:key="id" class="mine-row">
-        <view class="mine-main" data-id="{{item.id}}" data-z="Z405-1" bindtap="previewFromList"><view class="mine-title">{{item.title}}</view><view class="small muted">{{item.kindLabel}} · {{item.statusLabel}} · ¥{{item.price || '—'}}</view></view>
-        <text class="edit-link" data-id="{{item.id}}" data-z="Z405-2" bindtap="editFromList">编辑</text><text class="delete-link" data-id="{{item.id}}" data-z="Z405-3" bindtap="removeFromList">删除</text>
-      </view>
-    </view>
-    <view class="card my-list" data-b="B418"><dev-badge wx:if="{{developerMode}}" code="B418" /><view class="row"><view class="section-title">我的求购</view><text class="small muted">{{requests.length}} 条</text></view><view wx:if="{{!requests.length}}" class="empty">还没有求购记录。</view><view wx:for="{{requests}}" wx:key="id" class="mine-row"><view class="mine-main"><view class="mine-title">{{item.title}}</view><view class="small muted">{{item.category}} · {{item.subcategory}} · 本机记录</view></view></view></view>
     <view class="hint-line">当前仅在本机保存，其他用户暂时看不到。</view>
   </view>
   <view wx:elif="{{stage === 'sell'}}" data-b="B416" class="form-flow"><dev-badge wx:if="{{developerMode}}" code="B416" /><view class="back-link" data-z="Z416-1" bindtap="backStart">← 返回发布首页</view><view class="title">时间售卖</view><view class="subtitle intro">先选大类，下一步再选具体类别。</view><view class="card starter" data-b="B423"><dev-badge wx:if="{{developerMode}}" code="B423" /><view class="section-title">选择售卖大类</view><view wx:for="{{marketCategories}}" wx:key="name" class="start-option category-option" data-category="{{item.name}}" data-z="Z423-1" bindtap="startCategory"><view class="start-icon">{{item.icon}}</view><view class="start-copy"><view class="start-title">{{item.name}}</view><view class="subtitle">{{item.description}}</view></view><text>›</text></view></view></view>
@@ -80,8 +79,9 @@
       <view class="section-title">03 · 时间与价格</view>
       <view wx:if="{{kind === 'errand'}}"><text class="field-label">服务时间</text><view class="choice-row"><text class="{{form.timeMode === 'exact' ? 'chosen' : ''}}" data-field="timeMode" data-value="exact" data-z="Z404-1" bindtap="choose">约定具体时段</text><text class="{{form.timeMode === 'flexible' ? 'chosen' : ''}}" data-field="timeMode" data-value="flexible" data-z="Z404-2" bindtap="choose">限期内完成</text></view><view class="small muted">{{form.timeMode === 'exact' ? '例如 8:00—9:00，按这个时间提供服务。' : '例如 8:00—17:00，在区间内完成。'}}</view></view>
       <text class="field-label">{{kind === 'experience' ? '交流时间' : '选择可服务时间'}}</text>
-      <view wx:for="{{form.windows}}" wx:key="id" class="window-row"><text>{{item.date}}　{{item.start}}—{{item.end}}</text><text data-index="{{index}}" data-z="Z404-3" bindtap="removeWindow">移除</text></view>
-      <view class="add-line time-entry" data-z="Z404-4" bindtap="openTimePicker">＋ 在这里选择时间块</view>
+      <view wx:if="{{form.availabilityMode === 'all'}}" data-b="B429" class="availability-summary"><dev-badge wx:if="{{developerMode}}" code="B429" /><view>使用所选日期内的空闲时间</view><view class="small muted">{{form.allFrom}} 至 {{form.allTo}}；已有安排自动排除</view><view class="all-dates"><picker mode="date" value="{{form.allFrom}}" start="{{todayKey}}" data-field="allFrom" data-z="Z429-1" bindchange="field"><view class="picker">开始：{{form.allFrom}} ▾</view></picker><picker mode="date" value="{{form.allTo}}" start="{{todayKey}}" data-field="allTo" data-z="Z429-2" bindchange="field"><view class="picker">结束：{{form.allTo}} ▾</view></picker></view></view>
+      <view wx:else><view wx:for="{{form.windows}}" wx:key="id" class="window-row"><text>{{item.date}}　{{item.start}}—{{item.end}}</text><text data-index="{{index}}" data-z="Z404-3" bindtap="removeWindow">移除</text></view></view>
+      <view class="add-line time-entry" data-z="Z404-4" bindtap="openTimeChoice">{{form.availabilityMode === 'all' ? '更改售卖时间方式' : '＋ 选择售卖时间段'}}</view><dev-badge wx:if="{{developerMode}}" code="Z404-4" />
       <view wx:if="{{kind === 'errand'}}"><text class="field-label">这个时间段最多接几单</text><view class="row capacity-row"><input class="input" type="number" value="{{form.capacity}}" data-field="capacity" data-z="Z404-5" bindinput="field" /><text>单</text></view><view class="small muted">多个指定地点共用此上限；每段时间单独计算。</view></view>
       <view wx:if="{{kind === 'errand'}}"><text class="field-label">收费方式</text><view class="choice-row"><text class="{{form.priceUnit === '按次' ? 'chosen' : ''}}" data-field="priceUnit" data-value="按次" data-z="Z404-8" bindtap="choose">按次</text><text class="{{form.priceUnit === '按小时' ? 'chosen' : ''}}" data-field="priceUnit" data-value="按小时" data-z="Z404-9" bindtap="choose">按小时</text></view></view>
       <view wx:if="{{kind === 'experience'}}" data-b="B419"><dev-badge wx:if="{{developerMode}}" code="B419" /><view class="section-title">按服务方式定价</view><view wx:for="{{priceRows}}" wx:key="key" class="price-row"><text>{{item.label}}</text><input class="input" type="digit" placeholder="元" value="{{item.value}}" data-key="{{item.key}}" data-z="Z419-1" bindinput="priceField" /></view></view><view wx:else><text class="field-label">价格（元）</text><input class="input" type="digit" placeholder="99" value="{{form.price}}" data-field="price" data-z="Z404-6" bindinput="field" /></view><text class="field-label">参考时长（分钟）</text><input class="input" type="number" value="{{form.duration}}" data-field="duration" data-z="Z404-7" bindinput="field" />
@@ -105,3 +105,4 @@
   <scroll-view scroll-y class="time-grid-scroll"><view wx:for="{{pickerRows}}" wx:key="hour" class="time-hour"><text class="time-hour-label">{{item.label}}</text><view class="time-cells"><view wx:for="{{item.cells}}" wx:for-item="cell" wx:key="id" class="time-cell {{cell.busy ? 'busy' : ''}} {{cell.selected ? 'selected' : ''}} {{cell.type === 'open' ? 'open' : ''}}" style="flex:{{cell.flex}}" data-index="{{cell.index}}" data-z="Z409-3" bindtap="selectPickerCell" bindtouchstart="holdStart" bindtouchmove="holdEnd" bindtouchend="holdEnd" bindtouchcancel="holdEnd"><text wx:if="{{cell.index === rangeStart}}" class="corner start">◤</text><text wx:if="{{cell.index === rangeEnd}}" class="corner end">◢</text><text>{{cell.busy ? '已占用' : cell.start}}</text></view></view></view></scroll-view>
   <view class="selected-range">{{pickerSummary || '尚未选择时间'}}</view><button class="btn sheet-button" data-z="Z409-4" bindtap="addWindow">加入这段时间</button>
 </view></view>
+<view wx:if="{{timeChoice}}" class="overlay" data-b="B428"><view class="sheet"><dev-badge wx:if="{{developerMode}}" code="B428" /><view class="row"><view class="section-title">选择售卖时间</view><text class="close" data-z="Z428-1" bindtap="closeTimeChoice">×</text></view><view class="time-choice" data-z="Z428-2" bindtap="chooseAllFree"><view class="direction-title">使用全部空闲时间</view><view class="subtitle">指定日期范围；排除时间表中已占用的时段</view></view><view class="time-choice" data-z="Z428-3" bindtap="chooseSelectedTime"><view class="direction-title">指定时间段</view><view class="subtitle">打开时间块，只选择本次愿意上架的时间</view></view></view></view>

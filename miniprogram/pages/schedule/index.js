@@ -3,7 +3,7 @@ const { today, dayKey, addDays, fromDay, dateText, makeSlots, minutes } = (() =>
   return { ...t, fromDay: value => { const [y,m,d] = value.split('-').map(Number); return new Date(y,m-1,d) } }
 })()
 const store = require('../../utils/store')
-const types = { reserved: '已安排', blocked: '私人占用', open: '开放时间' }
+const types = { reserved: '已安排', blocked: '私人占用', open: '历史开放时间', pending: '待卖家确认' }
 const rowsFor = (slots, from, to) => {
   const rows = []
   slots.forEach((slot, index) => {
@@ -17,7 +17,7 @@ const rowsFor = (slots, from, to) => {
 Page({
   data: {
     date: today(), dateLabel: '', monthLabel: '', layout: 'agenda', collapseProgress: 0, calendarHeightRpx: 516, monthOffsetRpx: 0,
-    slots: [], hourRows: [], week: [], month: [], agenda: [], weekdays: ['一','二','三','四','五','六','日'], paletteHidden: false,
+    slots: [], hourRows: [], week: [], month: [], agenda: [], weekdays: ['一','二','三','四','五','六','日'], paletteHidden: false, fullscreen: false, paletteParent: '', paletteRows: [], paletteTitle: '常用标签',
     settings: {}, palette: [], selectedFrom: -1, selectedTo: -1, selectedLabel: '', selectionHint: false,
     editor: false, shareOpen: false, developerMode: false, editorSlots: [], editorRows: [], editorFrom: -1, editorTo: -1, editorRange: '', newLabelOpen: false, newLabelName: '',
     form: {}, editing: false, error: '', publicSlots: [],
@@ -34,7 +34,9 @@ Page({
     const day = fromDay(date)
     const dayOfWeek = (day.getDay() + 6) % 7
     const monday = addDays(date, -dayOfWeek)
-    const eventsFor = value => state.events.filter(e => e.date === value).sort((a, b) => a.start.localeCompare(b.start))
+    const pending = (state.orders || []).filter(order => order.status === 'pending').map(order => ({ id: `pending-${order.id}`, orderId: order.id, source: 'order', date: order.date, start: order.start, end: order.end, type: 'pending', title: `${order.buyerName} · 待确认` }))
+    const displayEvents = [...state.events.filter(event => event.type !== 'open'), ...pending]
+    const eventsFor = value => displayEvents.filter(e => e.date === value).sort((a, b) => a.start.localeCompare(b.start))
     const dateCell = value => {
       const events = eventsFor(value)
       return { date: value, day: Number(value.slice(-2)), selected: value === date, count: events.length, chips: events.slice(0, 1).map(e => ({ id: e.id, title: e.title, type: e.type })), extra: Math.max(0, events.length - 1) }
@@ -49,12 +51,14 @@ Page({
       const value = addDays(first, i - offset)
       return { ...dateCell(value), active: value.slice(0, 7) === date.slice(0, 7) }
     })
-    const slots = makeSlots(date, state.settings.startHour, state.settings.endHour, state.settings.mode, state.events)
+    const slots = makeSlots(date, state.settings.startHour, state.settings.endHour, state.settings.mode, displayEvents)
     const hourRows = rowsFor(slots, this.data.selectedFrom, this.data.selectedTo)
     const agenda = eventsFor(date).map(e => ({ ...e, range: `${e.start}–${e.end}`, typeLabel: types[e.type] }))
     const publicSlots = state.events.filter(e => store.available(state.events, e)).sort((a,b) => a.date.localeCompare(b.date) || a.start.localeCompare(b.start)).map(e => ({ ...e, label: `${dateText(e.date)} ${e.start}–${e.end}` }))
     const selected = this.data.selectedFrom >= 0 ? slots.slice(this.data.selectedFrom, this.data.selectedTo + 1) : []
-    this.setData({ dateLabel: dateText(date), monthLabel: `${day.getMonth() + 1}月`, slots, hourRows, week, month, agenda, settings: state.settings, developerMode: Boolean(state.settings.developerMode), palette: state.palette, publicSlots, eventCount: agenda.length, selectedLabel: selected.length ? `${selected[0].start}–${selected[selected.length - 1].end} · ${selected.length} 格` : '', modeLabel: state.settings.mode === 2 ? '30 + 30 分钟' : state.settings.mode === 3 ? '30 + 15 + 15 分钟' : '15 + 15 + 15 + 15 分钟' })
+    const palette = state.palette.filter(item => item.id !== 'open')
+    const parent = palette.find(item => item.id === this.data.paletteParent)
+    this.setData({ dateLabel: dateText(date), monthLabel: `${day.getMonth() + 1}月`, slots, hourRows, week, month, agenda, settings: state.settings, developerMode: Boolean(state.settings.developerMode), palette, paletteRows: palette.filter(item => (item.parentId || '') === (parent ? parent.id : '')), paletteTitle: parent ? parent.title : '常用标签', publicSlots, eventCount: agenda.length, selectedLabel: selected.length ? `${selected[0].start}–${selected[selected.length - 1].end} · ${selected.length} 格` : '', modeLabel: state.settings.mode === 2 ? '30 + 30 分钟' : state.settings.mode === 3 ? '30 + 15 + 15 分钟' : '15 + 15 + 15 + 15 分钟' })
     this.updateCalendarGeometry(this.data.collapseProgress)
   },
   setLayout(e) {
@@ -96,7 +100,8 @@ Page({
   chooseDate(e) { this.changeDate(e.currentTarget.dataset.date) },
   openExisting(id) {
     const state = store.read()
-    const old = state.events.find(item => item.id === id)
+    const old = state.events.find(item => item.id === id) || (id.startsWith('pending-') ? { orderId: id.slice(8), source: 'order' } : null)
+    if (old?.orderId) return wx.navigateTo({ url: `/pages/orders/index?id=${old.orderId}` })
     if (old && old.serviceId) {
       getApp().globalData.editServiceId = old.serviceId
       wx.switchTab({ url: '/pages/publish/index' })
@@ -215,14 +220,28 @@ Page({
   choosePalette(e) {
     const palette = this.data.palette.find(item => item.id === e.currentTarget.dataset.id)
     if (!palette) return
+    if (this.data.palette.some(item => item.parentId === palette.id)) {
+      this.setData({ paletteParent: palette.id, paletteTitle: palette.title, paletteRows: this.data.palette.filter(item => item.parentId === palette.id) })
+      return
+    }
     if (this.data.selectedFrom < 0) return wx.showToast({ title: '请先选择时间格', icon: 'none' })
     const selected = this.data.slots.slice(this.data.selectedFrom, this.data.selectedTo + 1)
     if (selected.some(item => item.eventId)) return wx.showToast({ title: '所选时间已有安排', icon: 'none' })
-    this.openAdd(palette, this.data.selectedFrom, this.data.selectedTo)
-  },
-  addEvent() {
+    const parent = this.data.palette.find(item => item.id === palette.parentId)
+    const candidate = { id: store.uid(), date: this.data.date, start: selected[0].start, end: selected[selected.length - 1].end, title: parent ? `${parent.title} · ${palette.title}` : palette.title, type: palette.type === 'blocked' ? 'blocked' : 'reserved', paletteId: palette.id, parentId: parent?.id || '', source: 'manual' }
     const state = store.read()
-    this.openAdd(state.palette[0], this.data.layout === 'blocks' ? this.data.selectedFrom : -1, this.data.layout === 'blocks' ? this.data.selectedTo : -1)
+    if (store.collision(state.events, candidate) || (state.orders || []).some(order => ['pending','confirmed'].includes(order.status) && require('../../utils/time').overlaps(order, candidate))) return wx.showToast({ title: '所选时间与预约或安排冲突', icon: 'none' })
+    try {
+      store.write({ ...state, events: [...state.events, candidate] })
+      this.updateSelection(-1, -1)
+      this.refresh()
+      wx.showToast({ title: '已记入时间块', icon: 'success' })
+    } catch (error) { wx.showToast({ title: '记录失败，请检查存储空间', icon: 'none' }) }
+  },
+  paletteBack() { this.setData({ paletteParent: '', paletteTitle: '常用标签', paletteRows: this.data.palette.filter(item => !item.parentId) }) },
+  addEvent() {
+    if (this.data.layout !== 'blocks') this.setData({ layout: 'blocks' })
+    wx.showToast({ title: '先选时间格，再点右侧标签', icon: 'none' })
   },
   editField(e) { this.setData({ [`form.${e.currentTarget.dataset.field}`]: e.detail.value, error: '' }) },
   chooseType(e) {
@@ -258,7 +277,9 @@ Page({
       this.setData({ editor: false }); this.refresh(); wx.showToast({ title: '已删除', icon: 'success' })
     } })
   },
-  goSettings() { wx.navigateTo({ url: '/pages/settings/index' }) },
+  goSettings() { wx.navigateTo({ url: '/pages/time-settings/index' }) },
+  goStats() { wx.navigateTo({ url: '/pages/time-stats/index' }) },
+  toggleFullscreen() { this.setData({ fullscreen: !this.data.fullscreen, paletteHidden: !this.data.fullscreen }) },
   toggleShare() { this.setData({ shareOpen: !this.data.shareOpen }); this.refresh() },
   onShareAppMessage() { return { title: '查看我开放的交流时间', path: '/pages/hall/index' } }
 })

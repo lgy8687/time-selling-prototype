@@ -3,6 +3,11 @@
 .publish-eyebrow { display: inline-block; color: #236e53; background: #e8f3ea; border-radius: 999rpx; padding: 8rpx 18rpx; font-size: 21rpx; margin: 16rpx 0 17rpx; }
 .publish-hero .title { font-size: 48rpx; }
 .publish-directions { margin-top: 12rpx; }
+.publish-lane { border-radius: 30rpx; padding: 20rpx 22rpx 24rpx; margin: 18rpx 0 26rpx; border: 1rpx solid #e4ece5; }
+.sell-lane { background: #f3f8f3; }
+.buy-lane { background: #fff9ec; border-color: #f1e8d2; }
+.lane-records { background: #fff; border-radius: 22rpx; padding: 18rpx 20rpx; margin-top: 18rpx; }
+.lane-records .section-title { font-size: 26rpx; }
 .direction-label { font-size: 30rpx; font-weight: 700; margin: 17rpx 4rpx 14rpx; }
 .direction-second { margin-top: 32rpx; }
 .direction-tile { box-sizing: border-box; display: flex; align-items: center; gap: 22rpx; width: 100%; min-height: 160rpx; border-radius: 28rpx; padding: 26rpx; }
@@ -100,3 +105,9 @@
 .selected-range { color: #236e53; font-size: 23rpx; padding: 18rpx 0 0; min-height: 30rpx; }
 
 .mode-choice text { white-space: normal; min-height: 54rpx; display: flex; align-items: center; justify-content: center; }
+.time-choice { padding: 24rpx; border: 1rpx solid #dfe9df; border-radius: 20rpx; margin: 18rpx 0; background: #f5f9f4; }
+.time-choice:last-child { background: #fff8e9; }
+.availability-summary { background: #f3f8f3; border-radius: 16rpx; padding: 18rpx; margin: 12rpx 0; }
+.all-dates { display: flex; gap: 10rpx; margin-top: 14rpx; }
+.all-dates picker { flex: 1; min-width: 0; }
+.all-dates .picker { font-size: 20rpx; }

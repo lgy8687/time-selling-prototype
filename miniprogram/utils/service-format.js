@@ -28,6 +28,6 @@ const viewModel = (item, profile, owner = false) => ({
   avatar: owner ? profile.name.slice(0, 1) : item.avatar || '服',
   owner,
   localOnly: owner,
-  statusLabel: item.status === 'published' ? '本机展示' : item.status === 'draft' || item.status === 'local' ? '本机草稿' : '示例内容'
+  statusLabel: item.status === 'published' ? '本机展示' : item.status === 'unlisted' ? '已下架' : item.status === 'draft' || item.status === 'local' ? '本机草稿' : '示例内容'
 })
 module.exports = { viewModel }

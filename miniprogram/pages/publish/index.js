@@ -1,5 +1,5 @@
 const store = require('../../utils/store')
-const { today, dateText, makeSlots, overlaps, minutes } = require('../../utils/time')
+const { today, addDays, dateText, makeSlots, overlaps, minutes, clock } = require('../../utils/time')
 const { templates, blankForm, marketCategories } = require('../../utils/service-templates')
 const { viewModel } = require('../../utils/service-format')
 
@@ -16,13 +16,29 @@ const rowsFor = (slots, from, to) => {
   })
   return rows
 }
+const allFreeWindows = (form, state, editingId) => {
+  const duration = Number(form.duration)
+  if (!Number.isInteger(duration) || duration < 15 || duration > 480 || !form.allFrom || !form.allTo || form.allFrom > form.allTo || form.allTo > addDays(form.allFrom, 13)) return []
+  const busy = state.events.filter(event => event.type !== 'open' && event.serviceId !== editingId)
+  const other = state.drafts.filter(item => item.id !== editingId && item.status === 'published').flatMap(item => item.windows || [])
+  const windows = []
+  for (let date = form.allFrom; date <= form.allTo; date = addDays(date, 1)) {
+    for (let start = state.settings.startHour * 60; start + duration <= state.settings.endHour * 60; start += duration) {
+      const candidate = { date, start: clock(start), end: clock(start + duration) }
+      if (new Date(`${date}T${candidate.start}:00`).getTime() <= Date.now()) continue
+      if (busy.some(event => overlaps(candidate, event)) || other.some(window => overlaps(candidate, window))) continue
+      windows.push({ ...candidate, id: store.uid() })
+    }
+  }
+  return windows
+}
 
 Page({
   data: {
     kind: '', stage: 'start', form: blankForm('experience'), editingId: '', developerMode: false, error: '',
     marketCategories, subcategories: subcategoriesFor('知识付费'), categoryIndex: 0, priceRows: [], hasOnline: true, hasOffline: false, hasOne: true, hasGroup: false, templates, ownTemplates: [], templatePanel: '', templateNameOpen: false, templateName: '',
     requestForm: { title: '', category: '知识付费', subcategory: '职业经验', detail: '', budget: '', date: today() }, requests: [], requestCategoryIndex: 0, requestSubcategoryIndex: 0, requestSubcategories: subcategoriesFor('知识付费'),
-    locationInput: '', timePicker: false, pickerDate: today(), todayKey: today(), pickerRows: [], pickerSlots: [], pickerFrom: -1, pickerTo: -1,
+    locationInput: '', timePicker: false, timeChoice: false, pickerDate: today(), todayKey: today(), pickerRows: [], pickerSlots: [], pickerFrom: -1, pickerTo: -1,
     rangeStart: -1, rangeEnd: -1, pickerSummary: '', listings: []
   },
   onLoad(options) {
@@ -87,10 +103,11 @@ Page({
   previewFromList(e) { wx.navigateTo({ url: `/pages/service/index?id=${e.currentTarget.dataset.id}` }) },
   removeFromList(e) {
     const id = e.currentTarget.dataset.id
-    wx.showModal({ title: '删除这条发布？', content: '本机草稿或本机展示会删除，由它新增的开放时间也会移除。', success: result => {
+    if ((store.read().orders || []).some(order => order.serviceId === id && ['pending', 'confirmed'].includes(order.status))) return wx.showToast({ title: '有预约记录，请先下架或处理预约', icon: 'none' })
+    wx.showModal({ title: '删除这条发布？', content: '这条本机发布会删除。', success: result => {
       if (!result.confirm) return
       try {
-        store.update(state => ({ ...state, drafts: state.drafts.filter(item => item.id !== id), events: state.events.filter(event => event.serviceId !== id) }))
+        store.update(state => ({ ...state, drafts: state.drafts.filter(item => item.id !== id), events: state.events.filter(event => event.serviceId !== id || event.source === 'order') }))
         this.refresh()
       } catch (error) { wx.showToast({ title: '删除失败', icon: 'none' }) }
     } })
@@ -168,6 +185,10 @@ Page({
       wx.showToast({ title: '模板已保存', icon: 'success' })
     } catch (error) { wx.showToast({ title: '模板保存失败', icon: 'none' }) }
   },
+  openTimeChoice() { this.setData({ timeChoice: true }) },
+  closeTimeChoice() { this.setData({ timeChoice: false }) },
+  chooseAllFree() { this.setData({ timeChoice: false, 'form.availabilityMode': 'all', 'form.allFrom': this.data.form.allFrom || today(), 'form.allTo': this.data.form.allTo || addDays(today(), 6), error: '' }) },
+  chooseSelectedTime() { this.setData({ timeChoice: false, 'form.availabilityMode': 'selected', error: '' }); this.openTimePicker() },
   openTimePicker() {
     const date = this.data.form.windows[0]?.date || today()
     this.setData({ timePicker: true, pickerDate: date, pickerFrom: -1, pickerTo: -1, rangeStart: -1, rangeEnd: -1, pickerSummary: '' })
@@ -238,14 +259,20 @@ Page({
   publish() { this.save('published') },
   save(status) {
     const form = this.data.form
+    const state = store.read()
+    if (form.availabilityMode === 'all' && (form.allFrom > form.allTo || form.allTo > addDays(form.allFrom, 13))) return this.setData({ error: '全部空闲时间最多选择连续 14 天，请检查日期。' })
+    const previous = state.drafts.find(item => item.id === this.data.editingId)
+    const rawWindows = form.availabilityMode === 'all' ? allFreeWindows(form, state, this.data.editingId) : form.windows
+    const effectiveWindows = rawWindows.map(window => ({ ...window, id: (previous?.windows || []).find(old => old.date === window.date && old.start === window.start && old.end === window.end)?.id || window.id }))
+    if ((state.orders || []).some(order => order.serviceId === this.data.editingId && ['pending', 'confirmed'].includes(order.status) && !effectiveWindows.some(window => window.id === order.windowId))) return this.setData({ error: '已有预约的时间不能从发布中删除；请先处理预约。' })
     const title = form.title.trim()
     const offer = form.offer.trim()
     if (!title) return this.setData({ error: '请填写服务名称。' })
     if (status === 'published') {
       if (!offer) return this.setData({ error: '请填写“我能提供什么”。' })
       if (form.resume.some(x => /【|】/.test(x))) return this.setData({ error: '请把履历模板里的待填写内容改成自己的真实经历。' })
-      if (!form.windows.length) return this.setData({ error: '请添加至少一段可服务时间。' })
-      if (form.windows.some(w => new Date(`${w.date}T${w.end}:00`).getTime() <= Date.now())) return this.setData({ error: '可服务时间已过期，请重新选择未来的时间。' })
+      if (!effectiveWindows.length) return this.setData({ error: '所选范围没有可售时间，请调整日期或时间表。' })
+      if (effectiveWindows.some(w => new Date(`${w.date}T${w.end}:00`).getTime() <= Date.now())) return this.setData({ error: '可服务时间已过期，请重新选择未来的时间。' })
       if ((form.kind === 'errand' && form.scope === '指定地点' || form.kind === 'experience' && form.modes.includes('线下交流') && form.venue === '指定地点') && !form.locations.length) return this.setData({ error: '请添加至少一个服务地点。' })
       if (form.kind === 'errand' && form.scope === '全城' && !form.city.trim()) return this.setData({ error: '请填写实际服务的城市。' })
     }
@@ -259,23 +286,22 @@ Page({
     const capacity = Number(form.capacity), minPeople = Number(form.minPeople), maxPeople = Number(form.maxPeople)
     if (status === 'published' && form.kind === 'errand' && (!Number.isInteger(capacity) || capacity < 1 || capacity > 99)) return this.setData({ error: '每时段接单上限请填 1—99。' })
     if (status === 'published' && form.kind === 'experience' && form.meetings.includes('开团') && (!Number.isInteger(minPeople) || !Number.isInteger(maxPeople) || minPeople < 3 || maxPeople < minPeople)) return this.setData({ error: '开团人数至少 3 人，最多人数不能低于成团人数。' })
-    const state = store.read()
     const id = this.data.editingId || store.uid()
     if (status === 'published') {
       const busy = state.events.filter(e => e.type !== 'open' && e.serviceId !== id)
-      if (form.windows.some(w => busy.some(e => overlaps(w, e)))) return this.setData({ error: '所选时间与现有安排冲突，请重新选择。' })
+      if (effectiveWindows.some(w => busy.some(e => overlaps(w, e)))) return this.setData({ error: '所选时间与现有安排冲突，请重新选择。' })
       const other = state.drafts.filter(x => x.id !== id && x.status === 'published')
-      if (form.windows.some(w => other.some(x => (x.windows || []).some(ow => overlaps(w, ow))))) return this.setData({ error: '所选时间已有另一项本机发布，请重新选择。' })
+      if (effectiveWindows.some(w => other.some(x => (x.windows || []).some(ow => overlaps(w, ow))))) return this.setData({ error: '所选时间已有另一项本机发布，请重新选择。' })
     }
     const item = {
       ...form, id, title, offer, resume: form.resume.map(x => x.trim()).filter(Boolean),
-      locations: [...form.locations], windows: [...form.windows],
+      locations: [...form.locations], windows: [...effectiveWindows],
       price: status === 'published' ? price : form.price, duration: status === 'published' ? duration : form.duration,
       status, updatedAt: Date.now()
     }
     try {
-      const events = state.events.filter(e => e.serviceId !== id)
-      if (status === 'published') form.windows.forEach(w => events.push({ id: store.uid(), ...w, type: 'open', title, serviceId: id, source: 'publish' }))
+      const events = state.events.filter(e => e.serviceId !== id || e.source === 'order')
+      // Listing windows live on the service. A free time block is not itself a calendar event.
       store.write({ ...state, events, drafts: [...state.drafts.filter(x => x.id !== id), item] })
       this.setData({ stage: 'start', kind: '', editingId: '', error: '' })
       this.refresh()

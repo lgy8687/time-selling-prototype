@@ -3,8 +3,7 @@ const KEY = 'time-selling-mini-v1'
 const uid = () => `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
 const todayExamples = day => [
   { id: uid(), date: day, start: '09:00', end: '10:00', type: 'reserved', title: '小林 · 摄影课' },
-  { id: uid(), date: day, start: '11:00', end: '11:30', type: 'blocked', title: '私人安排' },
-  { id: uid(), date: day, start: '15:00', end: '16:00', type: 'open', title: '开放交流' }
+  { id: uid(), date: day, start: '11:00', end: '11:30', type: 'blocked', title: '私人安排' }
 ]
 const initial = () => {
   const day = today()
@@ -13,19 +12,20 @@ const initial = () => {
     demoSeedVersion: 2,
     settings: { startHour: 8, endHour: 22, mode: 2, developerMode: false },
     palette: [
-      { id: 'student', title: '学生名字', type: 'reserved', color: 'blue' },
-      { id: 'group', title: '小组名字', type: 'reserved', color: 'mint' },
-      { id: 'private', title: '私人安排', type: 'blocked', color: 'gray' },
-      { id: 'open', title: '开放交流', type: 'open', color: 'yellow' }
+      { id: 'yoga', title: '瑜伽课', type: 'reserved', color: 'mint', parentId: '' },
+      { id: 'yoga-student', title: '学员小王', type: 'reserved', color: 'mint', parentId: 'yoga' },
+      { id: 'student', title: '学生名字', type: 'reserved', color: 'blue', parentId: '' },
+      { id: 'group', title: '小组名字', type: 'reserved', color: 'mint', parentId: '' },
+      { id: 'private', title: '私人安排', type: 'blocked', color: 'gray', parentId: '' }
     ],
     events: [
       ...todayExamples(day),
       { id: uid(), date: addDays(day, 1), start: '10:00', end: '11:00', type: 'reserved', title: '学生 · 示例' },
-      { id: uid(), date: addDays(day, 2), start: '14:00', end: '15:00', type: 'blocked', title: '私人安排' },
-      { id: uid(), date: addDays(day, 3), start: '15:00', end: '16:00', type: 'open', title: '开放交流时间' }
+      { id: uid(), date: addDays(day, 2), start: '14:00', end: '15:00', type: 'blocked', title: '私人安排' }
     ],
     drafts: [],
-    requests: []
+    requests: [],
+    orders: []
   }
 }
 const read = () => {
@@ -37,6 +37,17 @@ const read = () => {
       if (originalDemo) {
         const day = today()
         const upgraded = { ...state, demoSeedVersion: 2, events: state.events.some(event => event.date === day) ? state.events : [...todayExamples(day), ...state.events] }
+        wx.setStorageSync(KEY, upgraded)
+        return upgraded
+      }
+      if (!Array.isArray(state.orders) || !state.palette.some(item => item.parentId)) {
+        const palette = state.palette.some(item => item.parentId) ? state.palette : [
+          ...state.palette,
+          { id: uid(), title: '瑜伽课', type: 'reserved', color: 'mint', parentId: '' },
+          { id: uid(), title: '学员小王', type: 'reserved', color: 'mint', parentId: '' }
+        ]
+        if (!state.palette.some(item => item.parentId)) palette[palette.length - 1].parentId = palette[palette.length - 2].id
+        const upgraded = { ...state, palette, orders: state.orders || [] }
         wx.setStorageSync(KEY, upgraded)
         return upgraded
       }
