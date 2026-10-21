@@ -16,7 +16,7 @@ const rowsFor = (slots, from, to) => {
 
 Page({
   data: {
-    date: today(), dateLabel: '', monthLabel: '', layout: 'agenda', collapseProgress: 0, monthHeightRpx: 516, monthOffsetRpx: 0, spacerHeightRpx: 350,
+    date: today(), dateLabel: '', monthLabel: '', layout: 'agenda', collapseProgress: 0, flowLiftRpx: 0, monthOffsetRpx: 0,
     slots: [], hourRows: [], week: [], month: [], agenda: [], weekdays: ['一','二','三','四','五','六','日'], paletteHidden: false,
     settings: {}, palette: [], selectedFrom: -1, selectedTo: -1, selectedLabel: '', selectionHint: false,
     editor: false, shareOpen: false, developerMode: false, editorSlots: [], editorRows: [], editorFrom: -1, editorTo: -1, editorRange: '', newLabelOpen: false, newLabelName: '',
@@ -69,7 +69,7 @@ Page({
     const offset = (fromDay(first).getDay() + 6) % 7
     const selectedWeek = Math.floor((offset + Number(date.slice(-2)) - 1) / 7)
     const p = Math.max(0, Math.min(1, progress))
-    this.setData({ collapseProgress: p, monthHeightRpx: Math.round(516 - 430 * p), monthOffsetRpx: Math.round(selectedWeek * 86 * p), spacerHeightRpx: Math.round(350 + 430 * p) })
+    this.setData({ collapseProgress: p, flowLiftRpx: Math.round(430 * p), monthOffsetRpx: Math.round(selectedWeek * 86 * p) })
   },
   onPageScroll(e) {
     const width = wx.getWindowInfo ? wx.getWindowInfo().windowWidth : wx.getSystemInfoSync().windowWidth

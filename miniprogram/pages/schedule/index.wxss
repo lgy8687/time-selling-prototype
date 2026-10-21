@@ -66,10 +66,11 @@
 .sticky-calendar .toolbar { margin-top: 0; }
 .sticky-calendar .month-calendar { margin-top: 10rpx; }
 .date-label { color: #236e53; padding: 8rpx 0; }
-.month-viewport { overflow: hidden; }
+.month-viewport { overflow: hidden; height: 516rpx; }
 .month-viewport .month-grid { height: 516rpx; grid-template-rows: repeat(6, 86rpx); }
 .month-calendar { overflow: hidden; }
-.scroll-runway { pointer-events: none; }
+.scroll-runway { pointer-events: none; height: 350rpx; }
+.schedule-flow { position: relative; z-index: 9; }
 .editor-palette { height: 100%; }
 .palette-add { padding: 14rpx 4rpx; text-align: center; color: #236e53; font-size: 20rpx; border-top: 1rpx solid #e4ebe4; }
 .new-label-panel { margin-top: 14rpx; padding: 14rpx; background: #f7f8f5; border-radius: 16rpx; }

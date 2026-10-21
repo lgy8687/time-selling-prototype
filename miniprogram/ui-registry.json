@@ -1,5 +1,5 @@
 {
-  "version": "v0.5.0-mini",
+  "version": "v0.6.0-mini",
   "templates": {},
   "states": {
     "B100": {
@@ -186,7 +186,7 @@
       "template": null
     },
     "B406": {
-      "name": "发布类型选择卡片",
+      "name": "发布方向选择卡片",
       "template": null
     },
     "B407": {
@@ -236,6 +236,26 @@
     },
     "B311": {
       "name": "服务不存在状态",
+      "template": null
+    },
+    "B416": {
+      "name": "时间售卖大类选择",
+      "template": null
+    },
+    "B417": {
+      "name": "时间求购本机表单",
+      "template": null
+    },
+    "B418": {
+      "name": "我的求购列表",
+      "template": null
+    },
+    "B419": {
+      "name": "组合定价设置",
+      "template": null
+    },
+    "B420": {
+      "name": "时间求购填写错误提示",
       "template": null
     }
   },
@@ -563,17 +583,17 @@
     "Z406-1": {
       "file": "pages/publish/index.wxml",
       "parent": "B406",
-      "name": "选择经验分享"
+      "name": "进入时间售卖"
     },
     "Z406-2": {
       "file": "pages/publish/index.wxml",
       "parent": "B406",
-      "name": "选择帮人办事"
+      "name": "进入时间求购"
     },
     "Z403-1": {
       "file": "pages/publish/index.wxml",
       "parent": "B403",
-      "name": "返回发布类型选择"
+      "name": "返回售卖大类"
     },
     "Z403-2": {
       "file": "pages/publish/index.wxml",
@@ -583,7 +603,7 @@
     "Z403-3": {
       "file": "pages/publish/index.wxml",
       "parent": "B403",
-      "name": "选择经验分享类别"
+      "name": "选择具体类别"
     },
     "Z403-4": {
       "file": "pages/publish/index.wxml",
@@ -608,22 +628,22 @@
     "Z403-8": {
       "file": "pages/publish/index.wxml",
       "parent": "B403",
-      "name": "选择线上交流"
+      "name": "切换线上交流"
     },
     "Z403-9": {
       "file": "pages/publish/index.wxml",
       "parent": "B403",
-      "name": "选择线下交流"
+      "name": "切换线下交流"
     },
     "Z403-10": {
       "file": "pages/publish/index.wxml",
       "parent": "B403",
-      "name": "选择一对一"
+      "name": "切换一对一"
     },
     "Z403-11": {
       "file": "pages/publish/index.wxml",
       "parent": "B403",
-      "name": "选择开团"
+      "name": "切换开团"
     },
     "Z403-12": {
       "file": "pages/publish/index.wxml",
@@ -839,6 +859,61 @@
       "file": "pages/publish/index.wxml",
       "parent": "B413",
       "name": "选择指定地点"
+    },
+    "Z416-1": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B416",
+      "name": "返回发布首页"
+    },
+    "Z416-2": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B416",
+      "name": "选择售卖大类"
+    },
+    "Z417-1": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B417",
+      "name": "返回发布首页"
+    },
+    "Z417-2": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B417",
+      "name": "填写求购标题"
+    },
+    "Z417-3": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B417",
+      "name": "选择求购大类"
+    },
+    "Z417-4": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B417",
+      "name": "选择求购细分类"
+    },
+    "Z417-5": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B417",
+      "name": "填写求购需求"
+    },
+    "Z417-6": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B417",
+      "name": "选择希望日期"
+    },
+    "Z417-7": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B417",
+      "name": "填写求购预算"
+    },
+    "Z417-8": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B417",
+      "name": "保存本机求购"
+    },
+    "Z419-1": {
+      "file": "pages/publish/index.wxml",
+      "parent": "B419",
+      "name": "填写组合价格"
     }
   },
   "note": "B 为可见界面状态，Z 为操作；发布分经验分享与帮人办事，B307 为买卖双方共用详情。开发者模式可点编号复制。",

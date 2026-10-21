@@ -20,7 +20,14 @@
 .form-heading { margin: 3rpx 0 14rpx; }
 .form-heading .title { margin-top: 8rpx; font-size: 39rpx; }
 .whole-template { display: inline-block; color: #236e53; background: #e8f3ea; border-radius: 999rpx; padding: 10rpx 20rpx; font-size: 23rpx; }
-.back-link { padding: 8rpx 0; }
+.back-link { display: inline-flex; align-items: center; min-height: 76rpx; box-sizing: border-box; padding: 13rpx 22rpx; margin: 4rpx 0 15rpx; border: 2rpx solid #a8c7b2; border-radius: 18rpx; background: #e8f3ea; font-size: 27rpx; font-weight: 700; color: #236e53; }
+.category-option { background: #f0f6ee; }
+.category-option:nth-child(3) { background: #fff3db; }
+.category-option:nth-child(4) { background: #e9f2f8; }
+.category-option:nth-child(5) { background: #f6edf4; }
+.request-save { width: 100%; margin-top: 24rpx; }
+.price-row { display: flex; align-items: center; justify-content: space-between; gap: 16rpx; padding: 12rpx 0; border-bottom: 1rpx solid #e7eee8; font-size: 24rpx; }
+.price-row .input { width: 190rpx; flex-shrink: 0; }
 .form-progress { display: flex; justify-content: center; gap: 16rpx; color: #7b9184; font-size: 22rpx; padding: 12rpx; }
 .form-progress .on { color: #236e53; font-weight: 700; }
 .local-note { margin-top: 12rpx; }

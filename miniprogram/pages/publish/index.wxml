@@ -1,30 +1,32 @@
 <view class="page publish-page" data-b="B401">
   <dev-badge wx:if="{{developerMode}}" code="B401" />
-  <view wx:if="{{!kind}}">
+  <view wx:if="{{stage === 'start'}}">
     <view class="title">发布</view>
-    <view class="subtitle intro">先说清楚你能提供什么，再选择愿意开放的时间。</view>
+    <view class="subtitle intro">你可以出售自己的时间，也可以发布想购买的服务。</view>
     <view class="card starter" data-b="B406"><dev-badge wx:if="{{developerMode}}" code="B406" />
-      <view class="section-title">你想发布哪种服务？</view>
-      <view class="start-option experience" data-kind="experience" data-z="Z406-1" bindtap="start">
-        <view class="start-icon">聊</view><view class="start-copy"><view class="start-title">经验分享</view><view class="subtitle">教学、职业经验、开店心得等</view></view><text>›</text>
+      <view class="section-title">选择发布方向</view>
+      <view class="start-option experience" data-stage="sell" data-z="Z406-1" bindtap="start">
+        <view class="start-icon">售</view><view class="start-copy"><view class="start-title">时间售卖</view><view class="subtitle">发布可提供的服务与时间</view></view><text>›</text>
       </view>
-      <view class="start-option errand" data-kind="errand" data-z="Z406-2" bindtap="start">
-        <view class="start-icon">办</view><view class="start-copy"><view class="start-title">帮人办事</view><view class="subtitle">遛狗、丢垃圾等具体服务</view></view><text>›</text>
+      <view class="start-option errand" data-stage="buy" data-z="Z406-2" bindtap="start">
+        <view class="start-icon">求</view><view class="start-copy"><view class="start-title">时间求购</view><view class="subtitle">说出需要的帮助和期望时间</view></view><text>›</text>
       </view>
-      <view class="hint-line">两种发布都从同一张时间表选择可用时段。</view>
+      <view class="hint-line">当前是本机体验，其他用户尚看不到你的发布。</view>
     </view>
     <view class="card my-list" data-b="B405"><dev-badge wx:if="{{developerMode}}" code="B405" />
-      <view class="section-title">我的发布</view>
+      <view class="section-title">我的售卖</view>
       <view wx:if="{{!listings.length}}" class="empty">还没有草稿或本机发布。</view>
       <view wx:for="{{listings}}" wx:key="id" class="mine-row">
         <view class="mine-main" data-id="{{item.id}}" data-z="Z405-1" bindtap="previewFromList"><view class="mine-title">{{item.title}}</view><view class="small muted">{{item.kindLabel}} · {{item.statusLabel}} · ¥{{item.price || '—'}}</view></view>
         <text class="edit-link" data-id="{{item.id}}" data-z="Z405-2" bindtap="editFromList">编辑</text><text class="delete-link" data-id="{{item.id}}" data-z="Z405-3" bindtap="removeFromList">删除</text>
       </view>
     </view>
+    <view class="card my-list" data-b="B418"><dev-badge wx:if="{{developerMode}}" code="B418" /><view class="section-title">我的求购</view><view wx:if="{{!requests.length}}" class="empty">还没有求购记录。</view><view wx:for="{{requests}}" wx:key="id" class="mine-row"><view class="mine-main"><view class="mine-title">{{item.title}}</view><view class="small muted">{{item.category}} · {{item.subcategory}} · 本机记录</view></view></view></view>
   </view>
-
+  <view wx:elif="{{stage === 'sell'}}" data-b="B416" class="form-flow"><dev-badge wx:if="{{developerMode}}" code="B416" /><view class="back-link" data-z="Z416-1" bindtap="backStart">← 返回发布首页</view><view class="title">时间售卖</view><view class="subtitle intro">先选大类，下一步再选具体类别。</view><view class="card starter"><view class="section-title">选择售卖大类</view><view wx:for="{{marketCategories}}" wx:key="name" class="start-option category-option" data-category="{{item.name}}" data-z="Z416-2" bindtap="startCategory"><view class="start-icon">{{item.icon}}</view><view class="start-copy"><view class="start-title">{{item.name}}</view><view class="subtitle">{{item.description}}</view></view><text>›</text></view></view></view>
+  <view wx:elif="{{stage === 'buy'}}" data-b="B417" class="form-flow"><dev-badge wx:if="{{developerMode}}" code="B417" /><view class="back-link" data-z="Z417-1" bindtap="backStart">← 返回发布首页</view><view class="title">时间求购</view><view class="notice local-note">目前仅保存在本机，尚未进入公共大厅。</view><view class="card form-card"><view class="section-title">我想找人帮忙</view><text class="field-label">求购标题</text><input class="input" placeholder="例如：周末找钢琴老师" value="{{requestForm.title}}" data-field="title" data-z="Z417-2" bindinput="requestField" maxlength="40" /><text class="field-label">大类</text><picker mode="selector" range="{{marketCategories}}" range-key="name" value="{{requestCategoryIndex}}" data-z="Z417-3" bindchange="requestCategory"><view class="picker">{{requestForm.category}} ▾</view></picker><text class="field-label">具体类别</text><picker mode="selector" range="{{requestSubcategories}}" value="{{requestSubcategoryIndex}}" data-z="Z417-4" bindchange="requestSubcategory"><view class="picker">{{requestForm.subcategory}} ▾</view></picker><text class="field-label">具体需求</text><textarea class="input textarea" placeholder="说明想得到什么帮助、地点和其他要求" value="{{requestForm.detail}}" data-field="detail" data-z="Z417-5" bindinput="requestField" maxlength="500" /><view class="fields"><view><text class="field-label">希望日期</text><picker mode="date" value="{{requestForm.date}}" data-field="date" data-z="Z417-6" bindchange="requestField"><view class="picker">{{requestForm.date}}</view></picker></view><view><text class="field-label">预算（元，可留空）</text><input class="input" type="digit" value="{{requestForm.budget}}" data-field="budget" data-z="Z417-7" bindinput="requestField" /></view></view></view><view wx:if="{{error}}" class="error" data-b="B420"><dev-badge wx:if="{{developerMode}}" code="B420" />{{error}}</view><button class="btn request-save" data-z="Z417-8" bindtap="saveRequest">保存求购到本机</button></view>
   <view wx:else data-b="B403" class="form-flow">
-    <view class="row form-heading"><view><view class="small back-link" data-z="Z403-1" bindtap="back">‹ 选择发布类型</view><view class="title">{{kind === 'experience' ? '发布经验分享' : '发布帮人办事'}}</view></view><dev-badge wx:if="{{developerMode}}" code="B403" /></view>
+    <view class="row form-heading"><view><view class="back-link" data-z="Z403-1" bindtap="back">← 返回{{editingId ? '发布首页' : '售卖大类'}}</view><view class="title">发布{{form.marketCategory}}</view></view><dev-badge wx:if="{{developerMode}}" code="B403" /></view>
     <view class="whole-template" data-target="whole" data-z="Z403-18" bindtap="openTemplates">从整套模板开始 ›</view>
     <view class="form-progress"><text class="on">内容</text><text>›</text><text>方式与地点</text><text>›</text><text>时间与价格</text></view>
     <view class="notice local-note">目前只能在这台设备体验发布与详情，其他用户暂时看不到。</view>
@@ -33,11 +35,11 @@
       <view class="section-title">01 · 服务内容</view>
       <text class="field-label">服务名称</text>
       <input class="input" placeholder="{{kind === 'experience' ? '例如：网约车入行经验交流' : '例如：帮忙遛狗'}}" value="{{form.title}}" data-field="title" data-z="Z403-2" bindinput="field" maxlength="40" />
-      <view wx:if="{{kind === 'experience'}}"><text class="field-label">类别</text><picker mode="selector" range="{{categories}}" value="{{categoryIndex}}" data-z="Z403-3" bindchange="category"><view class="picker">{{form.category}} ▾</view></picker></view>
+      <view><text class="field-label">{{form.marketCategory}} · 具体类别</text><picker mode="selector" range="{{subcategories}}" value="{{categoryIndex}}" data-z="Z403-3" bindchange="category"><view class="picker">{{form.category}} ▾</view></picker></view>
       <view class="row field-heading"><text class="field-label">我能提供什么</text><text class="template-link" data-target="offer" data-z="Z403-4" bindtap="openTemplates">选择模板 ›</text></view>
       <textarea class="input textarea" placeholder="说明具体服务内容、适合谁，以及对方能得到什么" value="{{form.offer}}" data-field="offer" data-z="Z403-5" bindinput="field" maxlength="500" />
       <view class="row field-heading"><text class="field-label">履历介绍</text><text class="template-link" data-target="resume" data-z="Z403-6" bindtap="openTemplates">选择模板 ›</text></view>
-      <view class="subtitle">至少三条，请写自己真实且可以说明的经历。</view>
+      <view class="subtitle">按需填写真实经历；没有合适内容可以留空。</view>
       <view wx:for="{{form.resume}}" wx:key="index" class="resume-row" data-b="B412"><dev-badge wx:if="{{developerMode}}" code="B412" />
         <text class="resume-number">{{index + 1}}</text>
         <input class="input resume-input" placeholder="第{{index + 1}}条相关经历" value="{{item}}" data-index="{{index}}" data-z="Z412-1" bindinput="resumeInput" maxlength="120" />
@@ -50,21 +52,21 @@
       <view class="section-title">02 · 方式与地点</view>
       <view wx:if="{{kind === 'experience'}}">
         <text class="field-label">交流方式</text>
-        <view class="choice-row"><text class="{{form.mode === '线上交流' ? 'chosen' : ''}}" data-field="mode" data-value="线上交流" data-z="Z403-8" bindtap="choose">线上交流</text><text class="{{form.mode === '线下交流' ? 'chosen' : ''}}" data-field="mode" data-value="线下交流" data-z="Z403-9" bindtap="choose">线下交流</text></view>
-        <view wx:if="{{form.mode === '线下交流'}}" data-b="B413"><dev-badge wx:if="{{developerMode}}" code="B413" />
+        <view class="subtitle">可以同时选择，价格分别填写。</view><view class="choice-row"><text class="{{hasOnline ? 'chosen' : ''}}" data-field="modes" data-value="线上交流" data-z="Z403-8" bindtap="toggleChoice">线上交流</text><text class="{{hasOffline ? 'chosen' : ''}}" data-field="modes" data-value="线下交流" data-z="Z403-9" bindtap="toggleChoice">线下交流</text></view>
+        <view wx:if="{{hasOffline}}" data-b="B413"><dev-badge wx:if="{{developerMode}}" code="B413" />
           <text class="field-label">见面场地</text>
           <view class="choice-row wrap"><text class="{{form.venue === '公共场所' ? 'chosen' : ''}}" data-field="venue" data-value="公共场所" data-z="Z413-1" bindtap="choose">公共场所</text><text class="{{form.venue === '我提供场地' ? 'chosen' : ''}}" data-field="venue" data-value="我提供场地" data-z="Z413-2" bindtap="choose">我提供场地</text><text class="{{form.venue === '双方协商' ? 'chosen' : ''}}" data-field="venue" data-value="双方协商" data-z="Z413-3" bindtap="choose">双方协商</text><text class="{{form.venue === '指定地点' ? 'chosen' : ''}}" data-field="venue" data-value="指定地点" data-z="Z413-4" bindtap="choose">指定地点</text></view>
         </view>
         <text class="field-label">预约形式</text>
-        <view class="choice-row"><text class="{{form.meeting === '一对一' ? 'chosen' : ''}}" data-field="meeting" data-value="一对一" data-z="Z403-10" bindtap="choose">一对一</text><text class="{{form.meeting === '开团' ? 'chosen' : ''}}" data-field="meeting" data-value="开团" data-z="Z403-11" bindtap="choose">开团</text></view>
-        <view wx:if="{{form.meeting === '开团'}}" data-b="B414"><dev-badge wx:if="{{developerMode}}" code="B414" /><view class="fields"><view><text class="field-label">几人成团（至少 3 人）</text><input class="input" type="number" value="{{form.minPeople}}" data-field="minPeople" data-z="Z414-1" bindinput="field" /></view><view><text class="field-label">最多人数</text><input class="input" type="number" value="{{form.maxPeople}}" data-field="maxPeople" data-z="Z414-2" bindinput="field" /></view></view><view class="small muted">达到成团人数后才算成团；真实报名与交易尚未开放。</view></view>
+        <view class="choice-row"><text class="{{hasOne ? 'chosen' : ''}}" data-field="meetings" data-value="一对一" data-z="Z403-10" bindtap="toggleChoice">一对一</text><text class="{{hasGroup ? 'chosen' : ''}}" data-field="meetings" data-value="开团" data-z="Z403-11" bindtap="toggleChoice">开团</text></view>
+        <view wx:if="{{hasGroup}}" data-b="B414"><dev-badge wx:if="{{developerMode}}" code="B414" /><view class="fields"><view><text class="field-label">几人成团（至少 3 人）</text><input class="input" type="number" value="{{form.minPeople}}" data-field="minPeople" data-z="Z414-1" bindinput="field" /></view><view><text class="field-label">最多人数</text><input class="input" type="number" value="{{form.maxPeople}}" data-field="maxPeople" data-z="Z414-2" bindinput="field" /></view></view><view class="small muted">开团按每人计价；达到成团人数才生效。真实报名与交易尚未开放。</view></view>
       </view>
       <view wx:else>
         <text class="field-label">服务范围</text>
         <view class="choice-row"><text class="{{form.scope === '指定地点' ? 'chosen' : ''}}" data-field="scope" data-value="指定地点" data-z="Z403-12" bindtap="choose">指定地点</text><text class="{{form.scope === '全城' ? 'chosen' : ''}}" data-field="scope" data-value="全城" data-z="Z403-13" bindtap="choose">全城</text></view>
         <view wx:if="{{form.scope === '全城'}}"><text class="field-label">服务城市</text><input class="input" placeholder="例如：杭州；请确认实际能覆盖" value="{{form.city}}" data-field="city" data-z="Z403-14" bindinput="field" maxlength="30" /></view>
       </view>
-      <view wx:if="{{kind === 'errand' && form.scope === '指定地点' || kind === 'experience' && form.mode === '线下交流' && form.venue === '指定地点'}}" data-b="B415"><dev-badge wx:if="{{developerMode}}" code="B415" /><text class="field-label">指定地点（可添加多个小区或地点）</text>
+      <view wx:if="{{kind === 'errand' && form.scope === '指定地点' || kind === 'experience' && hasOffline && form.venue === '指定地点'}}" data-b="B415"><dev-badge wx:if="{{developerMode}}" code="B415" /><text class="field-label">指定地点（可添加多个小区或地点）</text>
         <view class="location-tags"><text wx:for="{{form.locations}}" wx:key="*this" data-index="{{index}}" data-z="Z415-1" bindtap="removeLocation">{{item}} ×</text></view>
         <view class="row location-add"><input class="input" placeholder="输入地点或小区名称" value="{{locationInput}}" data-z="Z415-2" bindinput="locationInput" maxlength="50" /><text class="add-place" data-z="Z415-3" bindtap="addLocation">＋ 添加</text></view>
       </view>
@@ -78,7 +80,7 @@
       <view class="add-line time-entry" data-z="Z404-4" bindtap="openTimePicker">＋ 在这里选择时间块</view>
       <view wx:if="{{kind === 'errand'}}"><text class="field-label">这个时间段最多接几单</text><view class="row capacity-row"><input class="input" type="number" value="{{form.capacity}}" data-field="capacity" data-z="Z404-5" bindinput="field" /><text>单</text></view><view class="small muted">多个指定地点共用此上限；每段时间单独计算。</view></view>
       <view wx:if="{{kind === 'errand'}}"><text class="field-label">收费方式</text><view class="choice-row"><text class="{{form.priceUnit === '按次' ? 'chosen' : ''}}" data-field="priceUnit" data-value="按次" data-z="Z404-8" bindtap="choose">按次</text><text class="{{form.priceUnit === '按小时' ? 'chosen' : ''}}" data-field="priceUnit" data-value="按小时" data-z="Z404-9" bindtap="choose">按小时</text></view></view>
-      <view class="fields"><view><text class="field-label">价格（元）</text><input class="input" type="digit" placeholder="99" value="{{form.price}}" data-field="price" data-z="Z404-6" bindinput="field" /></view><view><text class="field-label">参考时长（分钟）</text><input class="input" type="number" value="{{form.duration}}" data-field="duration" data-z="Z404-7" bindinput="field" /></view></view>
+      <view wx:if="{{kind === 'experience'}}" data-b="B419"><dev-badge wx:if="{{developerMode}}" code="B419" /><view class="section-title">按服务方式定价</view><view wx:for="{{priceRows}}" wx:key="key" class="price-row"><text>{{item.label}}</text><input class="input" type="digit" placeholder="元" value="{{item.value}}" data-key="{{item.key}}" data-z="Z419-1" bindinput="priceField" /></view></view><view wx:else><text class="field-label">价格（元）</text><input class="input" type="digit" placeholder="99" value="{{form.price}}" data-field="price" data-z="Z404-6" bindinput="field" /></view><text class="field-label">参考时长（分钟）</text><input class="input" type="number" value="{{form.duration}}" data-field="duration" data-z="Z404-7" bindinput="field" />
       <view class="small muted">目前只展示价格，不会收款或生成真实订单。</view>
     </view>
     <view wx:if="{{error}}" class="error" data-b="B402"><dev-badge wx:if="{{developerMode}}" code="B402" />{{error}}</view>
@@ -87,8 +89,8 @@
 </view>
 
 <view wx:if="{{templatePanel}}" class="overlay" data-b="B407"><view class="sheet template-sheet"><dev-badge wx:if="{{developerMode}}" code="B407" /><view class="row"><view class="section-title">{{templatePanel === 'offer' ? '选择服务内容模板' : templatePanel === 'resume' ? '选择履历模板' : '选择整套模板'}}</view><text class="close" data-z="Z407-1" bindtap="closeTemplates">×</text></view><view class="subtitle">模板是填写示例，请按自己的真实情况修改。</view>
-  <block wx:for="{{templates}}" wx:key="id"><view wx:if="{{templatePanel !== 'whole' || item.kind === kind}}" class="template-item" data-id="{{item.id}}" data-z="Z407-2" bindtap="applyTemplate"><view class="row"><text class="template-name">{{item.name}}</text><text>选用 ›</text></view><view class="small muted">{{templatePanel === 'resume' ? item.resume[0] : item.offer}}</view></view></block>
-  <view wx:if="{{ownTemplates.length}}" class="field-label">我保存的模板</view><block wx:for="{{ownTemplates}}" wx:key="id"><view wx:if="{{templatePanel !== 'whole' || item.kind === kind}}" class="template-item" data-id="{{item.id}}" data-z="Z407-2" bindtap="applyTemplate"><view class="row"><text class="template-name">{{item.name}}</text><text>选用 ›</text></view><view class="small muted">{{templatePanel === 'resume' ? item.resume[0] : item.offer}}</view></view></block>
+  <block wx:for="{{templates}}" wx:key="id"><view wx:if="{{templatePanel !== 'whole' || item.marketCategory === form.marketCategory || !item.marketCategory && item.kind === kind}}" class="template-item" data-id="{{item.id}}" data-z="Z407-2" bindtap="applyTemplate"><view class="row"><text class="template-name">{{item.name}}</text><text>选用 ›</text></view><view class="small muted">{{templatePanel === 'resume' ? item.resume[0] : item.offer}}</view></view></block>
+  <view wx:if="{{ownTemplates.length}}" class="field-label">我保存的模板</view><block wx:for="{{ownTemplates}}" wx:key="id"><view wx:if="{{templatePanel !== 'whole' || item.marketCategory === form.marketCategory || !item.marketCategory && item.kind === kind}}" class="template-item" data-id="{{item.id}}" data-z="Z407-2" bindtap="applyTemplate"><view class="row"><text class="template-name">{{item.name}}</text><text>选用 ›</text></view><view class="small muted">{{templatePanel === 'resume' ? item.resume[0] : item.offer}}</view></view></block>
 </view></view>
 
 <view wx:if="{{templateNameOpen}}" class="overlay" data-b="B408"><view class="sheet"><dev-badge wx:if="{{developerMode}}" code="B408" /><view class="row"><view class="section-title">保存为模板</view><text class="close" data-z="Z408-1" bindtap="closeSaveTemplate">×</text></view><view class="subtitle">保存服务内容和履历，下次发布时重新选择时间。</view><text class="field-label">模板名称</text><input class="input" placeholder="例如：我的网约车经验" value="{{templateName}}" data-z="Z408-2" bindinput="templateNameInput" maxlength="30" /><button class="btn sheet-button" data-z="Z408-3" bindtap="saveTemplate">保存模板</button></view></view>

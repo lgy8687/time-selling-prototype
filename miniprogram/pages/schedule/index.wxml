@@ -1,6 +1,6 @@
 <view class="page" data-b="B201"><dev-badge wx:if="{{developerMode}}" code="B201" />
   <view class="row page-head"><view><view class="title">时间表</view><view class="subtitle">私人安排和开放时间，共用同一张表</view></view><view class="settings-link" data-z="Z201-1" bindtap="goSettings">设置</view></view>
-  <view class="sticky-calendar">
+  <view class="sticky-calendar" style="clip-path:inset(0 0 {{flowLiftRpx}}rpx 0)">
     <view class="card toolbar" data-b="B220">
       <view class="row"><text class="date-label" data-z="Z220-1" bindtap="goToday">{{monthLabel}}</text><dev-badge wx:if="{{developerMode}}" code="B220" /></view>
       <view class="view-switch"><text class="{{layout === 'agenda' ? 'selected' : ''}}" data-layout="agenda" data-z="Z220-2" bindtap="setLayout">日历＋安排</text><text class="{{layout === 'blocks' ? 'selected' : ''}}" data-layout="blocks" data-z="Z220-3" bindtap="setLayout">日历＋时间块</text></view>
@@ -9,9 +9,10 @@
       <dev-badge wx:if="{{developerMode && collapseProgress < 0.98}}" code="B203" />
       <view wx:if="{{collapseProgress >= 0.98}}" data-b="B202"><dev-badge wx:if="{{developerMode}}" code="B202" /></view>
       <view class="weekday-head"><text wx:for="{{weekdays}}" wx:key="*this">{{item}}</text></view>
-      <view class="month-viewport" style="height:{{monthHeightRpx}}rpx"><view class="month-grid" style="transform:translateY(-{{monthOffsetRpx}}rpx)"><view wx:for="{{month}}" wx:key="date" class="month-day {{item.active ? '' : 'outside'}} {{item.selected ? 'current' : ''}}" data-date="{{item.date}}" data-z="Z203-1" bindtap="chooseDate"><text class="day-number">{{item.day}}</text><view wx:for="{{item.chips}}" wx:for-item="chip" wx:key="id" class="event-chip {{chip.type}}">{{chip.title}}</view><text wx:if="{{item.extra}}" class="extra">+{{item.extra}}</text></view></view></view>
+      <view class="month-viewport"><view class="month-grid" style="transform:translateY(-{{monthOffsetRpx}}rpx)"><view wx:for="{{month}}" wx:key="date" class="month-day {{item.active ? '' : 'outside'}} {{item.selected ? 'current' : ''}}" data-date="{{item.date}}" data-z="Z203-1" bindtap="chooseDate"><text class="day-number">{{item.day}}</text><view wx:for="{{item.chips}}" wx:for-item="chip" wx:key="id" class="event-chip {{chip.type}}">{{chip.title}}</view><text wx:if="{{item.extra}}" class="extra">+{{item.extra}}</text></view></view></view>
     </view>
   </view>
+  <view class="schedule-flow" style="transform:translateY(-{{flowLiftRpx}}rpx)">
   <view wx:if="{{layout === 'agenda'}}" class="card agenda" data-b="B212"><dev-badge wx:if="{{developerMode}}" code="B212" /><view class="row"><view><view class="section-title">{{dateLabel}}的安排</view><view class="subtitle">{{eventCount}} 项安排</view></view><view class="pill" data-z="Z212-1" bindtap="addEvent">＋ 添加</view></view>
     <view wx:if="{{!agenda.length}}" class="agenda-empty">这一天还没有安排。点“添加”记下课程或开放时间。</view>
     <view wx:for="{{agenda}}" wx:key="id" class="agenda-row {{item.type}}" data-eventid="{{item.id}}" data-z="Z212-2" bindtap="openAgenda"><text class="agenda-time">{{item.range}}</text><view class="agenda-detail"><text class="agenda-name">{{item.title}}</text><text class="agenda-type">{{item.typeLabel}}</text></view><text class="agenda-arrow">›</text></view>
@@ -30,7 +31,8 @@
     <view wx:if="{{paletteHidden}}" class="grid-hint" data-b="B215">全宽时间格 · 左滑恢复标签<dev-badge wx:if="{{developerMode}}" code="B215" /></view><view wx:else class="grid-hint">在时间格右滑可放大</view>
   </view>
   <view class="card" data-b="B219"><dev-badge wx:if="{{developerMode}}" code="B219" /><view class="row"><view><view class="section-title">可分享的时间</view><view class="subtitle">仅显示没有冲突的开放时间</view></view><text class="edit-link" data-z="Z219-1" bindtap="toggleShare">查看</text></view></view>
-  <view class="scroll-runway" style="height:{{spacerHeightRpx}}rpx"></view>
+  <view class="scroll-runway"></view>
+  </view>
 </view>
 
 <view wx:if="{{editor && !editing}}" class="overlay" data-b="B216">
