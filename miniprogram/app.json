@@ -13,6 +13,9 @@
     "navigationBarTextStyle": "black",
     "backgroundColor": "#f7f8f5"
   },
+  "usingComponents": {
+    "dev-badge": "/components/dev-badge/index"
+  },
   "tabBar": {
     "custom": true,
     "color": "#6e8178",

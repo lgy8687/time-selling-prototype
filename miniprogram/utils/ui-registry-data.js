@@ -1,5 +1,5 @@
 module.exports = {
-  "version": "v0.2.0-mini",
+  "version": "v0.3.0-mini",
   "templates": {},
   "states": {
     "B100": {
@@ -27,7 +27,7 @@ module.exports = {
       "template": null
     },
     "B206": {
-      "name": "添加或编辑时间面板",
+      "name": "编辑时间面板",
       "template": null
     },
     "B209": {
@@ -40,7 +40,8 @@ module.exports = {
     },
     "B211": {
       "name": "时间编辑错误提示",
-      "template": null
+      "template": null,
+      "repeatable": true
     },
     "B301": {
       "name": "大厅列表",
@@ -109,6 +110,76 @@ module.exports = {
     "B215": {
       "name": "时间格全宽展示状态",
       "template": null
+    },
+    "B216": {
+      "name": "添加时间块面板",
+      "template": null
+    },
+    "B218": {
+      "name": "添加面板时间块与标签",
+      "template": null
+    },
+    "B219": {
+      "name": "可分享时间入口",
+      "template": null
+    },
+    "B303": {
+      "name": "大厅分类",
+      "template": null
+    },
+    "B304": {
+      "name": "大厅服务卡片",
+      "template": null,
+      "repeatable": true
+    },
+    "B403": {
+      "name": "服务草稿表单",
+      "template": null
+    },
+    "B404": {
+      "name": "可关联开放时间",
+      "template": null
+    },
+    "B405": {
+      "name": "我的草稿列表",
+      "template": null
+    },
+    "B502": {
+      "name": "预约沟通入口",
+      "template": null
+    },
+    "B503": {
+      "name": "订单通知入口",
+      "template": null
+    },
+    "B608": {
+      "name": "我的头像与资料",
+      "template": null
+    },
+    "B609": {
+      "name": "我的交易",
+      "template": null
+    },
+    "B610": {
+      "name": "我的工具",
+      "template": null
+    },
+    "B703": {
+      "name": "时间表设置",
+      "template": null
+    },
+    "B704": {
+      "name": "常用标签设置",
+      "template": null
+    },
+    "B705": {
+      "name": "开发者模式设置",
+      "template": null
+    },
+    "B900": {
+      "name": "可复制的开发者编号",
+      "template": null,
+      "repeatable": true
     }
   },
   "controls": {
@@ -351,16 +422,6 @@ module.exports = {
       "file": "pages/hall/index.wxml",
       "parent": "B302"
     },
-    "Z202-2": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B202",
-      "name": "周历上下滑动"
-    },
-    "Z203-2": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B203",
-      "name": "月历上下滑动"
-    },
     "Z204-3": {
       "file": "pages/schedule/index.wxml",
       "parent": "B204",
@@ -375,11 +436,6 @@ module.exports = {
       "file": "pages/schedule/index.wxml",
       "parent": "B212",
       "name": "打开列表安排"
-    },
-    "Z213-1": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B213",
-      "name": "取消时间格选择"
     },
     "Z701-1": {
       "file": "pages/settings/index.wxml",
@@ -430,9 +486,59 @@ module.exports = {
       "file": "pages/settings/index.wxml",
       "parent": "B702",
       "name": "复制编号"
+    },
+    "Z216-1": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B216",
+      "name": "关闭添加时间"
+    },
+    "Z216-2": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B216",
+      "name": "选择已安排"
+    },
+    "Z216-3": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B216",
+      "name": "选择私人占用"
+    },
+    "Z216-4": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B216",
+      "name": "选择开放时间"
+    },
+    "Z216-5": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B216",
+      "name": "选择日期"
+    },
+    "Z216-6": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B216",
+      "name": "保存添加时间"
+    },
+    "Z218-1": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B218",
+      "name": "选择或取消时间块"
+    },
+    "Z218-2": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B218",
+      "name": "选择常用标签"
+    },
+    "Z900-1": {
+      "file": "components/dev-badge/index.wxml",
+      "parent": "B900",
+      "name": "复制界面编号"
+    },
+    "Z201-9": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B201",
+      "name": "整页纵向滚动收放月历"
     }
   },
-  "note": "C 模板仍待跨页面交互验证；暂不错误复用。列表中的重复实例共用原型编码。",
+  "note": "B 为界面或功能区，Z 为操作。开发者模式下直接点页面内 B 编号复制；设置可查全部 B/Z。重复服务卡片共用 B304，重复错误提示共用 B211。",
   "retired": {
     "B207": "时间表设置面板",
     "B208": "常用标签编辑面板",
@@ -445,6 +551,9 @@ module.exports = {
     "Z207-6": "pages/schedule/index.wxml",
     "Z208-1": "pages/schedule/index.wxml",
     "Z208-2": "pages/schedule/index.wxml",
-    "Z208-3": "pages/schedule/index.wxml"
+    "Z208-3": "pages/schedule/index.wxml",
+    "Z202-2": "pages/schedule/index.wxml",
+    "Z203-2": "pages/schedule/index.wxml",
+    "Z213-1": "pages/schedule/index.wxml"
   }
 }

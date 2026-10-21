@@ -26,7 +26,7 @@ for (const file of files) {
     const z = tag.match(/data-z="(Z\d+-\d+)"/)?.[1]
     if (b) {
       if (!registry.states[b]) errors.push(`${name}: ${b} 未登记`)
-      if (seenB.has(b)) errors.push(`${name}: ${b} 已在 ${seenB.get(b)} 使用`)
+      if (seenB.has(b) && !registry.states[b]?.repeatable) errors.push(`${name}: ${b} 已在 ${seenB.get(b)} 使用`)
       seenB.set(b, name)
     }
     if (z) {
@@ -36,9 +36,13 @@ for (const file of files) {
     }
     if (/\b(bindtap|bindinput|bindchange|bindconfirm|catchtap)=/.test(tag) && !z) errors.push(`${name}: 交互标签缺少 Z 编码：${tag.slice(0, 90)}`)
   }
+  for (const badge of source.matchAll(/<dev-badge\b[^>]*\bcode="(B\d+)"/g)) {
+    if (!registry.states[badge[1]]) errors.push(`${name}: 页面展示的 ${badge[1]} 未登记`)
+  }
 }
 for (const [b, state] of Object.entries(registry.states)) {
   if (!seenB.has(b)) errors.push(`${b} 登记后未在界面使用`)
+  if (b !== 'B900' && !files.some(file => readFileSync(file, 'utf8').includes(`code="${b}"`))) errors.push(`${b} 缺少可点击复制的编号标签`)
   if (state.template && !registry.templates[state.template]) errors.push(`${b} 的 C 模板不存在`)
 }
 for (const [z, control] of Object.entries(registry.controls)) {

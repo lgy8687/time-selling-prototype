@@ -1,0 +1,1 @@
+.dev-badge { display: inline-block; padding: 5rpx 12rpx; margin: 7rpx 8rpx 7rpx 0; border-radius: 9rpx; background: #e8f3ea; color: #236e53; font-size: 20rpx; line-height: 1.4; }

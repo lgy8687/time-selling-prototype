@@ -1,8 +1,8 @@
 const store = require('../../utils/store')
 Page({
-  data: { profile: {}, editing: false, nameInput: '', draftCount: 0, eventCount: 0, openCount: 0, section: '', version: 'v0.2.0-mini' },
-  onShow() { this.getTabBar().setData({ selected: 4 }); this.refresh() },
-  refresh() { const s = store.read(); this.setData({ profile: s.profile, avatarInitial: s.profile.name.slice(0, 1), nameInput: s.profile.name, draftCount: s.drafts.length, eventCount: s.events.length, openCount: s.events.filter(e => store.available(s.events,e)).length }) },
+  data: { profile: {}, editing: false, nameInput: '', draftCount: 0, eventCount: 0, openCount: 0, section: '', version: 'v0.3.0-mini', developerMode: false },
+  onShow() { this.getTabBar().setData({ selected: 4, developerMode: Boolean(store.read().settings.developerMode) }); this.refresh() },
+  refresh() { const s = store.read(); this.setData({ profile: s.profile, avatarInitial: s.profile.name.slice(0, 1), nameInput: s.profile.name, draftCount: s.drafts.length, eventCount: s.events.length, openCount: s.events.filter(e => store.available(s.events,e)).length, developerMode: Boolean(s.settings.developerMode) }) },
   edit() { this.setData({ editing: true }) },
   closeEdit() { this.setData({ editing: false }) },
   inputName(e) { this.setData({ nameInput: e.detail.value }) },

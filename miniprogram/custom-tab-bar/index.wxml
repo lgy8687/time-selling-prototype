@@ -1,4 +1,5 @@
 <view class="tab-shell" data-b="B100">
+  <dev-badge wx:if="{{developerMode}}" class="tab-code" code="B100" />
   <view wx:for="{{list}}" wx:key="path" class="tab-item {{index === selected ? 'active' : ''}}" data-index="{{index}}" data-z="Z100-1" bindtap="switchTab">
     <view class="tab-icon {{index === 2 ? 'publish-icon' : ''}}">{{item.icon}}</view>
     <text>{{item.text}}</text>

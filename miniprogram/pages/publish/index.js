@@ -1,9 +1,9 @@
 const store = require('../../utils/store')
 const { dateText } = require('../../utils/time')
 Page({
-  data: { form: { name: '', category: '职业经验', description: '', price: '', duration: '60', mode: '线上交流' }, categories: ['技能教学','职业经验','开店经营','内容创作','专业咨询'], categoryIndex: 1, openSlots: [], drafts: [], error: '' },
-  onShow() { this.getTabBar().setData({ selected: 2 }); this.refresh() },
-  refresh() { const s = store.read(); this.setData({ openSlots: s.events.filter(e => store.available(s.events,e)).map(e => ({ ...e, label: `${dateText(e.date)} ${e.start}–${e.end}` })), drafts: s.drafts }) },
+  data: { form: { name: '', category: '职业经验', description: '', price: '', duration: '60', mode: '线上交流' }, categories: ['技能教学','职业经验','开店经营','内容创作','专业咨询'], categoryIndex: 1, openSlots: [], drafts: [], error: '', developerMode: false },
+  onShow() { this.getTabBar().setData({ selected: 2, developerMode: Boolean(store.read().settings.developerMode) }); this.refresh() },
+  refresh() { const s = store.read(); this.setData({ openSlots: s.events.filter(e => store.available(s.events,e)).map(e => ({ ...e, label: `${dateText(e.date)} ${e.start}–${e.end}` })), drafts: s.drafts, developerMode: Boolean(s.settings.developerMode) }) },
   field(e) { this.setData({ [`form.${e.currentTarget.dataset.field}`]: e.detail.value, error: '' }) },
   category(e) { this.setData({ categoryIndex: Number(e.detail.value), 'form.category': this.data.categories[Number(e.detail.value)] }) },
   save() {
