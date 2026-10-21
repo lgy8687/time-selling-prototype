@@ -16,9 +16,10 @@ const rowsFor = (slots, from, to) => {
 
 Page({
   data: {
-    date: today(), dateLabel: '', view: 'month', slots: [], hourRows: [], week: [], month: [], agenda: [], weekdays: ['一','二','三','四','五','六','日'], paletteHidden: false,
+    date: today(), dateLabel: '', monthLabel: '', layout: 'agenda', collapseProgress: 0, monthHeightRpx: 516, monthOffsetRpx: 0, spacerHeightRpx: 350,
+    slots: [], hourRows: [], week: [], month: [], agenda: [], weekdays: ['一','二','三','四','五','六','日'], paletteHidden: false,
     settings: {}, palette: [], selectedFrom: -1, selectedTo: -1, selectedLabel: '', selectionHint: false,
-    editor: false, shareOpen: false, developerMode: false, editorSlots: [], editorRows: [], editorFrom: -1, editorTo: -1, editorRange: '',
+    editor: false, shareOpen: false, developerMode: false, editorSlots: [], editorRows: [], editorFrom: -1, editorTo: -1, editorRange: '', newLabelOpen: false, newLabelName: '',
     form: {}, editing: false, error: '', publicSlots: [],
     hoursStart: Array.from({ length: 24 }, (_, i) => i),
     hoursEnd: Array.from({ length: 24 }, (_, i) => i + 1)
@@ -29,7 +30,7 @@ Page({
   },
   refresh() {
     const state = store.read()
-    const { date, view } = this.data
+    const { date } = this.data
     const day = fromDay(date)
     const dayOfWeek = (day.getDay() + 6) % 7
     const monday = addDays(date, -dayOfWeek)
@@ -53,46 +54,44 @@ Page({
     const agenda = eventsFor(date).map(e => ({ ...e, range: `${e.start}–${e.end}`, typeLabel: types[e.type] }))
     const publicSlots = state.events.filter(e => store.available(state.events, e)).sort((a,b) => a.date.localeCompare(b.date) || a.start.localeCompare(b.start)).map(e => ({ ...e, label: `${dateText(e.date)} ${e.start}–${e.end}` }))
     const selected = this.data.selectedFrom >= 0 ? slots.slice(this.data.selectedFrom, this.data.selectedTo + 1) : []
-    this.setData({ dateLabel: dateText(date), slots, hourRows, week, month, agenda, settings: state.settings, developerMode: Boolean(state.settings.developerMode), palette: state.palette, publicSlots, eventCount: agenda.length, selectedLabel: selected.length ? `${selected[0].start}–${selected[selected.length - 1].end} · ${selected.length} 格` : '', modeLabel: state.settings.mode === 2 ? '30 + 30 分钟' : state.settings.mode === 3 ? '30 + 15 + 15 分钟' : '15 + 15 + 15 + 15 分钟' })
+    this.setData({ dateLabel: dateText(date), monthLabel: `${day.getMonth() + 1}月`, slots, hourRows, week, month, agenda, settings: state.settings, developerMode: Boolean(state.settings.developerMode), palette: state.palette, publicSlots, eventCount: agenda.length, selectedLabel: selected.length ? `${selected[0].start}–${selected[selected.length - 1].end} · ${selected.length} 格` : '', modeLabel: state.settings.mode === 2 ? '30 + 30 分钟' : state.settings.mode === 3 ? '30 + 15 + 15 分钟' : '15 + 15 + 15 + 15 分钟' })
+    this.updateCalendarGeometry(this.data.collapseProgress)
   },
-  setView(e) { this.setData({ view: e.currentTarget.dataset.view, selectedFrom: -1, selectedTo: -1, selectionHint: false }); this.refresh() },
+  setLayout(e) {
+    this.setData({ layout: e.currentTarget.dataset.layout, selectedFrom: -1, selectedTo: -1, selectionHint: false })
+    wx.pageScrollTo({ scrollTop: 0, duration: 0 })
+    this.updateCalendarGeometry(0)
+    this.refresh()
+  },
+  updateCalendarGeometry(progress) {
+    const date = this.data.date
+    const first = `${date.slice(0, 7)}-01`
+    const offset = (fromDay(first).getDay() + 6) % 7
+    const selectedWeek = Math.floor((offset + Number(date.slice(-2)) - 1) / 7)
+    const p = Math.max(0, Math.min(1, progress))
+    this.setData({ collapseProgress: p, monthHeightRpx: Math.round(516 - 430 * p), monthOffsetRpx: Math.round(selectedWeek * 86 * p), spacerHeightRpx: Math.round(350 + 430 * p) })
+  },
   onPageScroll(e) {
-    const top = e.scrollTop || 0
-    const previous = this.lastPageScroll === undefined ? top : this.lastPageScroll
-    this.lastPageScroll = top
-    if (this.data.view === 'day' || Date.now() < (this.calendarScrollLock || 0)) return
-    const delta = top - previous
-    if (delta > 8 && top > 85 && this.data.view === 'month') {
-      this.calendarScrollLock = Date.now() + 360
-      this.setData({ view: 'week' })
-    } else if (delta < -8 && this.data.view === 'week') {
-      this.calendarScrollLock = Date.now() + 360
-      this.setData({ view: 'month' })
-    }
-  },
-  pageTouchStart(e) { this.pageTouch = e.touches[0] },
-  pageTouchEnd(e) {
-    if (!this.pageTouch || !e.changedTouches.length || this.data.view === 'day' || this.data.editor || this.data.shareOpen) return
-    const deltaY = e.changedTouches[0].clientY - this.pageTouch.clientY
-    const deltaX = e.changedTouches[0].clientX - this.pageTouch.clientX
-    this.pageTouch = null
-    if (Math.abs(deltaY) < 85 || Math.abs(deltaY) <= Math.abs(deltaX) * 1.2) return
-    if (deltaY < 0 && this.data.view === 'month') this.setData({ view: 'week' })
-    if (deltaY > 0 && this.data.view === 'week') this.setData({ view: 'month' })
-    this.calendarScrollLock = Date.now() + 360
+    const width = wx.getWindowInfo ? wx.getWindowInfo().windowWidth : wx.getSystemInfoSync().windowWidth
+    const distance = 430 * width / 750
+    const progress = Math.round(Math.max(0, Math.min(1, (e.scrollTop || 0) / distance)) * 100) / 100
+    if (Math.abs(progress - this.data.collapseProgress) >= 0.01) this.updateCalendarGeometry(progress)
   },
   changeDate(date) { this.setData({ date, selectedFrom: -1, selectedTo: -1, selectionHint: false }); this.refresh() },
-  shift(e) {
-    const count = Number(e.currentTarget.dataset.count)
-    let date = addDays(this.data.date, count * (this.data.view === 'week' ? 7 : 1))
-    if (this.data.view === 'month') {
-      const old = fromDay(this.data.date)
-      const target = new Date(old.getFullYear(), old.getMonth() + count + 1, 0)
-      date = dayKey(new Date(target.getFullYear(), target.getMonth(), Math.min(old.getDate(), target.getDate())))
-    }
-    this.changeDate(date)
+  shiftMonth(count) {
+    const old = fromDay(this.data.date)
+    const last = new Date(old.getFullYear(), old.getMonth() + count + 1, 0).getDate()
+    this.changeDate(dayKey(new Date(old.getFullYear(), old.getMonth() + count, Math.min(old.getDate(), last))))
   },
-  goToday() { this.changeDate(today()) },
+  calendarTouchStart(e) { this.calendarTouch = e.touches[0] },
+  calendarTouchEnd(e) {
+    if (!this.calendarTouch || !e.changedTouches.length) return
+    const dx = e.changedTouches[0].clientX - this.calendarTouch.clientX
+    const dy = e.changedTouches[0].clientY - this.calendarTouch.clientY
+    this.calendarTouch = null
+    if (Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 1.3) this.shiftMonth(dx < 0 ? 1 : -1)
+  },
+  goToday() { wx.pageScrollTo({ scrollTop: 0, duration: 0 }); this.updateCalendarGeometry(0); this.changeDate(today()) },
   pickDate(e) { this.changeDate(e.detail.value) },
   chooseDate(e) { this.changeDate(e.currentTarget.dataset.date) },
   openExisting(id) {
@@ -165,7 +164,7 @@ Page({
     const chosen = from >= 0 ? slots.slice(from, to + 1) : []
     const safeFrom = chosen.length && chosen.every(slot => !slot.eventId) ? from : -1
     const safeTo = safeFrom >= 0 ? to : -1
-    this.setData({ form: { id: '', date: this.data.date, start: '', end: '', title: palette.title, type: palette.type }, editing: false, editor: true, error: '', editorSlots: slots, editorRows: rowsFor(slots, safeFrom, safeTo), editorFrom: safeFrom, editorTo: safeTo, editorRange: safeFrom >= 0 ? `${slots[safeFrom].start}–${slots[safeTo].end}` : '' })
+    this.setData({ form: { id: '', date: this.data.date, start: '', end: '', title: palette.title, type: palette.type }, editing: false, editor: true, error: '', newLabelOpen: false, newLabelName: '', editorSlots: slots, editorRows: rowsFor(slots, safeFrom, safeTo), editorFrom: safeFrom, editorTo: safeTo, editorRange: safeFrom >= 0 ? `${slots[safeFrom].start}–${slots[safeTo].end}` : '' })
   },
   selectEditorSlot(e) {
     const index = Number(e.currentTarget.dataset.index)
@@ -186,6 +185,22 @@ Page({
     const palette = this.data.palette.find(item => item.id === e.currentTarget.dataset.id)
     if (palette) this.setData({ 'form.title': palette.title, 'form.type': palette.type })
   },
+  openNewLabel() { this.setData({ newLabelOpen: true, newLabelName: '' }) },
+  inputNewLabel(e) { this.setData({ newLabelName: e.detail.value }) },
+  cancelNewLabel() { this.setData({ newLabelOpen: false, newLabelName: '' }) },
+  saveNewLabel() {
+    const title = this.data.newLabelName.trim()
+    if (!title) return wx.showToast({ title: '先输入标签名称', icon: 'none' })
+    if (this.data.palette.some(item => item.title === title)) return wx.showToast({ title: '这个标签已存在', icon: 'none' })
+    const type = this.data.form.type
+    const color = type === 'reserved' ? 'blue' : type === 'blocked' ? 'gray' : 'yellow'
+    const label = { id: store.uid(), title, type, color }
+    try {
+      store.update(state => ({ ...state, palette: [...state.palette, label] }))
+      this.setData({ palette: [...this.data.palette, label], 'form.title': title, newLabelOpen: false, newLabelName: '' })
+      wx.showToast({ title: '标签已添加', icon: 'success' })
+    } catch (error) { wx.showToast({ title: '标签保存失败', icon: 'none' }) }
+  },
   editorPickDate(e) {
     const date = e.detail.value
     const state = store.read()
@@ -202,7 +217,7 @@ Page({
   },
   addEvent() {
     const state = store.read()
-    this.openAdd(state.palette[0], this.data.view === 'day' ? this.data.selectedFrom : -1, this.data.view === 'day' ? this.data.selectedTo : -1)
+    this.openAdd(state.palette[0], this.data.layout === 'blocks' ? this.data.selectedFrom : -1, this.data.layout === 'blocks' ? this.data.selectedTo : -1)
   },
   editField(e) { this.setData({ [`form.${e.currentTarget.dataset.field}`]: e.detail.value, error: '' }) },
   chooseType(e) {

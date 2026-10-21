@@ -1,5 +1,5 @@
 {
-  "version": "v0.3.0-mini",
+  "version": "v0.4.0-mini",
   "templates": {},
   "states": {
     "B100": {
@@ -11,15 +11,15 @@
       "template": null
     },
     "B202": {
-      "name": "周日期选择",
+      "name": "当前周收合状态",
       "template": null
     },
     "B203": {
-      "name": "月日期选择",
+      "name": "连续收放月历",
       "template": null
     },
     "B204": {
-      "name": "日时间网格",
+      "name": "日历下方时间块排列",
       "template": null
     },
     "B205": {
@@ -88,7 +88,7 @@
       "template": null
     },
     "B212": {
-      "name": "所选日期的安排列表",
+      "name": "日历下方安排排列",
       "template": null
     },
     "B213": {
@@ -116,7 +116,7 @@
       "template": null
     },
     "B218": {
-      "name": "添加面板时间块与标签",
+      "name": "添加面板时间块和标签",
       "template": null
     },
     "B219": {
@@ -180,6 +180,14 @@
       "name": "可复制的开发者编号",
       "template": null,
       "repeatable": true
+    },
+    "B220": {
+      "name": "月份与排列切换",
+      "template": null
+    },
+    "B221": {
+      "name": "新增常用标签面板",
+      "template": null
     }
   },
   "controls": {
@@ -191,41 +199,6 @@
       "file": "pages/schedule/index.wxml",
       "parent": "B201",
       "name": "时间表设置入口"
-    },
-    "Z201-2": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B201",
-      "name": "回到今天"
-    },
-    "Z201-3": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B201",
-      "name": "前一日期范围"
-    },
-    "Z201-4": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B201",
-      "name": "后一日期范围"
-    },
-    "Z201-5": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B201",
-      "name": "日时间格视图"
-    },
-    "Z201-6": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B201",
-      "name": "周与列表视图"
-    },
-    "Z201-7": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B201",
-      "name": "月与列表视图"
-    },
-    "Z202-1": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B202",
-      "name": "选择周历日期"
     },
     "Z203-1": {
       "file": "pages/schedule/index.wxml",
@@ -251,11 +224,6 @@
       "file": "pages/schedule/index.wxml",
       "parent": "B205",
       "name": "把标签用于所选时间"
-    },
-    "Z201-8": {
-      "file": "pages/schedule/index.wxml",
-      "parent": "B201",
-      "name": "可分享时间入口"
     },
     "Z206-1": {
       "file": "pages/schedule/index.wxml",
@@ -532,13 +500,53 @@
       "parent": "B900",
       "name": "复制界面编号"
     },
-    "Z201-9": {
+    "Z203-2": {
       "file": "pages/schedule/index.wxml",
-      "parent": "B201",
-      "name": "整页纵向滚动收放月历"
+      "parent": "B203",
+      "name": "左右滑动切换月份"
+    },
+    "Z219-1": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B219",
+      "name": "查看可分享时间"
+    },
+    "Z220-1": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B220",
+      "name": "点击月份回到当前月"
+    },
+    "Z220-2": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B220",
+      "name": "日历下方显示安排"
+    },
+    "Z220-3": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B220",
+      "name": "日历下方显示时间块"
+    },
+    "Z218-3": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B218",
+      "name": "打开新增标签"
+    },
+    "Z221-1": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B221",
+      "name": "输入标签名称"
+    },
+    "Z221-2": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B221",
+      "name": "保存新增标签"
+    },
+    "Z221-3": {
+      "file": "pages/schedule/index.wxml",
+      "parent": "B221",
+      "name": "取消新增标签"
     }
   },
-  "note": "B 为界面或功能区，Z 为操作。开发者模式下直接点页面内 B 编号复制；设置可查全部 B/Z。重复服务卡片共用 B304，重复错误提示共用 B211。",
+  "note": "B 为界面或可见状态，Z 为操作。B220 在同一日历下切换安排和时间块；B203 逐渐收放至 B202 当前周状态。开发者模式下点 B 编号复制，设置中可查全部 B/Z。",
   "retired": {
     "B207": "时间表设置面板",
     "B208": "常用标签编辑面板",
@@ -553,7 +561,15 @@
     "Z208-2": "pages/schedule/index.wxml",
     "Z208-3": "pages/schedule/index.wxml",
     "Z202-2": "pages/schedule/index.wxml",
-    "Z203-2": "pages/schedule/index.wxml",
-    "Z213-1": "pages/schedule/index.wxml"
+    "Z213-1": "pages/schedule/index.wxml",
+    "Z201-2": "pages/schedule/index.wxml",
+    "Z201-3": "pages/schedule/index.wxml",
+    "Z201-4": "pages/schedule/index.wxml",
+    "Z201-5": "pages/schedule/index.wxml",
+    "Z201-6": "pages/schedule/index.wxml",
+    "Z201-7": "pages/schedule/index.wxml",
+    "Z201-8": "pages/schedule/index.wxml",
+    "Z201-9": "pages/schedule/index.wxml",
+    "Z202-1": "pages/schedule/index.wxml"
   }
 }

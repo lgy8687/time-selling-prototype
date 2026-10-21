@@ -1,3 +1,3 @@
 App({
-  globalData: { version: 'v0.3.0-mini' }
+  globalData: { version: 'v0.4.0-mini' }
 })

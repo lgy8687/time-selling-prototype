@@ -62,3 +62,16 @@
 .editor-palette .palette-item { display: block; margin-bottom: 9rpx; padding: 10rpx 5rpx; white-space: normal; font-size: 19rpx; text-align: center; }
 .editor-selected { flex-shrink: 0; padding: 16rpx 0 10rpx; color: #236e53; font-size: 22rpx; }
 .add-sheet .save { width: 100%; flex-shrink: 0; }
+.sticky-calendar { position: sticky; top: 0; z-index: 8; background: #f7f8f5; padding-bottom: 6rpx; }
+.sticky-calendar .toolbar { margin-top: 0; }
+.sticky-calendar .month-calendar { margin-top: 10rpx; }
+.date-label { color: #236e53; padding: 8rpx 0; }
+.month-viewport { overflow: hidden; }
+.month-viewport .month-grid { height: 516rpx; grid-template-rows: repeat(6, 86rpx); }
+.month-calendar { overflow: hidden; }
+.scroll-runway { pointer-events: none; }
+.editor-palette { height: 100%; }
+.palette-add { padding: 14rpx 4rpx; text-align: center; color: #236e53; font-size: 20rpx; border-top: 1rpx solid #e4ebe4; }
+.new-label-panel { margin-top: 14rpx; padding: 14rpx; background: #f7f8f5; border-radius: 16rpx; }
+.new-label-panel .input { margin-top: 12rpx; background: #fff; }
+.new-label-actions { justify-content: flex-end; gap: 24rpx; margin-top: 12rpx; color: #236e53; font-size: 22rpx; }
